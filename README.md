@@ -71,12 +71,14 @@ for a ~15 minute game with ~6 phones.
 ## Game night
 
 1. Laptop on the projector. Create the game, then **Open projector view** and drag it to the projector.
-   (Mirroring instead? Open the projector view in the same browser; **Space** advances and **P** pauses.)
+   (Mirroring instead? Open the projector view in the same browser; **Space** advances, **P** pauses and **K** toggles the answer key.)
 2. Teams scan the QR code, then the captain enters a team name.
 3. Press **Space** (or the big button) for each step: start → reveal → next → … Between rounds
    you get a standings screen.
 4. During a category, watch the Answers panel for yellow rows (unrecognized or typo-corrected) and
    settle them before you reveal. You can also fix them after the reveal; standings update.
+5. After a reveal, **Show answer key on projector** swaps the depth chart for every accepted answer
+   by tier (teams' picks lit up). Phones and solo players get the same key under their result.
 
 Timing: 21 × 25 s answering + ~10 s per reveal ≈ 13–14 minutes. If you need to go faster, set
 20 s per category in the lobby.

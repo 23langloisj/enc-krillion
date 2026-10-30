@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Dial } from "@/components/ocean";
+import { AnswerKey, Dial } from "@/components/ocean";
 import { ErrorNote, Logo, StandingsList, TierBadge } from "@/components/ui";
 import { hostAction, keys, primaryAction, readLocal, usePoll, useTimeLeft, writeLocal } from "@/lib/client";
 import type { HostAction } from "@/lib/engine";
@@ -159,6 +159,17 @@ export default function HostPage() {
 
       {inPlay && <LiveAnswers v={v} act={act} busy={busy} />}
 
+      {v.answerKey && (
+        <details className="card p-5">
+          <summary className="cursor-pointer font-display text-lg font-bold">
+            Answer key <span className="text-sm font-normal text-mist">· every accepted answer, by tier</span>
+          </summary>
+          <div className="mt-4">
+            <AnswerKey answerKey={v.answerKey} picked={v.live.map((a) => a.canonical)} />
+          </div>
+        </details>
+      )}
+
       {v.phase !== "lobby" && v.phase !== "question" && (
         <section className="card p-5">
           <h2 className="mb-3 font-display text-lg font-bold">Standings</h2>
@@ -264,6 +275,15 @@ function Controls({ v, offset, act, busy }: { v: HostView; offset: number; act: 
                 End timer now
               </button>
             </>
+          )}
+          {v.phase === "reveal" && (
+            <button
+              className="font-semibold text-glow underline-offset-4 hover:underline disabled:opacity-40"
+              disabled={busy}
+              onClick={() => act({ type: "showKey", show: !v.showKey })}
+            >
+              {v.showKey ? "Back to the depth chart" : "Show answer key on projector"}
+            </button>
           )}
           <button
             className="underline-offset-4 hover:text-foam hover:underline disabled:opacity-40"

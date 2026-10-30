@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DepthChart, Dial, Ocean, TIER_HEX } from "@/components/ocean";
+import { AnswerKey, DepthChart, Dial, Ocean, TIER_HEX } from "@/components/ocean";
 import { howLabel, StandingsList } from "@/components/ui";
 import { api, keys, readLocal, usePoll, useTimeLeft } from "@/lib/client";
 import { TIERS } from "@/lib/tiers";
@@ -100,6 +100,12 @@ function Body({ v, offset, token, refresh }: { v: TeamView; offset: number; toke
           <p className="label mt-1 text-white/70">{tier ? TIERS[tier].label : r?.answer ? "not on the list" : "no answer"}</p>
           {mine && <p className="label mt-3 text-white/50">#{mine.rank} overall · {mine.total} pts</p>}
         </Panel>
+        {v.answerKey && (
+          <Panel className="rise mt-4">
+            <h2 className="label mb-3 text-lure">answer key · every accepted answer</h2>
+            <AnswerKey answerKey={v.answerKey} picked={v.reveal?.answers.map((a) => a.canonical)} />
+          </Panel>
+        )}
       </>
     );
   }

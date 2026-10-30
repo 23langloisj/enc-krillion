@@ -1,5 +1,5 @@
 import { CATALOG, DEFAULT_LINEUP } from "@/content/catalog";
-import { matchAnswer, type BankAddition } from "@/lib/categories";
+import { answerKey, matchAnswer, type BankAddition } from "@/lib/categories";
 import { GameError } from "@/lib/engine";
 import { readJson, respond, store } from "@/lib/server";
 import { tierPoints } from "@/lib/tiers";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const PER_ROUND = 7;
 
 // Solo mode: no game state at all. GET lists a round's prompts; POST scores
-// one answer. The answer bank never leaves the server.
+// one answer and, alongside the score, returns that prompt's full answer key.
 
 export function GET(req: Request) {
   return respond(async () => {
@@ -43,6 +43,7 @@ export function POST(req: Request) {
       tier: m.answer?.tier ?? null,
       points: tierPoints(m.answer?.tier ?? null),
       how: answer ? m.how : "missing",
+      answerKey: answerKey(cat, additions),
     };
   });
 }

@@ -1,4 +1,4 @@
-import type { MatchHow } from "./categories";
+import type { AnswerKey, MatchHow } from "./categories";
 import type { TierId } from "./tiers";
 
 export type Phase = "lobby" | "question" | "reveal" | "roundEnd" | "final";
@@ -30,6 +30,8 @@ export interface GameMeta {
   results: Record<number, QuestionResult>; // frozen at reveal time
   overrides: Record<string, Override>; // `${index}:${teamId}`
   awards: Award[];
+  /** Host has put the full answer key on the projector (reveal only). */
+  showKey?: boolean;
 }
 
 export interface Team {
@@ -72,7 +74,7 @@ export interface Standing {
   lastPoints: number;
 }
 
-/** Fields every viewer (team, projector, host) gets. Never contains answer banks. */
+/** Fields every viewer (team, projector, host) gets. The answer key only appears once a prompt is revealed. */
 export interface PublicView {
   code: string;
   serverNow: number;
@@ -92,6 +94,9 @@ export interface PublicView {
   submittedCount: number;
   teams: { id: string; name: string }[];
   reveal: QuestionResult | null;
+  /** Every accepted answer for the revealed prompt, by tier. Null outside reveal. */
+  answerKey: AnswerKey | null;
+  showKey: boolean;
   standings: Standing[];
   awards: Award[];
 }

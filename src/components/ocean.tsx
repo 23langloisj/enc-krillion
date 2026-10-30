@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import type { AnswerKey as AnswerKeyData } from "@/lib/categories";
 import { TIERS, TIER_IDS, type TierId } from "@/lib/tiers";
 
 // The underwater scene every player-facing screen sits in. All art here is
@@ -211,6 +212,55 @@ export function DepthChart({ catches, stepMs = 650, big = false }: { catches: Ca
               </div>
             </div>
           </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * Every accepted answer for a revealed prompt, shallowest tier first (same
+ * order as the depth chart). Answers someone actually gave are lit up.
+ */
+export function AnswerKey({
+  answerKey,
+  picked = [],
+  big = false,
+}: {
+  answerKey: AnswerKeyData;
+  picked?: (string | null)[];
+  big?: boolean;
+}) {
+  const hit = new Set(picked.filter(Boolean).map((p) => p!.toLowerCase()));
+  return (
+    <div className={big ? "flex flex-col gap-[1.2vh]" : "flex flex-col gap-3"}>
+      {TIER_IDS.map((t) => {
+        const list = answerKey[t];
+        if (!list.length) return null;
+        const color = TIER_HEX[t];
+        return (
+          <section key={t} className={`border-l-4 bg-black/25 ${big ? "px-[1vw] py-[1vh]" : "px-3 py-2"}`} style={{ borderColor: color }}>
+            <h3 className={`label flex items-baseline gap-2 ${big ? "text-[min(1.9vh,1.2vw)]" : ""}`} style={{ color }}>
+              {TIERS[t].label}
+              <span className="text-white/40">
+                · {TIERS[t].points} pts · {list.length}
+              </span>
+            </h3>
+            <ul className={`mt-1.5 flex flex-wrap ${big ? "gap-[0.6vh_0.5vw] text-[min(2.1vh,1.3vw)]" : "gap-1.5 text-sm"}`}>
+              {list.map((a) => {
+                const on = hit.has(a.toLowerCase());
+                return (
+                  <li
+                    key={a}
+                    className={`border font-pixel leading-tight ${big ? "px-[0.5vw] py-[0.3vh]" : "px-1.5 py-0.5"} ${on ? "text-[#0a1222]" : "border-white/10 text-white/80"}`}
+                    style={on ? { background: color, borderColor: color } : undefined}
+                  >
+                    {a}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
         );
       })}
     </div>

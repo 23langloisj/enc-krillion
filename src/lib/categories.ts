@@ -122,6 +122,20 @@ export function matchAnswer(
   return { how: "none", answer: null };
 }
 
+export type AnswerKey = Record<TierId, string[]>;
+
+/** Every accepted answer by tier, alphabetized, including host-remembered additions. Shown after reveal. */
+export function answerKey(category: Category, additions: BankAddition[] = []): AnswerKey {
+  const key = Object.fromEntries(TIER_IDS.map((t) => [t, [] as string[]])) as AnswerKey;
+  for (const a of category.answers) key[a.tier].push(a.canonical);
+  for (const add of additions) {
+    if (category.index.has(normalizeKey(add.answer, { stripPrefixes: category.stripPrefixes }))) continue;
+    key[add.tier].push(add.answer);
+  }
+  for (const t of TIER_IDS) key[t].sort((a, b) => a.localeCompare(b));
+  return key;
+}
+
 export function tierCounts(category: Category): Record<TierId, number> {
   const counts = Object.fromEntries(TIER_IDS.map((t) => [t, 0])) as Record<TierId, number>;
   for (const a of category.answers) counts[a.tier]++;

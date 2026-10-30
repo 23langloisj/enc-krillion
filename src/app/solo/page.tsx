@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
-import { DepthChart, Dial, Ocean, TIER_HEX } from "@/components/ocean";
+import { AnswerKey, DepthChart, Dial, Ocean, TIER_HEX } from "@/components/ocean";
 import { api, readLocal, writeLocal } from "@/lib/client";
+import type { AnswerKey as AnswerKeyData } from "@/lib/categories";
 import { TIERS, type TierId } from "@/lib/tiers";
 
 // Solo mode: one person, one phone, one round of 7 prompts. The server only
@@ -23,6 +24,8 @@ interface Result {
   canonical: string | null;
   tier: TierId | null;
   points: number;
+  /** Only kept in memory for the reveal screen; not needed in the saved summary. */
+  answerKey?: AnswerKeyData;
 }
 
 interface Saved {
@@ -111,7 +114,8 @@ function Round({ round }: { round: number }) {
 
   const persist = useCallback((next: Saved) => {
     setSaved(next);
-    writeLocal(SAVE_KEY, JSON.stringify(next));
+    // Answer keys can be long (151 Pokémon); the summary doesn't need them.
+    writeLocal(SAVE_KEY, JSON.stringify({ ...next, results: next.results.map((r) => ({ ...r, answerKey: undefined })) }));
   }, []);
 
   if (error) return <section className="panel p-6 text-center font-pixel text-xl">{error}</section>;
@@ -259,6 +263,12 @@ function PromptView({
             {index + 1 < count ? "NEXT PROMPT" : "SEE MY SCORE"}
           </button>
         </section>
+        {result.answerKey && (
+          <section className="panel rise mt-4 p-5">
+            <h2 className="label mb-3 text-lure">answer key · every accepted answer</h2>
+            <AnswerKey answerKey={result.answerKey} picked={[result.canonical]} />
+          </section>
+        )}
       </>
     );
   }

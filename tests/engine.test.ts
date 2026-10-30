@@ -155,6 +155,24 @@ describe("scoring and flow", () => {
     await engine.submit(g2.code, t.token, 0, "book of enoch");
     await engine.host(g2.code, g2.hostKey, { type: "reveal" });
     expect((await engine.displayView(g2.code)).reveal!.answers[0]).toMatchObject({ points: 100, how: "added" });
+    // ...and lists it in the answer key.
+    expect((await engine.displayView(g2.code)).answerKey!.krillion).toContain("Book of Enoch");
+  });
+
+  it("opens the answer key at reveal and lets the host put it on the projector", async () => {
+    const { code, teams, host } = await setup();
+    await host({ type: "start" });
+    expect((await engine.teamView(code, teams[0].token)).answerKey).toBeNull();
+    await expectError(host({ type: "showKey", show: true }), 409);
+    await host({ type: "reveal" });
+    const key = (await engine.teamView(code, teams[0].token)).answerKey!;
+    expect(Object.values(key).flat()).toHaveLength(50);
+    expect(key.plankton).toEqual([...key.plankton].sort((a, b) => a.localeCompare(b)));
+    await host({ type: "showKey", show: true });
+    expect((await engine.displayView(code)).showKey).toBe(true);
+    await host({ type: "next" });
+    const v = await engine.displayView(code);
+    expect([v.answerKey, v.showKey]).toEqual([null, false]);
   });
 
   it("walks 3 rounds of 7 with round breaks, then final", async () => {

@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
-import { DepthChart, Dial, Ocean } from "@/components/ocean";
+import { AnswerKey, DepthChart, Dial, Ocean } from "@/components/ocean";
 import { howLabel, StandingsList } from "@/components/ui";
 import { hostAction, keys, primaryAction, readLocal, usePoll, useTimeLeft } from "@/lib/client";
 import type { DisplayView } from "@/lib/types";
@@ -43,7 +43,7 @@ function hostLabel() {
   return typeof window === "undefined" ? "" : `${window.location.host}/join`;
 }
 
-/** If this browser is also the host (mirrored projector), Space advances, P pauses. */
+/** If this browser is also the host (mirrored projector), Space advances, P pauses, K toggles the answer key. */
 function useHostKeys(code: string, v: DisplayView | null, refresh: () => void) {
   useEffect(() => {
     const hostKey = readLocal(keys.host(code));
@@ -57,6 +57,8 @@ function useHostKeys(code: string, v: DisplayView | null, refresh: () => void) {
         hostAction(code, hostKey, p.action).then(refresh, () => refresh());
       } else if ((e.key === "p" || e.key === "P") && v.phase === "question") {
         hostAction(code, hostKey, { type: v.deadline === null ? "resume" : "pause" }).then(refresh, refresh);
+      } else if ((e.key === "k" || e.key === "K") && v.phase === "reveal") {
+        hostAction(code, hostKey, { type: "showKey", show: !v.showKey }).then(refresh, refresh);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -153,11 +155,21 @@ function Reveal({ v }: { v: DisplayView }) {
           <p className="label text-sm text-lure">{roundLabel(v)}</p>
           <h1 className="mt-1 font-pixel text-[min(5vh,3.2vw)] leading-tight">{v.reveal.prompt}</h1>
         </div>
-        <div className="mt-[2vh] min-h-0 flex-1">
-          <DepthChart catches={catches} stepMs={step} big />
-        </div>
+        {v.showKey && v.answerKey ? (
+          <div className="panel rise mt-[2vh] min-h-0 flex-1 overflow-y-auto p-[1.5vh_1.2vw]">
+            <h2 className="label mb-[1vh] text-[min(1.9vh,1.2vw)] text-lure">answer key · every accepted answer</h2>
+            <AnswerKey answerKey={v.answerKey} picked={v.reveal.answers.map((a) => a.canonical)} big />
+          </div>
+        ) : (
+          <div className="mt-[2vh] min-h-0 flex-1">
+            <DepthChart catches={catches} stepMs={step} big />
+          </div>
+        )}
       </div>
-      <aside className="panel rise w-[24vw] shrink-0 self-start p-5" style={{ animationDelay: `${catches.length * step + 900}ms` }}>
+      <aside
+        className="panel rise w-[24vw] shrink-0 self-start p-5"
+        style={{ animationDelay: v.showKey ? "0ms" : `${catches.length * step + 900}ms` }}
+      >
         <h2 className="label mb-3 text-sm text-lure">standings</h2>
         <StandingsList rows={v.standings} compact />
       </aside>

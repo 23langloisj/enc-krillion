@@ -2,7 +2,7 @@
 // scores; clients just poll views built here.
 
 import { randomBytes, randomInt } from "node:crypto";
-import { matchAnswer, type BankAddition, type Category } from "./categories";
+import { answerKey, matchAnswer, type BankAddition, type Category } from "./categories";
 import { normalizeKey } from "./normalize";
 import type { Store } from "./store";
 import { isTierId, tierPoints, type TierId } from "./tiers";
@@ -52,6 +52,7 @@ export type HostAction =
   | { type: "endTimer" }
   | { type: "redo" }
   | { type: "reveal" }
+  | { type: "showKey"; show: boolean }
   | { type: "next" }
   | { type: "override"; index: number; teamId: string; tier: TierId | null; remember?: boolean }
   | { type: "clearOverride"; index: number; teamId: string }
@@ -268,6 +269,7 @@ export function createEngine(deps: EngineDeps) {
     meta.startedAt = t;
     meta.deadline = t + meta.answerSeconds * 1000;
     meta.pausedRemaining = null;
+    meta.showKey = false;
     await scheduleBots(meta, index, teams);
   }
 
@@ -347,6 +349,11 @@ export function createEngine(deps: EngineDeps) {
         meta.results[meta.index] = await scoreQuestion(meta, meta.index, teams);
         meta.revealedUpTo = Math.max(meta.revealedUpTo, meta.index);
         meta.phase = "reveal";
+        break;
+
+      case "showKey":
+        if (meta.phase !== "reveal") throw new GameError(409, "The answer key opens after a reveal.");
+        meta.showKey = action.show;
         break;
 
       case "next":
@@ -492,6 +499,7 @@ export function createEngine(deps: EngineDeps) {
     const submittedCount = Object.values(subs).filter((s) => s.at <= t && teamIds.has(s.teamId)).length;
     const cat = inPlay ? category(meta.lineup[meta.index]) : null;
     const allIn = teams.length > 0 && submittedCount >= teams.length;
+    const revealed = meta.phase === "reveal" && cat;
     const view: PublicView = {
       code: meta.code,
       serverNow: t,
@@ -511,6 +519,8 @@ export function createEngine(deps: EngineDeps) {
       submittedCount,
       teams: teams.map((tm) => ({ id: tm.id, name: tm.name })),
       reveal: meta.phase === "reveal" ? (meta.results[meta.index] ?? null) : null,
+      answerKey: revealed ? answerKey(cat, await loadAdditions(cat.id)) : null,
+      showKey: !!revealed && !!meta.showKey,
       standings: standings(meta, teams),
       awards: meta.awards,
     };
