@@ -5,10 +5,9 @@
   "source": "Genesis 5 genealogy plus Noah's three sons.",
   "expectedCount": 13,
   "answers": {
-    "minnow": ["Adam", "Noah"],
-    "sardine": ["Methuselah", "Seth", "Enoch"],
-    "bass": ["Lamech", "Shem", "Ham", "Japheth"],
-    "marlin": ["Enosh|Enos", "Jared|Jered"],
-    "greatfish": ["Kenan|Cainan", "Mahalalel|Mahalaleel"]
+    "plankton": ["Adam", "Noah"],
+    "schooler": ["Methuselah", "Seth", "Enoch", "Lamech", "Shem", "Ham", "Japheth"],
+    "rare": ["Enosh|Enos", "Jared|Jered"],
+    "deepcut": ["Kenan|Cainan", "Mahalalel|Mahalaleel"]
   }
 }

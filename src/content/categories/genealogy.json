@@ -4,11 +4,10 @@
   "tag": "Bible",
   "source": "Matthew 1:1-16 (Uriah is named in v.6). Spellings from NIV and KJV accepted.",
   "answers": {
-    "minnow": ["Jesus|Jesus Christ|Christ", "Abraham", "David|King David", "Joseph", "Mary"],
-    "sardine": ["Isaac", "Jacob", "Solomon", "Judah|Judas", "Ruth", "Boaz|Booz"],
-    "bass": ["Jesse", "Obed", "Rahab|Rachab", "Tamar|Thamar", "Bathsheba|wife of Uriah|Uriah's wife", "Hezekiah|Ezekias", "Josiah|Josias", "Rehoboam|Roboam"],
-    "marlin": ["Perez|Pharez|Phares", "Zerah|Zarah|Zara", "Asa", "Jehoshaphat|Josaphat", "Uzziah|Ozias", "Ahaz|Achaz", "Manasseh|Manasses", "Zerubbabel|Zorobabel", "Jeconiah|Jechoniah|Jehoiachin|Jechonias", "Jotham|Joatham", "Amon", "Joram|Jehoram", "Abijah|Abijam|Abia", "Salmon", "Nahshon|Naasson", "Uriah|Uriah the Hittite"],
-    "greatfish": ["Hezron|Esrom", "Ram|Aram", "Amminadab|Aminadab", "Shealtiel|Salathiel", "Abiud|Abihud", "Eliakim", "Zadok|Sadoc", "Eleazar"],
-    "leviathan": ["Azor", "Akim|Achim", "Elihud|Eliud", "Matthan"]
+    "plankton": ["Jesus|Jesus Christ|Christ", "Abraham", "David|King David", "Joseph", "Mary"],
+    "schooler": ["Isaac", "Jacob", "Solomon", "Judah|Judas", "Ruth", "Boaz|Booz", "Jesse", "Obed", "Rahab|Rachab", "Tamar|Thamar", "Bathsheba|wife of Uriah|Uriah's wife", "Hezekiah|Ezekias", "Josiah|Josias", "Rehoboam|Roboam"],
+    "rare": ["Perez|Pharez|Phares", "Zerah|Zarah|Zara", "Asa", "Jehoshaphat|Josaphat", "Uzziah|Ozias", "Ahaz|Achaz", "Manasseh|Manasses", "Zerubbabel|Zorobabel", "Jeconiah|Jechoniah|Jehoiachin|Jechonias", "Jotham|Joatham", "Amon", "Joram|Jehoram", "Abijah|Abijam|Abia", "Salmon", "Nahshon|Naasson", "Uriah|Uriah the Hittite"],
+    "deepcut": ["Hezron|Esrom", "Ram|Aram", "Amminadab|Aminadab", "Shealtiel|Salathiel", "Abiud|Abihud", "Eliakim", "Zadok|Sadoc", "Eleazar"],
+    "krillion": ["Azor", "Akim|Achim", "Elihud|Eliud", "Matthan"]
   }
 }

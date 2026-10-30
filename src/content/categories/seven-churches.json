@@ -6,10 +6,9 @@
   "expectedCount": 7,
   "stripPrefixes": ["church of", "church in", "the church in", "the church of"],
   "answers": {
-    "minnow": ["Ephesus|Ephesians"],
-    "sardine": ["Philadelphia", "Laodicea|Laodicean|Laodiceans"],
-    "bass": ["Smyrna", "Sardis"],
-    "marlin": ["Pergamum|Pergamos|Pergamon"],
-    "greatfish": ["Thyatira"]
+    "plankton": ["Ephesus|Ephesians"],
+    "schooler": ["Philadelphia", "Laodicea|Laodicean|Laodiceans", "Smyrna", "Sardis"],
+    "rare": ["Pergamum|Pergamos|Pergamon"],
+    "deepcut": ["Thyatira"]
   }
 }

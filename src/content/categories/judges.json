@@ -6,11 +6,10 @@
   "expectedCount": 15,
   "stripPrefixes": ["judge"],
   "answers": {
-    "minnow": ["Samson", "Gideon|Jerubbaal", "Deborah"],
-    "sardine": ["Samuel", "Eli"],
-    "bass": ["Jephthah|Jepthah|Jephtha", "Barak", "Othniel"],
-    "marlin": ["Ehud"],
-    "greatfish": ["Shamgar", "Tola", "Jair"],
-    "leviathan": ["Ibzan", "Elon", "Abdon"]
+    "plankton": ["Samson", "Gideon|Jerubbaal", "Deborah"],
+    "schooler": ["Samuel", "Eli", "Jephthah|Jepthah|Jephtha", "Barak", "Othniel"],
+    "rare": ["Ehud"],
+    "deepcut": ["Shamgar", "Tola", "Jair"],
+    "krillion": ["Ibzan", "Elon", "Abdon"]
   }
 }

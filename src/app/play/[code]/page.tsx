@@ -72,7 +72,7 @@ function Body({ v, offset, token, refresh }: { v: TeamView; offset: number; toke
     const r = v.me.result;
     return (
       <>
-        <section className={`card rise flex flex-col items-center gap-3 p-6 text-center ${r?.tier === "leviathan" ? "leviathan-glow" : ""}`}>
+        <section className={`card rise flex flex-col items-center gap-3 p-6 text-center ${r?.tier === "krillion" ? "krillion-glow" : ""}`}>
           <p className="text-sm text-mist">{v.prompt}</p>
           <p className="font-display text-3xl font-bold">{r?.answer ?? "—"}</p>
           <TierBadge tier={r?.tier ?? null} size="lg" />

@@ -5,11 +5,10 @@
   "source": "People the Bible calls a prophet/prophetess (or who wrote a prophetic book). False prophets not included.",
   "stripPrefixes": ["prophet", "the prophet", "prophetess"],
   "answers": {
-    "minnow": ["Moses", "Elijah|Elias", "Isaiah", "Jeremiah", "Jonah", "Daniel", "Jesus|Jesus Christ|Christ"],
-    "sardine": ["Elisha", "Samuel", "Ezekiel", "John the Baptist|John Baptist|John", "Nathan"],
-    "bass": ["Hosea", "Amos", "Micah", "Malachi", "Joel", "Habakkuk", "Zechariah", "Deborah", "Miriam", "Anna", "Aaron"],
-    "marlin": ["Obadiah", "Nahum", "Zephaniah", "Haggai", "Balaam", "Gad", "Enoch"],
-    "greatfish": ["Abraham", "Ahijah", "Shemaiah", "Iddo", "Oded", "Silas", "Hanani", "Jehu son of Hanani", "Judas Barsabbas"],
-    "leviathan": ["Huldah", "Micaiah", "Agabus", "Jahaziel", "Urijah|Uriah son of Shemaiah"]
+    "plankton": ["Moses", "Elijah|Elias", "Isaiah", "Jeremiah", "Jonah", "Daniel", "Jesus|Jesus Christ|Christ"],
+    "schooler": ["Elisha", "Samuel", "Ezekiel", "John the Baptist|John Baptist|John", "Nathan", "Hosea", "Amos", "Micah", "Malachi", "Joel", "Habakkuk", "Zechariah", "Deborah", "Miriam", "Anna", "Aaron"],
+    "rare": ["Obadiah", "Nahum", "Zephaniah", "Haggai", "Balaam", "Gad", "Enoch"],
+    "deepcut": ["Abraham", "Ahijah", "Shemaiah", "Iddo", "Oded", "Silas", "Hanani", "Jehu son of Hanani", "Judas Barsabbas"],
+    "krillion": ["Huldah", "Micaiah", "Agabus", "Jahaziel", "Urijah|Uriah son of Shemaiah"]
   }
 }

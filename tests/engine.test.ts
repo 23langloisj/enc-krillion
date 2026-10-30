@@ -91,7 +91,7 @@ describe("privacy", () => {
     const display = JSON.stringify(await engine.displayView(code));
     for (const json of [other, display]) {
       expect(json).not.toContain("Wyoming");
-      expect(json).not.toContain("greatfish");
+      expect(json).not.toContain("deepcut");
     }
     expect(JSON.stringify(await engine.hostView(code, hostKey, "memory"))).toContain("Wyoming");
   });
@@ -107,17 +107,17 @@ describe("scoring and flow", () => {
   it("scores by tier at reveal and accumulates standings", async () => {
     const { code, teams, host } = await setup();
     await host({ type: "start" });
-    await engine.submit(code, teams[0].token, 0, "Texas"); // minnow 10
-    await engine.submit(code, teams[1].token, 0, "wyomin"); // typo -> greatfish 80
+    await engine.submit(code, teams[0].token, 0, "Texas"); // plankton 10
+    await engine.submit(code, teams[1].token, 0, "wyomin"); // typo -> deep cut 85
     await host({ type: "reveal" });
     const view = await engine.displayView(code);
     expect(view.phase).toBe("reveal");
     expect(view.reveal!.answers.map((a) => [a.teamName, a.points, a.how])).toEqual([
       ["Ark Builders", 10, "exact"],
-      ["Mustard Seeds", 80, "typo"],
+      ["Mustard Seeds", 85, "typo"],
     ]);
     expect(view.standings.map((s) => [s.name, s.total, s.rank])).toEqual([
-      ["Mustard Seeds", 80, 1],
+      ["Mustard Seeds", 85, 1],
       ["Ark Builders", 10, 2],
     ]);
   });
@@ -143,7 +143,7 @@ describe("scoring and flow", () => {
     await host({ type: "next" }); // -> bible-books
     await engine.submit(code, teams[0].token, 1, "Book of Enoch");
     await host({ type: "reveal" });
-    await host({ type: "override", index: 1, teamId: teams[0].teamId, tier: "leviathan", remember: true });
+    await host({ type: "override", index: 1, teamId: teams[0].teamId, tier: "krillion", remember: true });
     const v = await engine.displayView(code);
     expect(v.reveal!.answers[0]).toMatchObject({ points: 100, how: "override" });
     expect(v.standings[0]).toMatchObject({ name: "Ark Builders", total: 100 });

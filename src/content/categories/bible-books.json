@@ -6,11 +6,10 @@
   "expectedCount": 66,
   "stripPrefixes": ["book of", "the book of", "gospel of", "epistle to the", "letter to the"],
   "answers": {
-    "minnow": ["Genesis|Gen", "Exodus", "Psalms|Psalm", "Matthew", "Mark", "Luke", "John", "Revelation|Revelations", "Acts|Acts of the Apostles", "Romans"],
-    "sardine": ["Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth", "1 Samuel|Samuel", "Job", "Proverbs|Proverb", "Isaiah", "Jeremiah", "Daniel", "Jonah", "Esther", "1 Corinthians|Corinthians", "Ephesians", "Galatians", "Hebrews", "James", "1 Peter|Peter"],
-    "bass": ["2 Samuel", "1 Kings|Kings", "2 Kings", "Ecclesiastes", "Song of Solomon|Song of Songs|Songs|Song of Songs of Solomon|Canticles", "Ezekiel", "Lamentations|Lamentation", "Nehemiah", "Ezra", "Philippians", "Colossians", "2 Corinthians", "1 Thessalonians|Thessalonians", "1 Timothy|Timothy", "Titus", "1 John", "Jude", "Hosea", "Micah", "Malachi"],
-    "marlin": ["1 Chronicles|Chronicles", "2 Chronicles", "Joel", "Amos", "2 Thessalonians", "2 Timothy", "2 Peter", "Zechariah", "Habakkuk"],
-    "greatfish": ["Zephaniah", "Haggai", "Philemon", "2 John", "3 John"],
-    "leviathan": ["Obadiah", "Nahum"]
+    "plankton": ["Genesis|Gen", "Exodus", "Psalms|Psalm", "Matthew", "Mark", "Luke", "John", "Revelation|Revelations", "Acts|Acts of the Apostles", "Romans"],
+    "schooler": ["Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth", "1 Samuel|Samuel", "Job", "Proverbs|Proverb", "Isaiah", "Jeremiah", "Daniel", "Jonah", "Esther", "1 Corinthians|Corinthians", "Ephesians", "Galatians", "Hebrews", "James", "1 Peter|Peter", "2 Samuel", "1 Kings|Kings", "2 Kings", "Ecclesiastes", "Song of Solomon|Song of Songs|Songs|Song of Songs of Solomon|Canticles", "Ezekiel", "Lamentations|Lamentation", "Nehemiah", "Ezra", "Philippians", "Colossians", "2 Corinthians", "1 Thessalonians|Thessalonians", "1 Timothy|Timothy", "Titus", "1 John", "Jude", "Hosea", "Micah", "Malachi"],
+    "rare": ["1 Chronicles|Chronicles", "2 Chronicles", "Joel", "Amos", "2 Thessalonians", "2 Timothy", "2 Peter", "Zechariah", "Habakkuk"],
+    "deepcut": ["Zephaniah", "Haggai", "Philemon", "2 John", "3 John"],
+    "krillion": ["Obadiah", "Nahum"]
   }
 }

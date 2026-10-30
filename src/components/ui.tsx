@@ -4,21 +4,19 @@ import { TIERS, type TierId } from "@/lib/tiers";
 import type { ScoredAnswer, Standing } from "@/lib/types";
 
 const TIER_CLASS: Record<TierId, string> = {
-  minnow: "text-tier-minnow border-tier-minnow/40 bg-tier-minnow/10",
-  sardine: "text-tier-sardine border-tier-sardine/40 bg-tier-sardine/10",
-  bass: "text-tier-bass border-tier-bass/40 bg-tier-bass/10",
-  marlin: "text-tier-marlin border-tier-marlin/40 bg-tier-marlin/10",
-  greatfish: "text-tier-greatfish border-tier-greatfish/40 bg-tier-greatfish/10",
-  leviathan: "text-tier-leviathan border-tier-leviathan/50 bg-tier-leviathan/15",
+  plankton: "text-tier-plankton border-tier-plankton/40 bg-tier-plankton/10",
+  schooler: "text-tier-schooler border-tier-schooler/40 bg-tier-schooler/10",
+  rare: "text-tier-rare border-tier-rare/40 bg-tier-rare/10",
+  deepcut: "text-tier-deepcut border-tier-deepcut/40 bg-tier-deepcut/10",
+  krillion: "text-tier-krillion border-tier-krillion/50 bg-tier-krillion/15",
 };
 
 export const TIER_TEXT: Record<TierId, string> = {
-  minnow: "text-tier-minnow",
-  sardine: "text-tier-sardine",
-  bass: "text-tier-bass",
-  marlin: "text-tier-marlin",
-  greatfish: "text-tier-greatfish",
-  leviathan: "text-tier-leviathan",
+  plankton: "text-tier-plankton",
+  schooler: "text-tier-schooler",
+  rare: "text-tier-rare",
+  deepcut: "text-tier-deepcut",
+  krillion: "text-tier-krillion",
 };
 
 export function TierBadge({ tier, size = "sm" }: { tier: TierId | null; size?: "sm" | "lg" }) {

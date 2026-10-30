@@ -11,12 +11,11 @@
   --color-mist: #8fa8c8;
   --color-glow: #5eead4;
 
-  --color-tier-minnow: #94a3b8;
-  --color-tier-sardine: #2dd4bf;
-  --color-tier-bass: #4ade80;
-  --color-tier-marlin: #60a5fa;
-  --color-tier-greatfish: #c084fc;
-  --color-tier-leviathan: #fbbf24;
+  --color-tier-plankton: #94a3b8;
+  --color-tier-schooler: #2dd4bf;
+  --color-tier-rare: #60a5fa;
+  --color-tier-deepcut: #c084fc;
+  --color-tier-krillion: #fbbf24;
 }
 
 html,
@@ -79,13 +78,13 @@ body {
     box-shadow: 0 0 40px 6px rgb(251 191 36 / 0.45);
   }
 }
-.leviathan-glow {
+.krillion-glow {
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rise,
-  .leviathan-glow {
+  .krillion-glow {
     animation: none;
   }
 }

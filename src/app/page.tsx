@@ -83,7 +83,7 @@ export default function Home() {
           3 rounds · 7 categories each · 25 seconds per category. Every right answer has a rarity tier, set ahead of
           time. Wrong or blank answers score nothing.
         </p>
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-5">
           {TIER_IDS.map((id) => (
             <li key={id} className="flex items-baseline justify-between rounded-lg bg-white/5 px-3 py-2">
               <span className={`font-semibold ${TIER_TEXT[id]}`}>{TIERS[id].label}</span>

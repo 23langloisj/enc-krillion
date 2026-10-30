@@ -13,17 +13,16 @@ every pack for alias collisions and count mismatches.
   "expectedCount": 66,                 // optional; tests fail if the answer count differs
   "stripPrefixes": ["book of"],        // optional; leading words players may type that should be ignored
   "answers": {
-    "minnow":    ["Genesis|Gen"],      // "Canonical|alias|alias"
-    "sardine":   [],
-    "bass":      [],
-    "marlin":    [],
-    "greatfish": [],
-    "leviathan": ["Obadiah"]
+    "plankton": ["Genesis|Gen"],       // "Canonical|alias|alias"
+    "schooler": [],
+    "rare":     [],
+    "deepcut":  [],
+    "krillion": ["Obadiah"]            // the hidden gem; keep it to one or a few
   }
 }
 ```
 
-Tiers and points: Minnow 10 · Sardine 25 · Bass 40 · Marlin 60 · Great Fish 80 · Leviathan 100.
+Tiers and points: Plankton 10 · Schooler 30 · Rare 60 · Deep Cut 85 · One in a Krillion 100.
 They're **editorial guesses** about how many people would think of an answer — move
 things around freely.
 

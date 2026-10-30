@@ -1,7 +1,8 @@
-// Rarity tiers. Points are fixed per tier; which answers land in which tier is
-// an editorial call made in the category packs (src/content/categories).
+// Rarity tiers, named after Krillion's. Points are fixed per tier; which answers
+// land in which tier is an editorial call made in the category packs
+// (src/content/categories).
 
-export const TIER_IDS = ["minnow", "sardine", "bass", "marlin", "greatfish", "leviathan"] as const;
+export const TIER_IDS = ["plankton", "schooler", "rare", "deepcut", "krillion"] as const;
 export type TierId = (typeof TIER_IDS)[number];
 
 export interface Tier {
@@ -12,12 +13,11 @@ export interface Tier {
 }
 
 export const TIERS: Record<TierId, Tier> = {
-  minnow: { id: "minnow", label: "Minnow", points: 10, blurb: "Everyone said it" },
-  sardine: { id: "sardine", label: "Sardine", points: 25, blurb: "Pretty common" },
-  bass: { id: "bass", label: "Bass", points: 40, blurb: "Solid pull" },
-  marlin: { id: "marlin", label: "Marlin", points: 60, blurb: "Rare catch" },
-  greatfish: { id: "greatfish", label: "Great Fish", points: 80, blurb: "Jonah-level deep" },
-  leviathan: { id: "leviathan", label: "Leviathan", points: 100, blurb: "Can you draw it out with a hook?" },
+  plankton: { id: "plankton", label: "Plankton", points: 10, blurb: "Everyone said it" },
+  schooler: { id: "schooler", label: "Schooler", points: 30, blurb: "Plenty of others thought of it" },
+  rare: { id: "rare", label: "Rare", points: 60, blurb: "Not many got this" },
+  deepcut: { id: "deepcut", label: "Deep Cut", points: 85, blurb: "Seriously obscure" },
+  krillion: { id: "krillion", label: "One in a Krillion", points: 100, blurb: "The hidden gem" },
 };
 
 export function isTierId(value: unknown): value is TierId {

@@ -5,10 +5,9 @@
   "source": "Ephesians 6:13-18. Prayer (v.18) is accepted as the hidden seventh.",
   "expectedCount": 7,
   "answers": {
-    "minnow": ["Sword of the Spirit|sword|sword of the spirit which is the word of god|word of god", "Shield of Faith|shield"],
-    "sardine": ["Helmet of Salvation|helmet", "Belt of Truth|belt|girdle of truth|loins girt about with truth|girdle"],
-    "bass": ["Breastplate of Righteousness|breastplate"],
-    "marlin": ["Shoes of the Gospel of Peace|shoes|feet fitted with the gospel of peace|gospel of peace|readiness of the gospel of peace|feet shod|boots|sandals|shoes of peace|feet"],
-    "leviathan": ["Prayer|praying in the spirit|pray"]
+    "plankton": ["Sword of the Spirit|sword|sword of the spirit which is the word of god|word of god", "Shield of Faith|shield"],
+    "schooler": ["Helmet of Salvation|helmet", "Belt of Truth|belt|girdle of truth|loins girt about with truth|girdle", "Breastplate of Righteousness|breastplate"],
+    "rare": ["Shoes of the Gospel of Peace|shoes|feet fitted with the gospel of peace|gospel of peace|readiness of the gospel of peace|feet shod|boots|sandals|shoes of peace|feet"],
+    "krillion": ["Prayer|praying in the spirit|pray"]
   }
 }

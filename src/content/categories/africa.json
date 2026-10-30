@@ -5,11 +5,10 @@
   "source": "54 UN-member African states. Plain \"Congo\" counts as the Republic of the Congo.",
   "expectedCount": 54,
   "answers": {
-    "minnow": ["Egypt", "South Africa", "Nigeria", "Kenya"],
-    "sardine": ["Morocco", "Ethiopia", "Ghana", "Madagascar", "Algeria", "Somalia", "Sudan", "Libya"],
-    "bass": ["Tanzania", "Uganda", "Rwanda", "Zimbabwe", "Senegal", "Tunisia", "Cameroon", "Democratic Republic of the Congo|DRC|DR Congo|Congo-Kinshasa|Zaire|Democratic Republic of Congo", "Republic of the Congo|Congo|Congo-Brazzaville|Republic of Congo", "Ivory Coast|Cote d'Ivoire", "Angola", "Mozambique", "Zambia", "Namibia", "Botswana", "South Sudan", "Liberia", "Sierra Leone", "Mali", "Niger", "Chad"],
-    "marlin": ["Malawi", "Burkina Faso", "Benin", "Togo", "Guinea", "Gabon", "Eritrea", "Mauritania", "Mauritius", "Lesotho", "Eswatini|Swaziland", "Djibouti", "Gambia|The Gambia", "Burundi", "Central African Republic|CAR", "Cabo Verde|Cape Verde", "Seychelles"],
-    "greatfish": ["Guinea-Bissau", "Equatorial Guinea", "Comoros"],
-    "leviathan": ["Sao Tome and Principe|Sao Tome|Sao Tome & Principe"]
+    "plankton": ["Egypt", "South Africa", "Nigeria", "Kenya"],
+    "schooler": ["Morocco", "Ethiopia", "Ghana", "Madagascar", "Algeria", "Somalia", "Sudan", "Libya", "Tanzania", "Uganda", "Rwanda", "Zimbabwe", "Senegal", "Tunisia", "Cameroon", "Democratic Republic of the Congo|DRC|DR Congo|Congo-Kinshasa|Zaire|Democratic Republic of Congo", "Republic of the Congo|Congo|Congo-Brazzaville|Republic of Congo", "Ivory Coast|Cote d'Ivoire", "Angola", "Mozambique", "Zambia", "Namibia", "Botswana", "South Sudan", "Liberia", "Sierra Leone", "Mali", "Niger", "Chad"],
+    "rare": ["Malawi", "Burkina Faso", "Benin", "Togo", "Guinea", "Gabon", "Eritrea", "Mauritania", "Mauritius", "Lesotho", "Eswatini|Swaziland", "Djibouti", "Gambia|The Gambia", "Burundi", "Central African Republic|CAR", "Cabo Verde|Cape Verde", "Seychelles"],
+    "deepcut": ["Guinea-Bissau", "Equatorial Guinea", "Comoros"],
+    "krillion": ["Sao Tome and Principe|Sao Tome|Sao Tome & Principe"]
   }
 }

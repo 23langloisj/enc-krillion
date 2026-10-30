@@ -141,7 +141,7 @@ function Reveal({ v }: { v: DisplayView }) {
           {answers.map((a, i) => (
             <li
               key={a.teamId}
-              className={`card rise flex items-center gap-5 p-5 ${a.tier === "leviathan" ? "leviathan-glow border-tier-leviathan/60" : ""}`}
+              className={`card rise flex items-center gap-5 p-5 ${a.tier === "krillion" ? "krillion-glow border-tier-krillion/60" : ""}`}
               style={{ animationDelay: `${i * step}ms` }}
             >
               <div className="min-w-0 flex-1">

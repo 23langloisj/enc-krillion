@@ -4,11 +4,10 @@
   "tag": "Bible",
   "source": "Named women in the Old and New Testaments (plus a few famous unnamed ones like Lot's wife). Plain \"Mary\" counts as Mary the mother of Jesus.",
   "answers": {
-    "minnow": ["Mary|Virgin Mary|Mary mother of Jesus|Mary the mother of Jesus|Mother Mary", "Eve", "Mary Magdalene|Magdalene|Mary Magdalen", "Sarah|Sarai", "Ruth", "Esther|Hadassah"],
-    "sardine": ["Rebekah|Rebecca", "Rachel", "Leah", "Hannah", "Martha", "Delilah", "Naomi", "Deborah", "Elizabeth|Elisabeth", "Miriam", "Bathsheba", "Jezebel"],
-    "bass": ["Rahab", "Hagar", "Tamar", "Dinah", "Lydia", "Priscilla|Prisca", "Abigail", "Jochebed", "Salome", "Dorcas|Tabitha", "Michal", "Anna", "Zipporah", "Herodias", "Sapphira", "Vashti", "Gomer", "Orpah", "Phoebe|Phebe", "Mary of Bethany"],
-    "marlin": ["Huldah", "Jael", "Bilhah", "Zilpah", "Keturah", "Shiphrah", "Puah", "Joanna", "Susanna", "Lois", "Eunice", "Rhoda", "Abishag", "Athaliah", "Queen of Sheba", "Asenath", "Rizpah", "Damaris", "Junia", "Chloe", "Bernice", "Drusilla", "Candace", "Lot's wife", "Peninnah", "Elisheba", "Jemima|Jemimah", "Mary of Clopas|Mary wife of Clopas", "Claudia", "Eglah"],
-    "greatfish": ["Keziah|Kezia", "Keren-happuch|Kerenhappuch", "Euodia|Euodias", "Syntyche", "Adah", "Zillah", "Naamah", "Milcah", "Iscah", "Basemath|Bashemath", "Judith", "Mahalath", "Oholibamah|Aholibamah", "Timna", "Reumah", "Serah", "Achsah", "Merab", "Ahinoam", "Abital", "Haggith", "Maacah|Maachah", "Zeruiah", "Jerusha", "Hamutal", "Jehosheba|Jehoshabeath", "Tahpenes", "Cozbi", "Tryphena", "Tryphosa", "Persis", "Julia", "Nympha", "Apphia", "Mahlah", "Hoglah", "Tirzah"],
-    "leviathan": ["Hazzelelponi|Hazelelponi", "Hammoleketh|Hammolecheth", "Noadiah"]
+    "plankton": ["Mary|Virgin Mary|Mary mother of Jesus|Mary the mother of Jesus|Mother Mary", "Eve", "Mary Magdalene|Magdalene|Mary Magdalen", "Sarah|Sarai", "Ruth", "Esther|Hadassah"],
+    "schooler": ["Rebekah|Rebecca", "Rachel", "Leah", "Hannah", "Martha", "Delilah", "Naomi", "Deborah", "Elizabeth|Elisabeth", "Miriam", "Bathsheba", "Jezebel", "Rahab", "Hagar", "Tamar", "Dinah", "Lydia", "Priscilla|Prisca", "Abigail", "Jochebed", "Salome", "Dorcas|Tabitha", "Michal", "Anna", "Zipporah", "Herodias", "Sapphira", "Vashti", "Gomer", "Orpah", "Phoebe|Phebe", "Mary of Bethany"],
+    "rare": ["Huldah", "Jael", "Bilhah", "Zilpah", "Keturah", "Shiphrah", "Puah", "Joanna", "Susanna", "Lois", "Eunice", "Rhoda", "Abishag", "Athaliah", "Queen of Sheba", "Asenath", "Rizpah", "Damaris", "Junia", "Chloe", "Bernice", "Drusilla", "Candace", "Lot's wife", "Peninnah", "Elisheba", "Jemima|Jemimah", "Mary of Clopas|Mary wife of Clopas", "Claudia", "Eglah"],
+    "deepcut": ["Keziah|Kezia", "Keren-happuch|Kerenhappuch", "Euodia|Euodias", "Syntyche", "Adah", "Zillah", "Naamah", "Milcah", "Iscah", "Basemath|Bashemath", "Judith", "Mahalath", "Oholibamah|Aholibamah", "Timna", "Reumah", "Serah", "Achsah", "Merab", "Ahinoam", "Abital", "Haggith", "Maacah|Maachah", "Zeruiah", "Jerusha", "Hamutal", "Jehosheba|Jehoshabeath", "Tahpenes", "Cozbi", "Tryphena", "Tryphosa", "Persis", "Julia", "Nympha", "Apphia", "Mahlah", "Hoglah", "Tirzah"],
+    "krillion": ["Hazzelelponi|Hazelelponi", "Hammoleketh|Hammolecheth", "Noadiah"]
   }
 }

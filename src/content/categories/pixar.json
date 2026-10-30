@@ -5,11 +5,10 @@
   "source": "Pixar theatrical features through Toy Story 5 (June 2026).",
   "expectedCount": 31,
   "answers": {
-    "minnow": ["Toy Story|Toy Story 1|Toy Story one", "Monsters, Inc.|Monsters Inc|Monsters Incorporated", "Finding Nemo|Nemo", "The Incredibles|Incredibles", "Cars", "Up", "Inside Out"],
-    "sardine": ["Toy Story 2|Toy Story two", "Ratatouille", "WALL-E|Walle|Wall E", "Toy Story 3|Toy Story three", "Finding Dory|Dory", "Coco", "Inside Out 2|Inside Out two"],
-    "bass": ["Cars 2|Cars two", "Brave", "Monsters University", "Incredibles 2|Incredibles two|The Incredibles 2", "Toy Story 4|Toy Story four", "Soul", "Luca", "Turning Red", "Elemental", "Toy Story 5|Toy Story five"],
-    "marlin": ["A Bug's Life|Bugs Life", "Cars 3|Cars three", "Onward", "Lightyear"],
-    "greatfish": ["The Good Dinosaur|Good Dinosaur", "Hoppers"],
-    "leviathan": ["Elio"]
+    "plankton": ["Toy Story|Toy Story 1|Toy Story one", "Monsters, Inc.|Monsters Inc|Monsters Incorporated", "Finding Nemo|Nemo", "The Incredibles|Incredibles", "Cars", "Up", "Inside Out"],
+    "schooler": ["Toy Story 2|Toy Story two", "Ratatouille", "WALL-E|Walle|Wall E", "Toy Story 3|Toy Story three", "Finding Dory|Dory", "Coco", "Inside Out 2|Inside Out two", "Cars 2|Cars two", "Brave", "Monsters University", "Incredibles 2|Incredibles two|The Incredibles 2", "Toy Story 4|Toy Story four", "Soul", "Luca", "Turning Red", "Elemental", "Toy Story 5|Toy Story five"],
+    "rare": ["A Bug's Life|Bugs Life", "Cars 3|Cars three", "Onward", "Lightyear"],
+    "deepcut": ["The Good Dinosaur|Good Dinosaur", "Hoppers"],
+    "krillion": ["Elio"]
   }
 }

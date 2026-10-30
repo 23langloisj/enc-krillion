@@ -5,10 +5,9 @@
   "source": "Galatians 5:22-23 (NIV, ESV and KJV wordings accepted).",
   "expectedCount": 9,
   "answers": {
-    "minnow": ["Love", "Joy", "Peace"],
-    "sardine": ["Patience|longsuffering|long suffering|forbearance", "Kindness|kind"],
-    "bass": ["Faithfulness|faith", "Goodness"],
-    "marlin": ["Gentleness|meekness"],
-    "greatfish": ["Self-control|self control|temperance|selfcontrol"]
+    "plankton": ["Love", "Joy", "Peace"],
+    "schooler": ["Patience|longsuffering|long suffering|forbearance", "Kindness|kind", "Faithfulness|faith", "Goodness"],
+    "rare": ["Gentleness|meekness"],
+    "deepcut": ["Self-control|self control|temperance|selfcontrol"]
   }
 }

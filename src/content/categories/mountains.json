@@ -5,11 +5,10 @@
   "source": "Named mountains/hills in Scripture. \"Mount\" is optional when answering.",
   "stripPrefixes": ["mount", "mt", "mountain", "hill of"],
   "answers": {
-    "minnow": ["Sinai", "Mount of Olives|olivet|olives"],
-    "sardine": ["Ararat", "Zion|Sion", "Calvary|Golgotha", "Carmel"],
-    "bass": ["Moriah", "Horeb", "Nebo", "Hermon"],
-    "marlin": ["Tabor", "Gilboa", "Pisgah", "Gerizim", "Ebal", "Gilead", "Seir", "Lebanon"],
-    "greatfish": ["Hor", "Bashan", "Paran", "Perazim", "Amana", "Senir|Shenir", "Sirion", "Zemaraim", "Ephron", "Baalah", "Halak", "Moreh"],
-    "leviathan": ["Mizar", "Zalmon", "Hachilah", "Gaash"]
+    "plankton": ["Sinai", "Mount of Olives|olivet|olives"],
+    "schooler": ["Ararat", "Zion|Sion", "Calvary|Golgotha", "Carmel", "Moriah", "Horeb", "Nebo", "Hermon"],
+    "rare": ["Tabor", "Gilboa", "Pisgah", "Gerizim", "Ebal", "Gilead", "Seir", "Lebanon"],
+    "deepcut": ["Hor", "Bashan", "Paran", "Perazim", "Amana", "Senir|Shenir", "Sirion", "Zemaraim", "Ephron", "Baalah", "Halak", "Moreh"],
+    "krillion": ["Mizar", "Zalmon", "Hachilah", "Gaash"]
   }
 }

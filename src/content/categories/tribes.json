@@ -6,10 +6,9 @@
   "expectedCount": 14,
   "stripPrefixes": ["tribe of", "the tribe of"],
   "answers": {
-    "minnow": ["Judah", "Joseph", "Benjamin"],
-    "sardine": ["Levi", "Reuben", "Dan"],
-    "bass": ["Simeon", "Ephraim", "Manasseh|Manasses"],
-    "marlin": ["Gad", "Asher|Aser", "Naphtali|Nephtali|Naphthali"],
-    "greatfish": ["Issachar", "Zebulun|Zebulon|Zabulon"]
+    "plankton": ["Judah", "Joseph", "Benjamin"],
+    "schooler": ["Levi", "Reuben", "Dan", "Simeon", "Ephraim", "Manasseh|Manasses"],
+    "rare": ["Gad", "Asher|Aser", "Naphtali|Nephtali|Naphthali"],
+    "deepcut": ["Issachar", "Zebulun|Zebulon|Zabulon"]
   }
 }

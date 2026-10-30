@@ -4,10 +4,9 @@
   "tag": "Geography",
   "expectedCount": 50,
   "answers": {
-    "minnow": ["Boston", "Atlanta", "Austin", "Denver", "Phoenix"],
-    "sardine": ["Sacramento", "Nashville", "Honolulu", "Salt Lake City", "Columbus", "Indianapolis", "Albany", "Providence", "Richmond", "Oklahoma City", "Tallahassee"],
-    "bass": ["Raleigh", "Baton Rouge", "Madison", "Saint Paul|St Paul", "Hartford", "Little Rock", "Santa Fe", "Juneau", "Boise", "Lansing", "Harrisburg", "Springfield", "Des Moines", "Carson City", "Annapolis", "Charleston", "Columbia", "Concord"],
-    "marlin": ["Montgomery", "Jackson", "Trenton", "Dover", "Olympia", "Salem", "Topeka", "Lincoln", "Cheyenne", "Helena", "Bismarck", "Montpelier", "Jefferson City", "Augusta"],
-    "greatfish": ["Frankfort", "Pierre"]
+    "plankton": ["Boston", "Atlanta", "Austin", "Denver", "Phoenix"],
+    "schooler": ["Sacramento", "Nashville", "Honolulu", "Salt Lake City", "Columbus", "Indianapolis", "Albany", "Providence", "Richmond", "Oklahoma City", "Tallahassee", "Raleigh", "Baton Rouge", "Madison", "Saint Paul|St Paul", "Hartford", "Little Rock", "Santa Fe", "Juneau", "Boise", "Lansing", "Harrisburg", "Springfield", "Des Moines", "Carson City", "Annapolis", "Charleston", "Columbia", "Concord"],
+    "rare": ["Montgomery", "Jackson", "Trenton", "Dover", "Olympia", "Salem", "Topeka", "Lincoln", "Cheyenne", "Helena", "Bismarck", "Montpelier", "Jefferson City", "Augusta"],
+    "deepcut": ["Frankfort", "Pierre"]
   }
 }

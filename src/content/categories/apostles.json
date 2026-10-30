@@ -6,11 +6,10 @@
   "expectedCount": 13,
   "stripPrefixes": ["saint", "st", "apostle", "the apostle"],
   "answers": {
-    "minnow": ["Peter|Simon Peter|Simon|Cephas|Peter the Rock", "Judas Iscariot|Judas", "John|John son of Zebedee|John the Apostle|John the Beloved"],
-    "sardine": ["Andrew", "James|James son of Zebedee|James the Great|James the Greater", "Matthew|Levi|Matthew Levi|Matthew the tax collector", "Thomas|Doubting Thomas|Didymus"],
-    "bass": ["Philip"],
-    "marlin": ["Bartholomew|Nathanael|Nathaniel", "Simon the Zealot|Simon the Canaanite|Simon Zelotes|Simon the Cananaean|Simon Zealot"],
-    "greatfish": ["James son of Alphaeus|James the Less|James the Lesser|James the Younger|James of Alphaeus|James Alphaeus", "Thaddeus|Thaddaeus|Jude|Judas son of James|Lebbaeus|Judas Thaddaeus|Jude Thaddeus|Judas not Iscariot|Judas of James"],
-    "leviathan": ["Matthias"]
+    "plankton": ["Peter|Simon Peter|Simon|Cephas|Peter the Rock", "Judas Iscariot|Judas", "John|John son of Zebedee|John the Apostle|John the Beloved"],
+    "schooler": ["Andrew", "James|James son of Zebedee|James the Great|James the Greater", "Matthew|Levi|Matthew Levi|Matthew the tax collector", "Thomas|Doubting Thomas|Didymus", "Philip"],
+    "rare": ["Bartholomew|Nathanael|Nathaniel", "Simon the Zealot|Simon the Canaanite|Simon Zelotes|Simon the Cananaean|Simon Zealot"],
+    "deepcut": ["James son of Alphaeus|James the Less|James the Lesser|James the Younger|James of Alphaeus|James Alphaeus", "Thaddeus|Thaddaeus|Jude|Judas son of James|Lebbaeus|Judas Thaddaeus|Jude Thaddeus|Judas not Iscariot|Judas of James"],
+    "krillion": ["Matthias"]
   }
 }

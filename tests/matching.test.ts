@@ -38,7 +38,7 @@ describe("editDistance", () => {
 
 describe("matchAnswer", () => {
   it("matches canonicals and aliases exactly", () => {
-    expect(match("bible-books", "genesis")).toMatchObject({ how: "exact", answer: { canonical: "Genesis", tier: "minnow" } });
+    expect(match("bible-books", "genesis")).toMatchObject({ how: "exact", answer: { canonical: "Genesis", tier: "plankton" } });
     expect(match("bible-books", "Song of Songs").answer?.canonical).toBe("Song of Solomon");
     expect(match("apostles", "Nathanael").answer?.canonical).toBe("Bartholomew");
   });
@@ -80,7 +80,7 @@ describe("matchAnswer", () => {
   });
 
   it("honors host-approved bank additions", () => {
-    const m = matchAnswer(cat("apostles"), "paul", [{ answer: "Paul", tier: "marlin" }]);
-    expect(m).toMatchObject({ how: "added", answer: { tier: "marlin" } });
+    const m = matchAnswer(cat("apostles"), "paul", [{ answer: "Paul", tier: "rare" }]);
+    expect(m).toMatchObject({ how: "added", answer: { tier: "rare" } });
   });
 });

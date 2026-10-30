@@ -12,12 +12,11 @@ with Bible categories mixed into every round.
 
 | Tier | Points |
 |---|---|
-| Minnow | 10 |
-| Sardine | 25 |
-| Bass | 40 |
-| Marlin | 60 |
-| Great Fish | 80 |
-| Leviathan | 100 |
+| Plankton | 10 |
+| Schooler | 30 |
+| Rare | 60 |
+| Deep Cut | 85 |
+| One in a Krillion | 100 |
 | wrong / blank | 0 |
 
 Tiers are set ahead of time in the category packs. They're **editorial guesses**, not

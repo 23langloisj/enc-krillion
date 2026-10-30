@@ -5,11 +5,10 @@
   "source": "The seven \"I am\" statements in John, plus Revelation's (1:8, 1:17-18, 22:13, 22:16).",
   "stripPrefixes": ["i am", "im", "jesus is"],
   "answers": {
-    "minnow": ["Bread of Life|bread|living bread|bread of heaven", "Light of the World|light", "Good Shepherd|shepherd"],
-    "sardine": ["Way, the Truth, and the Life|way truth and life|way|truth|way truth life|way the truth the life"],
-    "bass": ["Resurrection and the Life|resurrection", "True Vine|vine|vine and you are the branches", "Alpha and Omega|alpha and the omega"],
-    "marlin": ["Door|gate|door of the sheep|gate for the sheep|sheep gate", "First and the Last|first and last", "Beginning and the End|beginning and end"],
-    "greatfish": ["Bright Morning Star|morning star", "Root and Offspring of David|root of david|offspring of david|root and the offspring of david"],
-    "leviathan": ["Living One|living one"]
+    "plankton": ["Bread of Life|bread|living bread|bread of heaven", "Light of the World|light", "Good Shepherd|shepherd"],
+    "schooler": ["Way, the Truth, and the Life|way truth and life|way|truth|way truth life|way the truth the life", "Resurrection and the Life|resurrection", "True Vine|vine|vine and you are the branches", "Alpha and Omega|alpha and the omega"],
+    "rare": ["Door|gate|door of the sheep|gate for the sheep|sheep gate", "First and the Last|first and last", "Beginning and the End|beginning and end"],
+    "deepcut": ["Bright Morning Star|morning star", "Root and Offspring of David|root of david|offspring of david|root and the offspring of david"],
+    "krillion": ["Living One|living one"]
   }
 }
