@@ -124,7 +124,7 @@ function Question({ v, offset }: { v: DisplayView; offset: number }) {
           {v.teams.map((t, i) => {
             const done = i < v.submittedCount; // counts only, so we never reveal who answered what
             return (
-              <span key={t.id} className={`h-4 w-12 ${done ? "bg-sonar shadow-[0_0_12px_#67c7ee]" : "bg-white/10"}`} />
+              <span key={t.id} className={`h-4 w-12 ${done ? "bg-sonar shadow-[0_0_12px_var(--color-sonar)]" : "bg-white/10"}`} />
             );
           })}
         </div>

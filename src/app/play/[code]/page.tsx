@@ -32,7 +32,7 @@ export default function PlayPage() {
     <>
       <Ocean />
       <main className="relative z-10 mx-auto flex min-h-dvh max-w-xl flex-col px-4 pt-[18vw] pb-28 sm:pt-28">
-        <div className="label absolute top-[8vw] right-4 text-right text-[#0b1424]/80 sm:top-6">
+        <div className="label absolute top-[8vw] right-4 text-right text-white/60 sm:top-6">
           {v ? `${v.me.name} · ${v.code}` : ""}
         </div>
         {!v ? (
@@ -193,13 +193,13 @@ function Question({ v, offset, token, refresh }: { v: TeamView; offset: number; 
       {error && <p className="mt-6 text-center text-sm text-red-300">{error}</p>}
 
       {/* bottom bar */}
-      <form onSubmit={submit} className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-[#070d18]/95 px-3 pt-3 pb-[max(env(safe-area-inset-bottom),12px)]">
+      <form onSubmit={submit} className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-bar/95 px-3 pt-3 pb-[max(env(safe-area-inset-bottom),12px)]">
         <div className="mx-auto flex max-w-xl items-center gap-2.5">
           <Dial ms={left} total={v.answerSeconds} paused={paused} size={52} />
           <div className="min-w-0 flex-1">
             <input
               ref={input}
-              className="w-full border border-sonar/70 bg-[#0c1526] px-3 py-3 font-mono text-base text-white outline-none placeholder:text-white/35 focus:border-sonar focus:shadow-[0_0_0_2px_rgb(103_199_238/0.25)] disabled:opacity-60"
+              className="w-full border border-sonar/70 bg-well px-3 py-3 font-mono text-base text-white outline-none placeholder:text-white/35 focus:border-sonar focus:shadow-[0_0_0_2px_rgb(103_199_238/0.25)] disabled:opacity-60"
               placeholder={submitted ? "locked in ✓" : closed ? "time's up" : paused ? "paused…" : "type one answer…"}
               value={submitted ? "" : answer}
               onChange={(e) => setAnswer(e.target.value)}
@@ -216,7 +216,7 @@ function Question({ v, offset, token, refresh }: { v: TeamView; offset: number; 
             </div>
           </div>
           <button
-            className="shrink-0 border border-[#ff8fb1]/40 bg-lure px-4 py-3 font-mono text-sm font-semibold tracking-[0.25em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)] active:translate-y-px disabled:opacity-40"
+            className="shrink-0 border border-lure-edge/40 bg-lure px-4 py-3 font-mono text-sm font-semibold tracking-[0.25em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)] active:translate-y-px disabled:opacity-40"
             disabled={busy || !!submitted || closed || paused || !answer.trim()}
           >
             {busy ? "…" : "DIVE"}

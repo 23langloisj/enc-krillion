@@ -14,6 +14,10 @@
   --color-glow: #5eead4;
   --color-lure: #e0567f;
   --color-sonar: #67c7ee;
+  --color-well: #0c1526; /* input / button wells */
+  --color-bar: #070d18; /* phone bottom bar */
+  --color-lure-edge: #ff8fb1;
+  --color-panel: #121a2c;
 
   --color-tier-plankton: #94a3b8;
   --color-tier-schooler: #2dd4bf;
@@ -90,7 +94,7 @@ body {
 
 @utility panel {
   /* chunky, square-cornered card that sits on the water */
-  @apply border border-white/10 bg-[#121a2c]/92 shadow-[6px_6px_0_rgb(0_0_0/0.35)];
+  @apply border border-white/10 bg-panel/92 shadow-[6px_6px_0_rgb(0_0_0/0.35)];
 }
 
 @utility label {
@@ -185,10 +189,77 @@ body {
   animation: sink var(--sink-dur, 1.6s) cubic-bezier(0.35, 0, 0.25, 1) both;
   animation-delay: var(--delay, 0s);
 }
+.ocean-water {
+  background: linear-gradient(180deg, #eaf3f8 0%, #eaf3f8 3.2%, #3b6b94 3.3%, #2b557c 14%, #1f4166 32%, #152f4f 55%, #0c1d35 78%, #060f1f 100%);
+}
 .waves {
-  background-image: radial-gradient(circle at 20px -6px, transparent 12px, #dcebf5 13px);
+  background-image: radial-gradient(circle at 20px -6px, transparent 12px, var(--wave, #dcebf5) 13px);
   background-size: 40px 14px;
   animation: waves 6s linear infinite;
+}
+
+/* ---------- Halloween ----------
+   Friendly harvest-night look: pumpkins, a mummy deckhand, cobwebs. Turned on
+   by the script in layout.tsx (automatic around Oct 31, or ?theme=halloween /
+   ?theme=normal / ?theme=auto). Everything below is scoped to html.halloween. */
+
+html.halloween {
+  --color-abyss: #0b0714;
+  --color-deep: #1a1028;
+  --color-reef: #2a1a3d;
+  --color-mist: #b3a3c8;
+  --color-glow: #ff8a1f;
+  --color-lure: #ff7518;
+  --color-lure-edge: #ffc27a;
+  --color-sonar: #9be15d;
+  --color-well: #1a1124;
+  --color-bar: #0d0815;
+  --color-panel: #1e1428;
+}
+/* harvest-moon sunset over a purple sea */
+html.halloween .ocean-water {
+  background: linear-gradient(180deg, #ffc27a 0%, #f4845f 3.2%, #4a3a6b 3.3%, #3a2d58 14%, #2a2046 32%, #1c1533 55%, #120d24 78%, #08060f 100%);
+}
+html.halloween .waves {
+  --wave: #f4845f;
+}
+html.halloween body {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #3a1d4f 0%, transparent 60%),
+    radial-gradient(900px 500px at 100% 110%, #4a2410 0%, transparent 60%),
+    var(--color-abyss);
+  background-attachment: fixed;
+}
+
+/* a little cobweb tucked into the top-right corner of every card */
+html.halloween .panel,
+html.halloween .card {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60' fill='none' stroke='%23ffffff' stroke-opacity='.3' stroke-width='.7'%3E%3Cpath d='M60 0L0 0 M60 0L8 24 M60 0L26 46 M60 0L48 58 M60 0L60 60'/%3E%3Cpath d='M46.8 0.0Q49.2 2.3 48.6 5.3Q51.7 6.8 52.5 10.1Q55.5 10.1 57.4 12.8Q58.8 11.4 60.0 13.2 M33.0 0.0Q37.8 4.8 36.6 10.8Q43.0 13.9 44.7 20.7Q50.9 20.6 54.6 26.1Q57.6 23.4 60.0 27.0 M18.0 0.0Q25.5 7.4 23.6 16.8Q33.5 21.6 36.2 32.2Q45.8 32.0 51.6 40.6Q56.3 36.3 60.0 42.0 M3.0 0.0Q13.2 10.0 10.6 22.8Q24.1 29.3 27.7 43.7Q40.8 43.5 48.6 55.1Q55.0 49.3 60.0 57.0'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 64px 64px;
+}
+html.halloween .no-web {
+  background-image: none;
+}
+
+@keyframes dangle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(22px);
+  }
+}
+.dangle {
+  animation: dangle 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dangle {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

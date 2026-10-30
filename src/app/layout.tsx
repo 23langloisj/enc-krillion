@@ -14,9 +14,17 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#040b1a", width: "device-width", initialScale: 1 };
 
+// Runs before paint so there's no flash of the normal theme. Halloween turns on
+// automatically Oct 20 – Nov 2; ?theme=halloween|normal|auto overrides it and
+// sticks in this browser.
+const themeScript = `try{var q=new URLSearchParams(location.search).get("theme");if(q)localStorage.setItem("enc-theme",q);var t=localStorage.getItem("enc-theme")||"auto",d=new Date(),m=d.getMonth(),n=d.getDate();if(t==="halloween"||(t==="auto"&&((m===9&&n>=20)||(m===10&&n<=2))))document.documentElement.classList.add("halloween")}catch(e){}`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className={`${display.variable} ${body.variable} ${pixel.variable} ${mono.variable} font-sans antialiased`}>{children}</body>
     </html>
   );

@@ -82,7 +82,7 @@ function PickRound({ onPick }: { onPick: (round: number) => void }) {
           <button
             key={r}
             onClick={() => onPick(r)}
-            className="border border-sonar/50 bg-[#0c1526] px-4 py-4 font-pixel text-2xl hover:bg-sonar/10"
+            className="border border-sonar/50 bg-well px-4 py-4 font-pixel text-2xl hover:bg-sonar/10"
           >
             Round {r}
           </button>
@@ -134,14 +134,14 @@ function Round({ round }: { round: number }) {
           appears.
         </p>
         <input
-          className="mt-5 w-full border border-sonar/60 bg-[#0c1526] px-3 py-3 text-center font-mono text-white outline-none placeholder:text-white/35 focus:border-sonar"
+          className="mt-5 w-full border border-sonar/60 bg-well px-3 py-3 text-center font-mono text-white outline-none placeholder:text-white/35 focus:border-sonar"
           placeholder="your name (for the scoreboard)"
           maxLength={24}
           value={saved.name}
           onChange={(e) => setSaved({ ...saved, name: e.target.value })}
         />
         <button
-          className="mt-4 w-full border border-[#ff8fb1]/40 bg-lure py-4 font-mono text-lg font-semibold tracking-[0.3em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)]"
+          className="mt-4 w-full border border-lure-edge/40 bg-lure py-4 font-mono text-lg font-semibold tracking-[0.3em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)]"
           onClick={() => {
             persist({ ...saved, results: [] });
             setStarted(true);
@@ -257,7 +257,7 @@ function PromptView({
           </p>
           <p className="label mt-3 text-white/45">running total · {total}</p>
           <button
-            className="mt-4 w-full border border-sonar/60 bg-[#0c1526] py-3 font-mono tracking-[0.25em] text-sonar hover:bg-sonar/10"
+            className="mt-4 w-full border border-sonar/60 bg-well py-3 font-mono tracking-[0.25em] text-sonar hover:bg-sonar/10"
             onClick={onNext}
           >
             {index + 1 < count ? "NEXT PROMPT" : "SEE MY SCORE"}
@@ -289,14 +289,14 @@ function PromptView({
           e.preventDefault();
           if (answer.trim()) send(answer);
         }}
-        className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-[#070d18]/95 px-3 pt-3 pb-[max(env(safe-area-inset-bottom),12px)]"
+        className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-bar/95 px-3 pt-3 pb-[max(env(safe-area-inset-bottom),12px)]"
       >
         <div className="mx-auto flex max-w-xl items-center gap-2.5">
           <Dial ms={left} total={SECONDS} size={52} />
           <div className="min-w-0 flex-1">
             <input
               autoFocus
-              className="w-full border border-sonar/70 bg-[#0c1526] px-3 py-3 font-mono text-base text-white outline-none placeholder:text-white/35 focus:border-sonar"
+              className="w-full border border-sonar/70 bg-well px-3 py-3 font-mono text-base text-white outline-none placeholder:text-white/35 focus:border-sonar"
               placeholder="type one answer…"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
@@ -313,7 +313,7 @@ function PromptView({
             </div>
           </div>
           <button
-            className="shrink-0 border border-[#ff8fb1]/40 bg-lure px-4 py-3 font-mono text-sm font-semibold tracking-[0.25em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)] disabled:opacity-40"
+            className="shrink-0 border border-lure-edge/40 bg-lure px-4 py-3 font-mono text-sm font-semibold tracking-[0.25em] text-[#1a0710] shadow-[3px_3px_0_rgb(0_0_0/0.4)] disabled:opacity-40"
             disabled={busy || !answer.trim()}
           >
             {busy ? "…" : "DIVE"}
@@ -349,7 +349,7 @@ function Summary({ saved, total, round, onReplay }: { saved: Saved; total: numbe
         <button className="border border-white/15 bg-white/5 py-3 font-mono text-sm tracking-widest" onClick={onReplay}>
           PLAY AGAIN
         </button>
-        <Link className="border border-sonar/60 bg-[#0c1526] py-3 text-center font-mono text-sm tracking-widest text-sonar" href="/solo">
+        <Link className="border border-sonar/60 bg-well py-3 text-center font-mono text-sm tracking-widest text-sonar" href="/solo">
           OTHER ROUND
         </Link>
       </div>

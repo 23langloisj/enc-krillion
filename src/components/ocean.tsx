@@ -15,15 +15,23 @@ const rand = (i: number) => {
 
 const css = (vars: Record<string, string | number>) => vars as CSSProperties;
 
+/** True when layout.tsx's theme script turned on the Halloween look. Client-only, so false on first render. */
+export function useSpooky() {
+  const [spooky, setSpooky] = useState(false);
+  useEffect(() => setSpooky(document.documentElement.classList.contains("halloween")), []);
+  return spooky;
+}
+
 export function Ocean({ boat = true }: { boat?: boolean }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const spooky = useSpooky();
   // z-0 (not negative) so body's background can't paint over it; pages put
   // their content at z-10.
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* sky strip + water column */}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#eaf3f8_0%,#eaf3f8_3.2%,#3b6b94_3.3%,#2b557c_14%,#1f4166_32%,#152f4f_55%,#0c1d35_78%,#060f1f_100%)]" />
+      <div className="ocean-water absolute inset-0" />
       <div className="waves absolute inset-x-0 top-[2.4%] h-[14px] opacity-90" />
       {/* light shafts */}
       {[12, 34, 58, 81].map((left, i) => (
@@ -66,10 +74,145 @@ export function Ocean({ boat = true }: { boat?: boolean }) {
       })}
       {boat && (
         <div className="bob absolute top-0 left-[5%] w-[150px] sm:w-[190px]">
-          <Boat />
+          {spooky ? <MummyBoat /> : <Boat />}
         </div>
       )}
+      {spooky && <Halloween />}
     </div>
+  );
+}
+
+/** Pumpkins bobbing on the surface, a few sinking jack-o'-lanterns, cobwebs in the top corners. */
+function Halloween() {
+  return (
+    <>
+      {[
+        { left: "24%", size: 30, delay: "-0.8s" },
+        { left: "37%", size: 40, delay: "-2.1s" },
+        { left: "52%", size: 26, delay: "-1.4s" },
+      ].map((p) => (
+        <div
+          key={p.left}
+          className="bob absolute hidden sm:block"
+          style={{ left: p.left, top: `calc(3.3% - ${p.size * 0.62}px)`, animationDelay: p.delay }}
+        >
+          <Pumpkin size={p.size} />
+        </div>
+      ))}
+      {Array.from({ length: 4 }, (_, i) => (
+        <div
+          key={i}
+          className="drift absolute opacity-60"
+          style={css({
+            left: `${12 + rand(i + 800) * 76}%`,
+            top: `${45 + rand(i + 900) * 50}%`,
+            "--dur": `${18 + rand(i + 1000) * 10}s`,
+            "--delay": `${-rand(i + 1100) * 18}s`,
+          })}
+        >
+          <Pumpkin size={14 + rand(i + 1200) * 10} />
+        </div>
+      ))}
+      <Cobweb className="absolute top-0 right-0 w-[min(26vw,180px)]" />
+      <Cobweb className="absolute top-0 left-0 w-[min(18vw,120px)] -scale-x-100 opacity-70" />
+      {/* a friendly spider letting itself down from the web */}
+      <div className="dangle absolute top-0 right-[min(9vw,62px)] flex flex-col items-center">
+        <div className="h-[min(14vh,110px)] w-px bg-white/40" />
+        <Spider />
+      </div>
+    </>
+  );
+}
+
+const WEB_SPOKES = "M60 0L0 0 M60 0L8 24 M60 0L26 46 M60 0L48 58 M60 0L60 60";
+const WEB_RINGS =
+  "M46.8 0Q49.2 2.3 48.6 5.3Q51.7 6.8 52.5 10.1Q55.5 10.1 57.4 12.8Q58.8 11.4 60 13.2 " +
+  "M33 0Q37.8 4.8 36.6 10.8Q43 13.9 44.7 20.7Q50.9 20.6 54.6 26.1Q57.6 23.4 60 27 " +
+  "M18 0Q25.5 7.4 23.6 16.8Q33.5 21.6 36.2 32.2Q45.8 32 51.6 40.6Q56.3 36.3 60 42 " +
+  "M3 0Q13.2 10 10.6 22.8Q24.1 29.3 27.7 43.7Q40.8 43.5 48.6 55.1Q55 49.3 60 57";
+
+export function Cobweb({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 60 60" className={className} fill="none" stroke="#ffffff" strokeOpacity={0.38} strokeWidth={0.6}>
+      <path d={WEB_SPOKES} />
+      <path d={WEB_RINGS} />
+    </svg>
+  );
+}
+
+/** Pixel jack-o'-lantern with a friendly face. Original art. */
+export function Pumpkin({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size * (12 / 14)} viewBox="0 0 14 12" shapeRendering="crispEdges">
+      <rect x="6" y="0" width="2" height="2" fill="#4d7c2a" />
+      <rect x="8" y="1" width="2" height="1" fill="#4d7c2a" />
+      <rect x="2" y="2" width="10" height="1" fill="#f07c1c" />
+      <rect x="1" y="3" width="12" height="7" fill="#f07c1c" />
+      <rect x="2" y="10" width="10" height="1" fill="#f07c1c" />
+      <rect x="4" y="3" width="1" height="7" fill="#d0620f" />
+      <rect x="9" y="3" width="1" height="7" fill="#d0620f" />
+      {/* face */}
+      <rect x="3" y="5" width="2" height="2" fill="#ffd35a" />
+      <rect x="9" y="5" width="2" height="2" fill="#ffd35a" />
+      <rect x="3" y="7" width="1" height="1" fill="#ffd35a" />
+      <rect x="4" y="8" width="6" height="1" fill="#ffd35a" />
+      <rect x="10" y="7" width="1" height="1" fill="#ffd35a" />
+      <rect x="6" y="8" width="1" height="1" fill="#f07c1c" />
+    </svg>
+  );
+}
+
+function Spider() {
+  return (
+    <svg width="18" height="14" viewBox="0 0 9 7" shapeRendering="crispEdges">
+      <rect x="3" y="1" width="3" height="3" fill="#1b1424" />
+      <rect x="3" y="2" width="1" height="1" fill="#ffffff" />
+      <rect x="5" y="2" width="1" height="1" fill="#ffffff" />
+      <rect x="0" y="1" width="3" height="1" fill="#1b1424" />
+      <rect x="6" y="1" width="3" height="1" fill="#1b1424" />
+      <rect x="0" y="3" width="3" height="1" fill="#1b1424" />
+      <rect x="6" y="3" width="3" height="1" fill="#1b1424" />
+      <rect x="1" y="4" width="2" height="1" fill="#1b1424" />
+      <rect x="6" y="4" width="2" height="1" fill="#1b1424" />
+      <rect x="3" y="4" width="3" height="2" fill="#1b1424" />
+    </svg>
+  );
+}
+
+/** The boat, crewed by a mummy deckhand who is very into fishing. */
+export function MummyBoat() {
+  const wrap = "#ece4cf";
+  const shade = "#c2b694";
+  return (
+    <svg viewBox="0 0 48 16" className="w-full" shapeRendering="crispEdges">
+      <rect x="20" y="0" width="1" height="7" fill="#0b1424" />
+      <rect x="21" y="0" width="12" height="1" fill="#0b1424" />
+      <rect x="18" y="3" width="10" height="5" fill="#16243c" />
+      <rect x="20" y="4" width="2" height="2" fill="#ffd35a" />
+      <rect x="24" y="4" width="2" height="2" fill="#ffd35a" />
+      {/* mummy */}
+      <rect x="36" y="0" width="4" height="2" fill={wrap} />
+      <rect x="37" y="1" width="1" height="1" fill="#1b1424" />
+      <rect x="39" y="1" width="1" height="1" fill="#1b1424" />
+      <rect x="36" y="2" width="4" height="6" fill={wrap} />
+      <rect x="36" y="3" width="4" height="1" fill={shade} />
+      <rect x="36" y="5" width="4" height="1" fill={shade} />
+      <rect x="35" y="4" width="1" height="2" fill={wrap} />
+      <rect x="40" y="3" width="2" height="1" fill={wrap} />
+      {/* rod and line */}
+      <path d="M41.5 3.5L47 0.3" stroke="#5a3a1c" strokeWidth="0.7" shapeRendering="auto" />
+      <path d="M47 0.3L47 16" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="0.25" shapeRendering="auto" />
+      {/* hull */}
+      <rect x="6" y="8" width="38" height="3" fill="#0b1424" />
+      <rect x="8" y="11" width="34" height="2" fill="#0b1424" />
+      <rect x="11" y="13" width="28" height="1" fill="#0b1424" />
+      <rect x="9" y="9" width="30" height="1" fill="#ff7518" />
+      {/* a pumpkin riding on the bow */}
+      <rect x="9" y="5" width="4" height="3" fill="#f07c1c" />
+      <rect x="10" y="4" width="1" height="1" fill="#4d7c2a" />
+      <rect x="10" y="6" width="1" height="1" fill="#ffd35a" />
+      <rect x="12" y="6" width="1" height="1" fill="#ffd35a" />
+    </svg>
   );
 }
 
@@ -112,18 +255,17 @@ export function Dial({ ms, total, paused, size = 56 }: { ms: number; total: numb
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }} role="timer" aria-label={`${secs} seconds left`}>
       <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
-        <circle cx="50" cy="50" r="48" fill="#0a1222" stroke="rgb(103 199 238 / 0.25)" strokeWidth="2" />
+        <circle cx="50" cy="50" r="48" fill="#0a1222" style={{ stroke: "color-mix(in oklab, var(--color-sonar) 25%, transparent)" }} strokeWidth="2" />
         <circle cx="50" cy="50" r={r} fill="none" stroke="rgb(255 255 255 / 0.06)" strokeWidth="6" />
         <circle
           cx="50"
           cy="50"
           r={r}
           fill="none"
-          stroke={urgent ? "#f87171" : "#67c7ee"}
           strokeWidth="6"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - pct)}
-          style={{ transition: "stroke-dashoffset 0.15s linear" }}
+          style={{ stroke: urgent ? "#f87171" : "var(--color-sonar)", transition: "stroke-dashoffset 0.15s linear" }}
         />
       </svg>
       <div
@@ -198,7 +340,7 @@ export function DepthChart({ catches, stepMs = 650, big = false }: { catches: Ca
               <div className="h-3 w-3 bg-lure shadow-[0_0_0_2px_#0a1222]" />
               {/* compact (team over "answer  +pts") so a card fits inside its own depth band */}
               <div
-                className={`panel mt-1.5 max-w-[22vw] text-center ${big ? "min-w-36 px-3 py-1.5" : "min-w-24 px-2 py-1"} ${c.tier === "krillion" ? "krillion-glow" : ""}`}
+                className={`panel no-web mt-1.5 max-w-[22vw] text-center ${big ? "min-w-36 px-3 py-1.5" : "min-w-24 px-2 py-1"} ${c.tier === "krillion" ? "krillion-glow" : ""}`}
                 style={{ borderColor: `${color}88` }}
                 title={c.note ?? undefined}
               >
