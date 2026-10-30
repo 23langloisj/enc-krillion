@@ -97,3 +97,13 @@ describe("findRedisEnv", () => {
     expect(findRedisEnv({ KV_REST_API_URL: "https://x.upstash.io" })).toBeNull();
   });
 });
+
+describe("hashReply", () => {
+  it("turns Upstash's raw flat HGETALL array into an object", async () => {
+    const { hashReply } = await import("@/lib/store");
+    expect(hashReply(["t1", '{"name":"A"}', "t2", '{"name":"B"}'])).toEqual({ t1: '{"name":"A"}', t2: '{"name":"B"}' });
+    expect(hashReply(null)).toEqual({});
+    expect(hashReply([])).toEqual({});
+    expect(hashReply({ t1: { name: "A" } })).toEqual({ t1: '{"name":"A"}' });
+  });
+});

@@ -38,6 +38,17 @@ export default function Home() {
         </p>
       </header>
 
+      <Link
+        href="/solo"
+        className="card flex flex-col items-center gap-2 border-glow/40 p-6 text-center transition hover:border-glow hover:bg-glow/5"
+      >
+        <span className="font-display text-3xl font-bold">Play solo</span>
+        <span className="text-mist">Everyone plays a round on their own phone, then reports their score. No host needed.</span>
+        <span className="btn-primary mt-2 px-8 py-3 text-lg">Start diving →</span>
+      </Link>
+
+      <p className="-mb-6 text-center text-xs tracking-[0.3em] text-mist uppercase">or play as teams</p>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <form
           className="card flex flex-col gap-3 p-6"

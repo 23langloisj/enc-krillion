@@ -55,6 +55,22 @@ export class MemoryStore implements Store {
   }
 }
 
+/** Normalize an HGETALL reply (flat array, object, or null) into a record of strings. */
+export function hashReply(reply: unknown): Record<string, string> {
+  if (!reply) return {};
+  if (Array.isArray(reply)) {
+    const out: Record<string, string> = {};
+    for (let i = 0; i + 1 < reply.length; i += 2) out[String(reply[i])] = String(reply[i + 1]);
+    return out;
+  }
+  if (typeof reply === "object") {
+    return Object.fromEntries(
+      Object.entries(reply).map(([k, v]) => [k, typeof v === "string" ? v : JSON.stringify(v)]),
+    );
+  }
+  return {};
+}
+
 class RedisStore implements Store {
   readonly kind = "redis" as const;
   constructor(private redis: Redis) {}
@@ -67,7 +83,9 @@ class RedisStore implements Store {
     else await this.redis.set(key, value);
   }
   async hgetall(key: string) {
-    return ((await this.redis.hgetall<Record<string, string>>(key)) ?? {}) as Record<string, string>;
+    // With automaticDeserialization off, Upstash hands back HGETALL's raw
+    // reply: a flat [field, value, field, value, ...] array, not an object.
+    return hashReply(await this.redis.hgetall(key));
   }
   async hset(key: string, field: string, value: string, ttlSeconds?: number) {
     await this.redis.hset(key, { [field]: value });
