@@ -80,15 +80,15 @@ export function StandingsList({ rows, highlight, compact = false }: { rows: Stan
       {rows.map((s, i) => (
         <li
           key={s.teamId}
-          className={`rise flex items-center gap-3 rounded-xl border px-4 ${compact ? "py-2" : "py-3"} ${
-            s.teamId === highlight ? "border-glow/60 bg-glow/10" : "border-white/10 bg-white/5"
+          className={`rise flex items-center gap-3 border px-4 ${compact ? "py-2" : "py-3"} ${
+            s.teamId === highlight ? "border-sonar/60 bg-sonar/10" : "border-white/10 bg-black/20"
           }`}
           style={{ animationDelay: `${i * 70}ms` }}
         >
-          <span className="w-8 font-display text-xl font-bold text-mist tabular-nums">{s.rank}</span>
+          <span className="w-8 font-pixel text-xl text-white/50 tabular-nums">{s.rank}</span>
           <span className="min-w-0 flex-1 truncate font-semibold">{s.name}</span>
-          {s.lastPoints > 0 && <span className="text-sm text-glow tabular-nums">+{s.lastPoints}</span>}
-          <span className="font-display text-xl font-bold tabular-nums">{s.total}</span>
+          {s.lastPoints > 0 && <span className="font-pixel text-sm text-sonar tabular-nums">+{s.lastPoints}</span>}
+          <span className="font-pixel text-xl tabular-nums">{s.total}</span>
         </li>
       ))}
     </ol>

@@ -3,6 +3,8 @@
 @theme {
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-pixel: var(--font-pixel), ui-monospace, monospace;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
 
   --color-abyss: #040b1a;
   --color-deep: #0a1830;
@@ -10,6 +12,8 @@
   --color-foam: #e8f3ff;
   --color-mist: #8fa8c8;
   --color-glow: #5eead4;
+  --color-lure: #e0567f;
+  --color-sonar: #67c7ee;
 
   --color-tier-plankton: #94a3b8;
   --color-tier-schooler: #2dd4bf;
@@ -82,9 +86,123 @@ body {
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
+/* ---------- ocean scene ---------- */
+
+@utility panel {
+  /* chunky, square-cornered card that sits on the water */
+  @apply border border-white/10 bg-[#121a2c]/92 shadow-[6px_6px_0_rgb(0_0_0/0.35)];
+}
+
+@utility label {
+  @apply font-mono text-[0.7rem] tracking-[0.3em] uppercase;
+}
+
+@keyframes swim {
+  from {
+    transform: translateX(-15vw) scaleX(var(--dir, 1));
+  }
+  to {
+    transform: translateX(115vw) scaleX(var(--dir, 1));
+  }
+}
+@keyframes swim-back {
+  from {
+    transform: translateX(115vw) scaleX(-1);
+  }
+  to {
+    transform: translateX(-15vw) scaleX(-1);
+  }
+}
+@keyframes drift {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.7;
+  }
+  to {
+    transform: translateY(-30vh);
+    opacity: 0;
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(1.5deg);
+  }
+}
+@keyframes sink {
+  from {
+    top: -6%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+@keyframes waves {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 160px;
+  }
+}
+
+.swim {
+  animation: swim var(--dur, 40s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.swim-back {
+  animation: swim-back var(--dur, 40s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.drift {
+  animation: drift var(--dur, 14s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+.sway {
+  animation: sway 2.6s ease-in-out infinite;
+}
+.sink {
+  animation: sink var(--sink-dur, 1.6s) cubic-bezier(0.35, 0, 0.25, 1) both;
+  animation-delay: var(--delay, 0s);
+}
+.waves {
+  background-image: radial-gradient(circle at 20px -6px, transparent 12px, #dcebf5 13px);
+  background-size: 40px 14px;
+  animation: waves 6s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rise,
-  .krillion-glow {
+  .krillion-glow,
+  .swim,
+  .swim-back,
+  .drift,
+  .bob,
+  .sway,
+  .waves {
     animation: none;
+  }
+  .sink {
+    animation-duration: 0.01s;
   }
 }

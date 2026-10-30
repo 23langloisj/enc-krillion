@@ -3,7 +3,8 @@
 import { useParams } from "next/navigation";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
-import { Countdown, howLabel, Logo, StandingsList, TierBadge } from "@/components/ui";
+import { DepthChart, Dial, Ocean } from "@/components/ocean";
+import { howLabel, StandingsList } from "@/components/ui";
 import { hostAction, keys, primaryAction, readLocal, usePoll, useTimeLeft } from "@/lib/client";
 import type { DisplayView } from "@/lib/types";
 
@@ -14,28 +15,27 @@ export default function DisplayPage() {
   const { data: v, error, offset, refresh } = usePoll<DisplayView>(`/api/games/${code}?role=display`, null);
   useHostKeys(code, v, refresh);
 
-  if (!v) {
-    return <main className="flex min-h-dvh items-center justify-center text-2xl text-mist">{error?.message ?? "Loading…"}</main>;
-  }
-
   return (
-    <main className="flex min-h-dvh flex-col px-10 py-8">
-      <header className="flex items-center justify-between text-mist">
-        <Logo className="text-3xl text-foam" />
-        {v.phase !== "lobby" && (
-          <div className="text-right text-lg">
-            Join at <span className="font-semibold text-foam">{hostLabel()}</span> · code{" "}
-            <span className="font-display font-bold tracking-widest text-glow">{v.code}</span>
+    <>
+      <Ocean />
+      <main className="relative z-10 flex h-dvh flex-col overflow-hidden px-[3vw] pt-[7vh] pb-[3vh]">
+        {v && v.phase !== "lobby" && (
+          <div className="label absolute top-[1.2vh] right-[2vw] text-sm text-[#0b1424]/80">
+            join: {hostLabel()} · code <span className="font-semibold text-[#0b1424]">{v.code}</span>
           </div>
         )}
-      </header>
-      <div className="flex flex-1 flex-col justify-center">
-        {v.phase === "lobby" && <Lobby v={v} />}
-        {v.phase === "question" && <Question v={v} offset={offset} />}
-        {v.phase === "reveal" && <Reveal v={v} />}
-        {(v.phase === "roundEnd" || v.phase === "final") && <Board v={v} />}
-      </div>
-    </main>
+        {!v ? (
+          <div className="m-auto font-pixel text-3xl">{error?.message ?? "Lowering the line…"}</div>
+        ) : (
+          <>
+            {v.phase === "lobby" && <Lobby v={v} />}
+            {v.phase === "question" && <Question v={v} offset={offset} />}
+            {v.phase === "reveal" && <Reveal v={v} />}
+            {(v.phase === "roundEnd" || v.phase === "final") && <Board v={v} />}
+          </>
+        )}
+      </main>
+    </>
   );
 }
 
@@ -64,35 +64,41 @@ function useHostKeys(code: string, v: DisplayView | null, refresh: () => void) {
   }, [code, v, refresh]);
 }
 
+function roundLabel(v: DisplayView) {
+  return `Round ${v.round} of ${v.rounds} · prompt ${(v.index % v.perRound) + 1} of ${v.perRound}`;
+}
+
 function Lobby({ v }: { v: DisplayView }) {
   const [qr, setQr] = useState("");
   const [url, setUrl] = useState("");
   useEffect(() => {
     const u = `${window.location.origin}/join?code=${v.code}`;
     setUrl(u);
-    QRCode.toString(u, { type: "svg", margin: 1, color: { dark: "#040b1a", light: "#ffffff" } }).then(setQr);
+    QRCode.toString(u, { type: "svg", margin: 1, color: { dark: "#0a1222", light: "#ffffff" } }).then(setQr);
   }, [v.code]);
 
   return (
-    <div className="grid items-center gap-12 lg:grid-cols-[auto_1fr]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="h-72 w-72 rounded-3xl bg-white p-4" dangerouslySetInnerHTML={{ __html: qr }} />
-        <p className="text-xl text-mist">{url.replace(/^https?:\/\//, "")}</p>
-      </div>
-      <div>
-        <p className="text-2xl text-mist">Room code</p>
-        <p className="font-display text-[10rem] leading-none font-extrabold tracking-[0.15em] text-glow">{v.code}</p>
-        <p className="mt-6 text-2xl text-mist">
-          Teams of 4–5 · one phone per team · {v.rounds} rounds × {v.perRound} categories · {v.answerSeconds}s each
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          {v.teams.length === 0 && <span className="text-xl text-mist/70">Waiting for teams…</span>}
-          {v.teams.map((t) => (
-            <span key={t.id} className="rise rounded-full border border-glow/40 bg-glow/10 px-5 py-2 text-2xl font-semibold">
-              {t.name}
-            </span>
-          ))}
+    <div className="m-auto flex w-full max-w-6xl flex-col items-center gap-[4vh]">
+      <div className="panel flex w-full items-center gap-[4vw] p-[3vw]">
+        <div className="w-[min(30vh,24vw)] shrink-0 bg-white p-3" dangerouslySetInnerHTML={{ __html: qr }} />
+        <div className="min-w-0">
+          <p className="label text-base text-lure">scan to join · or go to {url.replace(/^https?:\/\//, "").replace(/\?.*/, "")}</p>
+          <p className="mt-2 font-pixel text-[min(22vh,13vw)] leading-none tracking-[0.12em]">{v.code}</p>
+          <p className="mt-4 font-mono text-[min(2.6vh,1.6vw)] text-white/70">
+            Teams of 4–5 · one phone per team · {v.rounds} rounds × {v.perRound} prompts · {v.answerSeconds}s each
+          </p>
+          <p className="mt-2 font-mono text-[min(2.6vh,1.6vw)] text-white/50">
+            Name a right answer nobody else would think of. The rarer it is, the deeper it sinks.
+          </p>
         </div>
+      </div>
+      <div className="flex flex-wrap justify-center gap-3">
+        {v.teams.length === 0 && <span className="label text-base text-white/50">waiting for teams…</span>}
+        {v.teams.map((t) => (
+          <span key={t.id} className="rise panel px-5 py-2 font-pixel text-[min(3.2vh,2vw)]">
+            {t.name}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -101,23 +107,27 @@ function Lobby({ v }: { v: DisplayView }) {
 function Question({ v, offset }: { v: DisplayView; offset: number }) {
   const left = useTimeLeft(v.deadline, v.pausedRemaining, offset);
   return (
-    <div className="flex flex-col items-center gap-10 text-center">
-      <p className="text-2xl tracking-[0.3em] text-mist uppercase">
-        Round {v.round} · Category {(v.index % v.perRound) + 1} of {v.perRound}
-        {v.tag && <> · {v.tag}</>}
-      </p>
-      <h1 key={v.index} className="rise max-w-6xl font-display text-7xl leading-tight font-extrabold xl:text-8xl">
-        {v.prompt}
-      </h1>
-      <Countdown ms={left} total={v.answerSeconds} paused={v.deadline === null} big />
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex gap-2">
-          {Array.from({ length: v.teamCount }, (_, i) => (
-            <span key={i} className={`h-4 w-10 rounded-full ${i < v.submittedCount ? "bg-glow" : "bg-white/10"}`} />
-          ))}
+    <div className="flex flex-1 flex-col items-center">
+      <div key={v.index} className="panel rise w-full max-w-6xl p-[3vh_3vw]">
+        <p className="label text-base text-lure">
+          {roundLabel(v)}
+          {v.tag && <span className="text-white/40"> · {v.tag}</span>}
+        </p>
+        <h1 className="mt-[2vh] font-pixel text-[min(9vh,6vw)] leading-tight">{v.prompt}</h1>
+        <p className="label mt-[2vh] text-sm text-white/45">▼ rarer answers sink deeper ▼</p>
+      </div>
+      <div className="mt-auto flex flex-col items-center gap-[3vh]">
+        <Dial ms={left} total={v.answerSeconds} paused={v.deadline === null} size={170} />
+        <div className="flex flex-wrap justify-center gap-3">
+          {v.teams.map((t, i) => {
+            const done = i < v.submittedCount; // counts only, so we never reveal who answered what
+            return (
+              <span key={t.id} className={`h-4 w-12 ${done ? "bg-sonar shadow-[0_0_12px_#67c7ee]" : "bg-white/10"}`} />
+            );
+          })}
         </div>
-        <p className="text-2xl text-mist">
-          {v.locked ? "Lines are in! " : ""}
+        <p className="label text-base text-white/70">
+          {v.locked ? "lines are in · " : ""}
           {v.submittedCount} / {v.teamCount} teams locked in
         </p>
       </div>
@@ -127,39 +137,29 @@ function Question({ v, offset }: { v: DisplayView; offset: number }) {
 
 function Reveal({ v }: { v: DisplayView }) {
   if (!v.reveal) return null;
-  // Lowest first, so the biggest catch lands last.
-  const answers = [...v.reveal.answers].sort((a, b) => a.points - b.points);
-  const step = 700;
+  const step = 750;
+  const catches = v.reveal.answers.map((a) => ({
+    key: a.teamId,
+    team: a.teamName,
+    answer: a.answer,
+    tier: a.tier,
+    points: a.points,
+    note: howLabel(a),
+  }));
   return (
-    <div className="grid gap-10 xl:grid-cols-[1fr_26rem]">
-      <div>
-        <p className="text-xl tracking-[0.3em] text-mist uppercase">
-          Round {v.round} · {(v.index % v.perRound) + 1}/{v.perRound}
-        </p>
-        <h1 className="mb-8 font-display text-5xl font-extrabold">{v.reveal.prompt}</h1>
-        <ul className="grid gap-4 md:grid-cols-2">
-          {answers.map((a, i) => (
-            <li
-              key={a.teamId}
-              className={`card rise flex items-center gap-5 p-5 ${a.tier === "krillion" ? "krillion-glow border-tier-krillion/60" : ""}`}
-              style={{ animationDelay: `${i * step}ms` }}
-            >
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-lg text-mist">{a.teamName}</p>
-                <p className="truncate font-display text-3xl font-bold">{a.answer ?? "—"}</p>
-                <div className="mt-2 flex items-center gap-2">
-                  <TierBadge tier={a.tier} />
-                  {howLabel(a) && <span className="text-sm text-mist">{howLabel(a)}</span>}
-                </div>
-              </div>
-              <span className="font-display text-5xl font-extrabold text-glow tabular-nums">{a.points}</span>
-            </li>
-          ))}
-        </ul>
+    <div className="flex min-h-0 flex-1 gap-[2vw]">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="panel p-[2vh_2vw]">
+          <p className="label text-sm text-lure">{roundLabel(v)}</p>
+          <h1 className="mt-1 font-pixel text-[min(5vh,3.2vw)] leading-tight">{v.reveal.prompt}</h1>
+        </div>
+        <div className="mt-[2vh] min-h-0 flex-1">
+          <DepthChart catches={catches} stepMs={step} big />
+        </div>
       </div>
-      <aside className="rise" style={{ animationDelay: `${answers.length * step}ms` }}>
-        <h2 className="mb-3 text-xl font-semibold text-mist">Standings</h2>
-        <StandingsList rows={v.standings} />
+      <aside className="panel rise w-[24vw] shrink-0 self-start p-5" style={{ animationDelay: `${catches.length * step + 900}ms` }}>
+        <h2 className="label mb-3 text-sm text-lure">standings</h2>
+        <StandingsList rows={v.standings} compact />
       </aside>
     </div>
   );
@@ -169,16 +169,17 @@ function Board({ v }: { v: DisplayView }) {
   const final = v.phase === "final";
   const winners = v.standings.filter((s) => s.rank === 1);
   return (
-    <div className="mx-auto w-full max-w-4xl text-center">
-      <p className="text-2xl tracking-[0.3em] text-mist uppercase">{final ? "Final results" : `End of round ${v.round}`}</p>
-      {final && winners.length > 0 && (
-        <h1 className="rise mt-4 font-display text-7xl font-extrabold">
-          🏆 {winners.map((w) => w.name).join(" & ")}
-        </h1>
-      )}
-      {!final && <h1 className="mt-4 font-display text-6xl font-extrabold">Round {v.round + 1} up next</h1>}
-      <div className="mt-10 text-left text-2xl">
-        <StandingsList rows={v.standings} />
+    <div className="m-auto w-full max-w-4xl">
+      <div className="panel p-[4vh_3vw] text-center">
+        <p className="label text-base text-lure">{final ? "final catch" : `end of round ${v.round}`}</p>
+        {final && winners.length > 0 ? (
+          <h1 className="rise mt-3 font-pixel text-[min(9vh,6vw)]">🏆 {winners.map((w) => w.name).join(" & ")}</h1>
+        ) : (
+          <h1 className="mt-3 font-pixel text-[min(8vh,5vw)]">Round {v.round + 1} up next</h1>
+        )}
+        <div className="mt-[4vh] text-left text-[min(3vh,1.8vw)]">
+          <StandingsList rows={v.standings} />
+        </div>
       </div>
     </div>
   );
