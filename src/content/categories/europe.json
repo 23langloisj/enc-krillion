@@ -1,0 +1,14 @@
+{
+  "id": "europe",
+  "prompt": "Name a country in Europe",
+  "tag": "Geography",
+  "source": "Sovereign European states plus transcontinental ones (Russia, Turkey, Georgia, Armenia, Azerbaijan, Kazakhstan, Cyprus) and the four UK nations.",
+  "answers": {
+    "minnow": ["France", "Germany", "Italy", "Spain", "United Kingdom|UK|Great Britain|Britain|United Kingdom of Great Britain and Northern Ireland", "England"],
+    "sardine": ["Portugal", "Greece", "Ireland|Republic of Ireland", "Netherlands|Holland", "Switzerland", "Sweden", "Norway", "Poland", "Russia", "Ukraine", "Belgium", "Austria", "Scotland"],
+    "bass": ["Denmark", "Finland", "Iceland", "Czech Republic|Czechia", "Hungary", "Croatia", "Romania", "Turkey|Turkiye", "Wales", "Serbia", "Bulgaria"],
+    "marlin": ["Slovakia", "Slovenia", "Estonia", "Latvia", "Lithuania", "Belarus", "Luxembourg", "Monaco", "Vatican City|Vatican|Holy See", "Malta", "Cyprus", "Albania", "Bosnia and Herzegovina|Bosnia", "Northern Ireland", "Montenegro", "Liechtenstein"],
+    "greatfish": ["North Macedonia|Macedonia", "Kosovo", "Andorra", "San Marino", "Georgia", "Armenia", "Azerbaijan", "Kazakhstan"],
+    "leviathan": ["Moldova"]
+  }
+}

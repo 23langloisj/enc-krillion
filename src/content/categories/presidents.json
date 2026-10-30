@@ -1,0 +1,16 @@
+{
+  "id": "presidents",
+  "prompt": "Name a US president",
+  "tag": "History",
+  "source": "45 people have served (Cleveland and Trump served non-consecutive terms). A bare surname shared by two presidents goes to the better-known one.",
+  "expectedCount": 45,
+  "stripPrefixes": ["president"],
+  "answers": {
+    "minnow": ["George Washington|Washington", "Abraham Lincoln|Lincoln|Abe Lincoln", "Donald Trump|Trump", "Barack Obama|Obama", "Joe Biden|Biden"],
+    "sardine": ["Thomas Jefferson|Jefferson", "John F. Kennedy|JFK|Kennedy|John Kennedy", "Franklin D. Roosevelt|FDR|Franklin Roosevelt|Roosevelt", "Theodore Roosevelt|Teddy Roosevelt|Teddy|Theodore", "Ronald Reagan|Reagan", "George W. Bush|Bush|George Bush|Dubya|George W Bush", "Bill Clinton|Clinton", "Richard Nixon|Nixon", "John Adams|Adams"],
+    "bass": ["George H. W. Bush|Bush Sr|George HW Bush|Bush 41|George Herbert Walker Bush", "Jimmy Carter|Carter", "Gerald Ford|Ford", "Dwight D. Eisenhower|Eisenhower|Ike", "Harry Truman|Truman|Harry S Truman", "Ulysses S. Grant|Grant", "James Madison|Madison", "Andrew Jackson|Jackson", "Woodrow Wilson|Wilson", "Lyndon B. Johnson|LBJ|Lyndon Johnson|Johnson", "James Monroe|Monroe", "John Quincy Adams|JQA", "Herbert Hoover|Hoover", "William McKinley|McKinley", "William Howard Taft|Taft"],
+    "marlin": ["Calvin Coolidge|Coolidge", "Andrew Johnson", "James K. Polk|Polk", "Martin Van Buren|Van Buren", "Grover Cleveland|Cleveland", "William Henry Harrison|Harrison", "Warren G. Harding|Harding", "James Garfield|Garfield", "Zachary Taylor|Taylor", "Benjamin Harrison", "John Tyler|Tyler"],
+    "greatfish": ["Millard Fillmore|Fillmore", "Franklin Pierce|Pierce", "James Buchanan|Buchanan", "Rutherford B. Hayes|Hayes"],
+    "leviathan": ["Chester A. Arthur|Chester Arthur|Arthur"]
+  }
+}

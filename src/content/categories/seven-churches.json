@@ -1,0 +1,15 @@
+{
+  "id": "seven-churches",
+  "prompt": "Name one of the seven churches of Revelation",
+  "tag": "Bible",
+  "source": "Revelation 2-3.",
+  "expectedCount": 7,
+  "stripPrefixes": ["church of", "church in", "the church in", "the church of"],
+  "answers": {
+    "minnow": ["Ephesus|Ephesians"],
+    "sardine": ["Philadelphia", "Laodicea|Laodicean|Laodiceans"],
+    "bass": ["Smyrna", "Sardis"],
+    "marlin": ["Pergamum|Pergamos|Pergamon"],
+    "greatfish": ["Thyatira"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "elements",
+  "prompt": "Name a chemical element",
+  "tag": "Science",
+  "source": "All 118 IUPAC-named elements. Symbols alone don't count.",
+  "expectedCount": 118,
+  "answers": {
+    "minnow": ["Hydrogen", "Helium", "Carbon", "Nitrogen", "Oxygen", "Iron", "Gold"],
+    "sardine": ["Lithium", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminum|Aluminium", "Silicon", "Phosphorus", "Sulfur|Sulphur", "Chlorine", "Argon", "Potassium", "Calcium", "Titanium", "Nickel", "Copper", "Zinc", "Silver", "Tin", "Iodine", "Platinum", "Mercury", "Lead", "Uranium", "Plutonium"],
+    "bass": ["Beryllium", "Boron", "Vanadium", "Chromium", "Manganese", "Cobalt", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Zirconium", "Palladium", "Cadmium", "Antimony", "Xenon", "Cesium|Caesium", "Barium", "Tungsten|Wolfram", "Osmium", "Iridium", "Bismuth", "Polonium", "Radon", "Francium", "Radium", "Thorium", "Einsteinium"],
+    "marlin": ["Scandium", "Yttrium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Indium", "Tellurium", "Lanthanum", "Cerium", "Neodymium", "Promethium", "Europium", "Gadolinium", "Tantalum", "Thallium", "Astatine", "Actinium", "Neptunium", "Americium", "Curium", "Berkelium", "Californium", "Fermium", "Mendelevium", "Nobelium", "Oganesson"],
+    "greatfish": ["Praseodymium", "Samarium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Ytterbium", "Hafnium", "Rhenium", "Lawrencium", "Rutherfordium", "Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roentgenium", "Copernicium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessine"],
+    "leviathan": ["Thulium", "Lutetium", "Protactinium"]
+  }
+}

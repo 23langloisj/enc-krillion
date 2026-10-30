@@ -1,0 +1,8 @@
+{
+  "_comment": "Default game: 3 rounds x 7 categories, played in this order. Hosts can swap any slot from the lobby.",
+  "lineup": [
+    "us-states", "bible-books", "pixar", "apostles", "africa", "plagues", "pokemon-gen1",
+    "fruit-of-spirit", "elements", "women", "presidents", "armor-of-god", "europe", "prophets",
+    "mbta", "kings", "constellations", "paul-places", "state-capitals", "tribes", "genealogy"
+  ]
+}

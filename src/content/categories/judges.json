@@ -1,0 +1,16 @@
+{
+  "id": "judges",
+  "prompt": "Name a judge of Israel",
+  "tag": "Bible",
+  "source": "Book of Judges plus Eli and Samuel (1 Samuel).",
+  "expectedCount": 15,
+  "stripPrefixes": ["judge"],
+  "answers": {
+    "minnow": ["Samson", "Gideon|Jerubbaal", "Deborah"],
+    "sardine": ["Samuel", "Eli"],
+    "bass": ["Jephthah|Jepthah|Jephtha", "Barak", "Othniel"],
+    "marlin": ["Ehud"],
+    "greatfish": ["Shamgar", "Tola", "Jair"],
+    "leviathan": ["Ibzan", "Elon", "Abdon"]
+  }
+}

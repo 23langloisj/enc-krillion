@@ -1,0 +1,15 @@
+{
+  "id": "kings",
+  "prompt": "Name a king (or queen) of Israel or Judah",
+  "tag": "Bible",
+  "source": "1 Samuel - 2 Kings, 1-2 Chronicles. Kings who share a name across kingdoms count once.",
+  "stripPrefixes": ["king", "queen"],
+  "answers": {
+    "minnow": ["David", "Solomon", "Saul"],
+    "sardine": ["Ahab", "Hezekiah", "Josiah"],
+    "bass": ["Rehoboam", "Jeroboam|Jeroboam I|Jeroboam 1", "Jehu", "Manasseh", "Zedekiah|Mattaniah", "Jehoshaphat", "Uzziah|Azariah"],
+    "marlin": ["Asa", "Joash|Jehoash", "Ahaz", "Omri", "Jehoiakim|Eliakim", "Jehoiachin|Jeconiah|Coniah|Jechoniah", "Ahaziah", "Jehoram|Joram", "Athaliah", "Amon", "Jotham", "Amaziah"],
+    "greatfish": ["Abijah|Abijam", "Nadab", "Baasha", "Elah", "Jehoahaz", "Jeroboam II|Jeroboam 2", "Menahem", "Pekah", "Hoshea", "Ish-bosheth|Ishbosheth|Eshbaal|Ishbaal"],
+    "leviathan": ["Zimri", "Tibni", "Shallum", "Pekahiah", "Zechariah"]
+  }
+}

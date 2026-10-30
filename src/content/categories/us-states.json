@@ -1,0 +1,14 @@
+{
+  "id": "us-states",
+  "prompt": "Name a US state",
+  "tag": "Geography",
+  "expectedCount": 50,
+  "stripPrefixes": ["state of"],
+  "answers": {
+    "minnow": ["California", "Texas", "Florida", "New York|New York State", "Massachusetts|Mass"],
+    "sardine": ["Washington|Washington State", "Illinois", "Ohio", "Pennsylvania", "Georgia", "Arizona", "Colorado", "Nevada", "Hawaii", "Alaska", "Michigan", "New Jersey", "Virginia", "North Carolina", "Oregon", "Maine"],
+    "bass": ["Tennessee", "Louisiana", "Utah", "Minnesota", "Wisconsin", "Connecticut", "Vermont", "New Hampshire", "Rhode Island", "Maryland", "South Carolina", "Alabama", "Kentucky", "Missouri", "Indiana", "Oklahoma", "New Mexico", "Kansas", "Iowa", "Mississippi"],
+    "marlin": ["Nebraska", "Arkansas", "Idaho", "Montana", "West Virginia", "South Dakota"],
+    "greatfish": ["Delaware", "Wyoming", "North Dakota"]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "fruit-of-spirit",
+  "prompt": "Name a fruit of the Spirit",
+  "tag": "Bible",
+  "source": "Galatians 5:22-23 (NIV, ESV and KJV wordings accepted).",
+  "expectedCount": 9,
+  "answers": {
+    "minnow": ["Love", "Joy", "Peace"],
+    "sardine": ["Patience|longsuffering|long suffering|forbearance", "Kindness|kind"],
+    "bass": ["Faithfulness|faith", "Goodness"],
+    "marlin": ["Gentleness|meekness"],
+    "greatfish": ["Self-control|self control|temperance|selfcontrol"]
+  }
+}

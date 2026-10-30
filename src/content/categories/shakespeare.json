@@ -1,0 +1,15 @@
+{
+  "id": "shakespeare",
+  "prompt": "Name a play by Shakespeare",
+  "tag": "Literature",
+  "source": "The First Folio plays plus Pericles, The Two Noble Kinsmen and Edward III. Bare \"Henry IV\" / \"Henry VI\" count as Part 1.",
+  "expectedCount": 39,
+  "answers": {
+    "minnow": ["Romeo and Juliet", "Hamlet", "Macbeth"],
+    "sardine": ["Othello", "King Lear|Lear", "A Midsummer Night's Dream|Midsummer", "Julius Caesar", "The Tempest", "Much Ado About Nothing", "Twelfth Night", "The Taming of the Shrew", "The Merchant of Venice"],
+    "bass": ["Richard III|Richard 3|Richard the Third", "Henry V|Henry 5|Henry the Fifth", "As You Like It", "Antony and Cleopatra", "The Comedy of Errors", "The Winter's Tale", "Titus Andronicus", "The Merry Wives of Windsor"],
+    "marlin": ["Henry IV, Part 1|Henry IV|Henry 4|Henry IV Part 1|Henry 4 Part 1|Henry the Fourth", "Henry IV, Part 2|Henry IV Part 2|Henry 4 Part 2", "Richard II|Richard 2|Richard the Second", "Coriolanus", "Measure for Measure", "Love's Labour's Lost|Loves Labors Lost", "All's Well That Ends Well", "Troilus and Cressida", "King John", "Henry VIII|Henry 8|Henry the Eighth", "The Two Gentlemen of Verona", "Cymbeline", "Pericles"],
+    "greatfish": ["Henry VI, Part 1|Henry VI|Henry 6|Henry VI Part 1|Henry 6 Part 1", "Henry VI, Part 2|Henry VI Part 2|Henry 6 Part 2", "Henry VI, Part 3|Henry VI Part 3|Henry 6 Part 3", "Timon of Athens"],
+    "leviathan": ["The Two Noble Kinsmen", "Edward III|Edward 3"]
+  }
+}

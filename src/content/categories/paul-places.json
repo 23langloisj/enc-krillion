@@ -1,0 +1,14 @@
+{
+  "id": "paul-places",
+  "prompt": "Name a city, island or region the apostle Paul visited",
+  "tag": "Bible",
+  "source": "Acts 9-28 and Galatians 1 (Arabia), Romans 15:19 (Illyricum). Spain was only planned, so it isn't accepted.",
+  "answers": {
+    "minnow": ["Rome", "Jerusalem", "Damascus"],
+    "sardine": ["Corinth", "Ephesus", "Athens", "Antioch|Syrian Antioch|Pisidian Antioch|Antioch in Pisidia"],
+    "bass": ["Philippi", "Thessalonica|Thessaloniki", "Tarsus", "Malta|Melita", "Cyprus", "Crete", "Caesarea", "Galatia"],
+    "marlin": ["Berea|Beroea", "Lystra", "Derbe", "Iconium", "Troas", "Miletus", "Macedonia", "Arabia", "Tyre", "Sidon", "Salamis", "Paphos", "Perga", "Achaia", "Syracuse", "Puteoli", "Syria", "Cilicia"],
+    "greatfish": ["Attalia", "Neapolis", "Amphipolis", "Apollonia", "Cenchreae|Cenchrea", "Ptolemais", "Myra", "Fair Havens", "Rhegium", "Seleucia", "Samothrace|Samothracia", "Assos", "Mitylene", "Chios", "Samos", "Cos|Kos", "Rhodes", "Patara"],
+    "leviathan": ["Three Taverns", "Forum of Appius|Appii Forum", "Trogyllium", "Illyricum"]
+  }
+}

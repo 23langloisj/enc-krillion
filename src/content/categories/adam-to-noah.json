@@ -1,0 +1,14 @@
+{
+  "id": "adam-to-noah",
+  "prompt": "Name someone in the family line from Adam to Noah's sons",
+  "tag": "Bible",
+  "source": "Genesis 5 genealogy plus Noah's three sons.",
+  "expectedCount": 13,
+  "answers": {
+    "minnow": ["Adam", "Noah"],
+    "sardine": ["Methuselah", "Seth", "Enoch"],
+    "bass": ["Lamech", "Shem", "Ham", "Japheth"],
+    "marlin": ["Enosh|Enos", "Jared|Jered"],
+    "greatfish": ["Kenan|Cainan", "Mahalalel|Mahalaleel"]
+  }
+}

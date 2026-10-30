@@ -1,0 +1,15 @@
+{
+  "id": "prophets",
+  "prompt": "Name a prophet or prophetess in the Bible",
+  "tag": "Bible",
+  "source": "People the Bible calls a prophet/prophetess (or who wrote a prophetic book). False prophets not included.",
+  "stripPrefixes": ["prophet", "the prophet", "prophetess"],
+  "answers": {
+    "minnow": ["Moses", "Elijah|Elias", "Isaiah", "Jeremiah", "Jonah", "Daniel", "Jesus|Jesus Christ|Christ"],
+    "sardine": ["Elisha", "Samuel", "Ezekiel", "John the Baptist|John Baptist|John", "Nathan"],
+    "bass": ["Hosea", "Amos", "Micah", "Malachi", "Joel", "Habakkuk", "Zechariah", "Deborah", "Miriam", "Anna", "Aaron"],
+    "marlin": ["Obadiah", "Nahum", "Zephaniah", "Haggai", "Balaam", "Gad", "Enoch"],
+    "greatfish": ["Abraham", "Ahijah", "Shemaiah", "Iddo", "Oded", "Silas", "Hanani", "Jehu son of Hanani", "Judas Barsabbas"],
+    "leviathan": ["Huldah", "Micaiah", "Agabus", "Jahaziel", "Urijah|Uriah son of Shemaiah"]
+  }
+}

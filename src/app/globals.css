@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  --color-abyss: #040b1a;
+  --color-deep: #0a1830;
+  --color-reef: #12284a;
+  --color-foam: #e8f3ff;
+  --color-mist: #8fa8c8;
+  --color-glow: #5eead4;
+
+  --color-tier-minnow: #94a3b8;
+  --color-tier-sardine: #2dd4bf;
+  --color-tier-bass: #4ade80;
+  --color-tier-marlin: #60a5fa;
+  --color-tier-greatfish: #c084fc;
+  --color-tier-leviathan: #fbbf24;
+}
+
+html,
+body {
+  background: var(--color-abyss);
+  color: var(--color-foam);
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #12345e 0%, transparent 60%),
+    radial-gradient(900px 500px at 100% 110%, #0b2a3d 0%, transparent 60%),
+    var(--color-abyss);
+  background-attachment: fixed;
+}
+
+@utility card {
+  @apply rounded-2xl border border-white/10 bg-deep/80 backdrop-blur;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold transition
+    disabled:cursor-not-allowed disabled:opacity-40;
+}
+@utility btn-primary {
+  @apply btn bg-glow text-abyss hover:brightness-110 active:brightness-95;
+}
+@utility btn-ghost {
+  @apply btn border border-white/15 bg-white/5 text-foam hover:bg-white/10;
+}
+@utility btn-danger {
+  @apply btn border border-red-400/40 bg-red-500/10 text-red-200 hover:bg-red-500/20;
+}
+@utility input {
+  @apply w-full rounded-xl border border-white/15 bg-abyss/70 px-4 py-3 text-foam outline-none
+    placeholder:text-mist/60 focus:border-glow focus:ring-2 focus:ring-glow/30;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+  50% {
+    box-shadow: 0 0 40px 6px rgb(251 191 36 / 0.45);
+  }
+}
+.leviathan-glow {
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .leviathan-glow {
+    animation: none;
+  }
+}

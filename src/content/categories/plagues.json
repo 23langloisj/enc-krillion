@@ -1,0 +1,16 @@
+{
+  "id": "plagues",
+  "prompt": "Name one of the ten plagues of Egypt",
+  "tag": "Bible",
+  "source": "Exodus 7-12.",
+  "expectedCount": 10,
+  "stripPrefixes": ["plague of", "a plague of"],
+  "answers": {
+    "minnow": ["Frogs|frog", "Locusts|locust|grasshoppers", "Water to blood|blood|water into blood|river of blood|water turned to blood|nile to blood|river to blood|nile turned to blood|rivers of blood"],
+    "sardine": ["Death of the firstborn|firstborn|death of firstborn|killing of the firstborn|firstborn sons|death of the firstborn son|firstborn death|death of firstborn sons", "Darkness|three days of darkness|dark"],
+    "bass": ["Hail|hailstorm|hail and fire|thunder and hail|fire and hail"],
+    "marlin": ["Boils|sores|boil|skin boils", "Flies|swarms of flies|fly|swarm of flies|insects"],
+    "greatfish": ["Gnats|lice|lice or gnats|gnat|louse|mosquitoes|sand flies"],
+    "leviathan": ["Death of livestock|livestock disease|dead livestock|pestilence|murrain|cattle disease|livestock|plague on livestock|dead cattle|cattle|death of cattle|diseased livestock|sick livestock|animals died|dead animals"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "pokemon-gen1",
+  "prompt": "Name a Generation 1 Pokémon",
+  "tag": "Pop culture",
+  "source": "Pokédex #001-#151 (Red/Blue/Yellow).",
+  "expectedCount": 151,
+  "answers": {
+    "minnow": ["Bulbasaur", "Charmander", "Charizard", "Squirtle", "Pikachu", "Jigglypuff", "Eevee", "Snorlax", "Mewtwo|Mew two|Mew 2"],
+    "sardine": ["Venusaur", "Charmeleon", "Wartortle", "Blastoise", "Pidgey", "Raichu", "Zubat", "Diglett", "Meowth", "Psyduck", "Geodude", "Gengar", "Onix", "Magikarp", "Gyarados", "Ditto", "Vaporeon", "Dragonite", "Mew"],
+    "bass": ["Ivysaur", "Caterpie", "Metapod", "Butterfree", "Weedle", "Beedrill", "Pidgeotto", "Pidgeot", "Rattata", "Ekans", "Arbok", "Sandshrew", "Nidoking", "Clefairy", "Vulpix", "Ninetales", "Wigglytuff", "Golbat", "Oddish", "Dugtrio", "Growlithe", "Arcanine", "Poliwag", "Abra", "Kadabra", "Alakazam", "Machop", "Machamp", "Tentacool", "Golem", "Ponyta", "Slowpoke", "Magnemite", "Muk", "Gastly", "Haunter", "Voltorb", "Electrode", "Cubone", "Koffing", "Weezing", "Chansey", "Staryu", "Starmie", "Mr. Mime|Mr Mime|Mister Mime", "Scyther", "Electabuzz", "Lapras", "Jolteon", "Flareon", "Aerodactyl", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair"],
+    "marlin": ["Kakuna", "Raticate", "Spearow", "Fearow", "Sandslash", "Nidoran♀|Nidoran female|Nidoran f|Nidoran girl|Nidoran", "Nidorina", "Nidoqueen", "Nidoran♂|Nidoran male|Nidoran m|Nidoran boy", "Nidorino", "Clefable", "Gloom", "Vileplume", "Paras", "Parasect", "Venomoth", "Persian", "Golduck", "Mankey", "Primeape", "Poliwhirl", "Poliwrath", "Machoke", "Bellsprout", "Victreebel", "Tentacruel", "Graveler", "Rapidash", "Slowbro", "Magneton", "Farfetch'd|Farfetchd", "Doduo", "Dodrio", "Seel", "Grimer", "Cloyster", "Drowzee", "Hypno", "Krabby", "Kingler", "Exeggutor", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Rhyhorn", "Rhydon", "Kangaskhan", "Horsea", "Goldeen", "Jynx", "Magmar", "Tauros", "Porygon", "Omanyte", "Kabuto", "Kabutops"],
+    "greatfish": ["Venonat", "Dewgong", "Shellder", "Exeggcute", "Tangela", "Seadra", "Pinsir", "Omastar"],
+    "leviathan": ["Weepinbell", "Seaking"]
+  }
+}

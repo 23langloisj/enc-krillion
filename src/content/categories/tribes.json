@@ -1,0 +1,15 @@
+{
+  "id": "tribes",
+  "prompt": "Name a son of Jacob or a tribe of Israel",
+  "tag": "Bible",
+  "source": "Genesis 29-30, 35, 48; Numbers 1. Joseph's sons Ephraim and Manasseh count as tribes.",
+  "expectedCount": 14,
+  "stripPrefixes": ["tribe of", "the tribe of"],
+  "answers": {
+    "minnow": ["Judah", "Joseph", "Benjamin"],
+    "sardine": ["Levi", "Reuben", "Dan"],
+    "bass": ["Simeon", "Ephraim", "Manasseh|Manasses"],
+    "marlin": ["Gad", "Asher|Aser", "Naphtali|Nephtali|Naphthali"],
+    "greatfish": ["Issachar", "Zebulun|Zebulon|Zabulon"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "mbta",
+  "prompt": "Name an MBTA subway station (Red, Orange, Blue, Green or Mattapan)",
+  "tag": "Boston",
+  "source": "Rapid transit + Mattapan trolley stops as of 2026. Silver Line and Commuter Rail stops don't count. Worth a host double-check before game night.",
+  "stripPrefixes": ["station"],
+  "answers": {
+    "minnow": ["Park Street|Park", "Downtown Crossing|DTX", "South Station", "North Station", "Harvard|Harvard Square", "Kenmore|Kenmore Square", "Northeastern University|Northeastern|NEU"],
+    "sardine": ["Government Center|Gov Center", "Copley|Copley Square", "Back Bay", "Ruggles", "Kendall/MIT|Kendall|Kendall MIT|MIT", "Central|Central Square", "Haymarket", "State|State Street", "Prudential|Pru", "Symphony", "Museum of Fine Arts|MFA", "Fenway", "Airport|Logan Airport|Logan", "Aquarium", "Chinatown", "Arlington", "Boylston", "Hynes Convention Center|Hynes|Hynes ICA", "Massachusetts Avenue|Mass Ave", "Alewife", "Davis|Davis Square", "Porter|Porter Square", "Charles/MGH|Charles MGH|Charles|MGH", "Longwood Medical Area|LMA|Longwood Medical", "Boston University East|BU East", "Boston University Central|BU Central", "Forest Hills", "Wonderland", "Lechmere", "Tufts Medical Center|Tufts Medical|New England Medical Center"],
+    "bass": ["Science Park/West End|Science Park|West End", "Bowdoin", "Maverick", "Broadway", "Andrew", "JFK/UMass|JFK UMass|JFK|UMass", "Ashmont", "Braintree", "Quincy Center", "Sullivan Square|Sullivan", "Assembly", "Malden Center|Malden", "Oak Grove", "Wellington", "Community College", "Roxbury Crossing", "Jackson Square", "Stony Brook", "Green Street", "Brigham Circle", "Heath Street", "Coolidge Corner", "Cleveland Circle", "Boston College|BC", "Riverside", "Brookline Village", "Union Square", "Medford/Tufts|Medford Tufts", "Harvard Avenue|Harvard Ave", "Revere Beach", "Orient Heights", "Suffolk Downs", "Longwood", "Reservoir", "Chestnut Hill", "Newton Centre|Newton Center", "Savin Hill", "Fields Corner", "Quincy Adams", "North Quincy", "Wollaston", "Mattapan"],
+    "marlin": ["Shawmut", "Mission Park", "Riverway", "Amory Street|Amory St", "Babcock Street|Babcock St", "Packard's Corner|Packards Corner", "Griggs Street", "Allston Street", "Warren Street", "Washington Street", "Chestnut Hill Avenue|Chestnut Hill Ave", "South Street", "Saint Mary's Street|St Marys Street|St Marys", "Kent Street", "Saint Paul Street|St Paul Street", "Summit Avenue", "Washington Square", "Beaconsfield", "Brookline Hills", "Newton Highlands", "East Somerville", "Gilman Square", "Magoun Square", "Ball Square"],
+    "greatfish": ["Beachmont", "Wood Island", "Fenwood Road", "Sutherland Road", "Chiswick Road", "Blandford Street", "Hawes Street", "Brandon Hall", "Fairbanks Street", "Tappan Street", "Dean Road", "Englewood Avenue", "Eliot", "Waban", "Woodland", "Cedar Grove", "Butler", "Milton", "Central Avenue"],
+    "leviathan": ["Back of the Hill", "Valley Road", "Capen Street"]
+  }
+}
