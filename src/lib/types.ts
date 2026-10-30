@@ -115,6 +115,8 @@ export interface CatalogEntry {
 export interface HostView extends PublicView {
   role: "host";
   storeKind: "redis" | "memory";
+  /** Only sent when Redis wasn't found: env var names (no values) that looked related. */
+  redisEnvNames?: string[];
   lineup: { id: string; prompt: string; tag: string }[];
   catalog: CatalogEntry[];
   live: ScoredAnswer[]; // current question, scored, host-only

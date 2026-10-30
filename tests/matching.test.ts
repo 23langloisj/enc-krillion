@@ -84,3 +84,16 @@ describe("matchAnswer", () => {
     expect(m).toMatchObject({ how: "added", answer: { tier: "rare" } });
   });
 });
+
+describe("findRedisEnv", () => {
+  it("accepts Upstash, default KV and custom-prefixed names", async () => {
+    const { findRedisEnv } = await import("@/lib/store");
+    const pair = (u: string, t: string) => ({ [u]: "https://x.upstash.io", [t]: "tok" });
+    expect(findRedisEnv(pair("UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"))?.urlName).toBe("UPSTASH_REDIS_REST_URL");
+    expect(findRedisEnv(pair("KV_REST_API_URL", "KV_REST_API_TOKEN"))?.urlName).toBe("KV_REST_API_URL");
+    expect(findRedisEnv(pair("STORAGE_REST_API_URL", "STORAGE_REST_API_TOKEN"))?.urlName).toBe("STORAGE_REST_API_URL");
+    expect(findRedisEnv(pair("ENC_UPSTASH_REDIS_REST_URL", "ENC_UPSTASH_REDIS_REST_TOKEN"))).not.toBeNull();
+    expect(findRedisEnv({ REDIS_URL: "rediss://default:x@host:6379" })).toBeNull();
+    expect(findRedisEnv({ KV_REST_API_URL: "https://x.upstash.io" })).toBeNull();
+  });
+});

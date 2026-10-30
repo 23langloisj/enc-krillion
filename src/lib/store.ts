@@ -88,17 +88,47 @@ class RedisStore implements Store {
 
 const globalForStore = globalThis as unknown as { __encStore?: Store };
 
+// Upstash's own docs use UPSTASH_REDIS_REST_*; Vercel's integration injects
+// <PREFIX>_REST_API_* where the prefix defaults to KV but can be customized.
+const URL_SUFFIXES = [
+  ["_REDIS_REST_URL", "_REDIS_REST_TOKEN"],
+  ["_REST_API_URL", "_REST_API_TOKEN"],
+] as const;
+
+export function findRedisEnv(env: Record<string, string | undefined>) {
+  const preferred = ["UPSTASH_REDIS_REST_URL", "KV_REST_API_URL"];
+  const names = Object.keys(env).sort((a, b) => {
+    const pa = preferred.indexOf(a);
+    const pb = preferred.indexOf(b);
+    return (pa < 0 ? 99 : pa) - (pb < 0 ? 99 : pb) || a.localeCompare(b);
+  });
+  for (const name of names) {
+    for (const [urlSuffix, tokenSuffix] of URL_SUFFIXES) {
+      if (!name.endsWith(urlSuffix)) continue;
+      const tokenName = name.slice(0, -urlSuffix.length) + tokenSuffix;
+      const url = env[name];
+      const token = env[tokenName];
+      if (url?.startsWith("https://") && token) return { url, token, urlName: name, tokenName };
+    }
+  }
+  return null;
+}
+
+/** Names (never values) of env vars that look Redis-related, for the host-page hint. */
+export function redisEnvNames(env: Record<string, string | undefined>) {
+  return Object.keys(env)
+    .filter((k) => /REDIS|^KV_|_REST_API_/.test(k))
+    .sort();
+}
+
 export function getStore(): Store {
   if (globalForStore.__encStore) return globalForStore.__encStore;
-  // Vercel's Upstash integration injects KV_* names; Upstash's own docs use UPSTASH_*.
-  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
-  const store: Store =
-    url && token
-      ? new RedisStore(
-          new Redis({ url, token, automaticDeserialization: false, enableAutoPipelining: true }),
-        )
-      : new MemoryStore();
+  const found = findRedisEnv(process.env);
+  const store: Store = found
+    ? new RedisStore(
+        new Redis({ url: found.url, token: found.token, automaticDeserialization: false, enableAutoPipelining: true }),
+      )
+    : new MemoryStore();
   globalForStore.__encStore = store;
   return store;
 }

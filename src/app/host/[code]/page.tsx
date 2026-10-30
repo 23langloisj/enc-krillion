@@ -130,7 +130,11 @@ export default function HostPage() {
       {v.storeKind === "memory" && (
         <p className="rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
           Running with in-memory storage. Fine for local testing; on Vercel, connect Upstash Redis or games will
-          randomly reset. See README.
+          randomly reset. Connect the database to this project, then redeploy (new env vars only apply to new
+          deployments).{" "}
+          {v.redisEnvNames?.length
+            ? `Redis-looking env vars this deployment can see: ${v.redisEnvNames.join(", ")} — none is a usable REST URL + token pair.`
+            : "This deployment can't see any Redis env vars."}
         </p>
       )}
       {error && <ErrorNote message={`Connection: ${error.message}`} />}

@@ -1,5 +1,6 @@
 import { GameError } from "@/lib/engine";
 import { engine, respond, store } from "@/lib/server";
+import { redisEnvNames } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
   return respond(async () => {
     if (role === "display") return engine.displayView(code);
     if (role === "team") return engine.teamView(code, req.headers.get("x-team-token") ?? "");
-    if (role === "host") return engine.hostView(code, req.headers.get("x-host-key") ?? "", store.kind);
+    if (role === "host") {
+      const view = await engine.hostView(code, req.headers.get("x-host-key") ?? "", store.kind);
+      return store.kind === "memory" ? { ...view, redisEnvNames: redisEnvNames(process.env) } : view;
+    }
     throw new GameError(400, "Unknown role.");
   });
 }
