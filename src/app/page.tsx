@@ -43,6 +43,22 @@ export default function Home() {
       </header>
 
       <Link
+        href="/who"
+        className="card flex items-center gap-4 p-4 transition hover:border-glow/60 hover:bg-glow/5"
+      >
+        <span className="grid h-12 w-12 shrink-0 grid-cols-2 gap-0.5 overflow-hidden rounded-lg" aria-hidden>
+          {["#e21b3c", "#1368ce", "#d89e00", "#26890c"].map((c) => (
+            <span key={c} style={{ background: c }} />
+          ))}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-xl font-bold">New icebreaker: Who Said That?!</span>
+          <span className="block text-sm text-mist">Everyone shares a surprising fact, then the room guesses whose it is.</span>
+        </span>
+        <span className="text-glow">→</span>
+      </Link>
+
+      <Link
         href="/solo"
         className="card flex flex-col items-center gap-2 border-glow/40 p-6 text-center transition hover:border-glow hover:bg-glow/5"
       >

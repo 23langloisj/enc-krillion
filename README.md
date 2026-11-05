@@ -8,6 +8,13 @@ with Bible categories mixed into every round.
 - **Projector** shows `/display/CODE` (QR code to join, prompt, countdown, dramatic reveals)
 - **Teams** join on one phone each: `/join`
 
+Also on the same site: **Who Said That?!** (`/who`), an icebreaker. Everyone scans one QR code
+and enters their name plus a surprising fact. Each question shows one fact and four names
+(the owner + three random people); everyone except the owner guesses on their phone. One
+point per correct guess (no speed bonus), leaderboard every 3 questions, ~20 seconds of
+story time after each reveal. The host remote (`/who/host/CODE`) lists every fact so you can
+skip any before or during the game. Uses the same `HOST_PASSWORD` and Redis.
+
 ## Scoring
 
 | Tier | Points |

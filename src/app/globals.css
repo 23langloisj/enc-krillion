@@ -198,6 +198,55 @@ body {
   animation: waves 6s linear infinite;
 }
 
+/* ---------- Who Said That?! reveal ---------- */
+
+@keyframes fill {
+  from {
+    width: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0.3;
+    filter: saturate(0.4);
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+.fill {
+  animation: fill 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.who-lose {
+  animation: fade-out 0.4s ease-out 1.5s forwards;
+}
+.who-win {
+  animation: pop 0.5s ease-out 1.5s forwards;
+}
+.after-bars {
+  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) 1.6s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .who-win,
+  .after-bars {
+    animation: none;
+  }
+  .who-lose {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}
+
 /* ---------- Halloween ----------
    Friendly harvest-night look: pumpkins, a mummy deckhand, cobwebs. Turned on
    by the script in layout.tsx (automatic around Oct 31, or ?theme=halloween /

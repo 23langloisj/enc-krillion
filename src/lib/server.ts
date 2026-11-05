@@ -3,9 +3,11 @@ import { NextResponse } from "next/server";
 import { CATALOG, DEFAULT_LINEUP } from "@/content/catalog";
 import { createEngine, GameError } from "./engine";
 import { getStore } from "./store";
+import { createWhoEngine } from "./who";
 
 export const store = getStore();
 export const engine = createEngine({ store, catalog: CATALOG, defaultLineup: DEFAULT_LINEUP });
+export const who = createWhoEngine({ store });
 
 const NO_STORE = { "Cache-Control": "no-store" };
 
