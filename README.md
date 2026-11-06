@@ -4,6 +4,9 @@ A Krillion-style team game for ENC: every team names a correct answer to a categ
 and **the rarer the answer, the more points**. 3 rounds × 7 categories × 25 seconds,
 with Bible categories mixed into every round.
 
+The home page (`/`) is **ENC.ICE**, a picker for every game on the site. Leviathan's landing
+page is `/leviathan`; its other pages keep their short URLs.
+
 - **Host** runs it from a laptop: `/host/CODE`
 - **Projector** shows `/display/CODE` (QR code to join, prompt, countdown, dramatic reveals)
 - **Teams** join on one phone each: `/join`

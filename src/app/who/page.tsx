@@ -97,7 +97,7 @@ export default function WhoHome() {
 
       <footer className="text-center text-xs text-mist/70">
         <Link href="/" className="underline-offset-4 hover:underline">
-          ← Back to Krillion
+          ← All games
         </Link>
       </footer>
     </main>
