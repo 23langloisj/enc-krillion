@@ -2,9 +2,10 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Leaderboard, OPTION_STYLE, WhoLogo } from "@/components/who";
+import { FactsEditor, Leaderboard, OPTION_STYLE, WhoLogo } from "@/components/who";
 import { api, readLocal, usePoll, useTimeLeft } from "@/lib/client";
 import { whoKeys } from "@/lib/who-client";
+import { factsProblem } from "@/lib/who-rules";
 import type { WhoPlayerView } from "@/lib/who";
 
 export default function WhoPlayPage() {
@@ -79,13 +80,13 @@ function Body({ v, offset, token, refresh }: { v: WhoPlayerView; offset: number;
 
 function Lobby({ v, token, refresh }: { v: WhoPlayerView; token: string; refresh: () => void }) {
   const [editing, setEditing] = useState(false);
-  const [fact, setFact] = useState(v.me.fact);
+  const [facts, setFacts] = useState(v.me.facts);
   const [error, setError] = useState<string | null>(null);
 
   async function save() {
     setError(null);
     try {
-      await api(`/api/who/${v.code}/join`, { json: { fact, token } });
+      await api(`/api/who/${v.code}/join`, { json: { facts, token } });
       setEditing(false);
       refresh();
     } catch (e) {
@@ -99,25 +100,38 @@ function Lobby({ v, token, refresh }: { v: WhoPlayerView; token: string; refresh
       <h1 className="mt-2 font-display text-3xl font-extrabold">You&apos;re in, {v.me.name}!</h1>
       <p className="mt-2 text-mist">Hang tight — the game starts when the host is ready.</p>
       <div className="mt-6 rounded-xl bg-white/5 p-4 text-left">
-        <p className="text-xs font-semibold tracking-widest text-mist uppercase">your fact (secret!)</p>
+        <p className="text-xs font-semibold tracking-widest text-mist uppercase">
+          your fact{v.me.facts.length === 1 ? "" : "s"} (secret!)
+        </p>
         {editing ? (
           <>
-            <textarea className="input mt-2 min-h-24 resize-none" maxLength={160} value={fact} onChange={(e) => setFact(e.target.value)} />
-            <div className="mt-2 flex gap-2">
-              <button className="btn-primary flex-1" onClick={save} disabled={fact.trim().length < 8}>
+            <div className="mt-2">
+              <FactsEditor facts={facts} onChange={setFacts} />
+            </div>
+            <div className="mt-3 flex gap-2">
+              <button className="btn-primary flex-1" onClick={save} disabled={!!factsProblem(facts)}>
                 Save
               </button>
-              <button className="btn-ghost" onClick={() => (setEditing(false), setFact(v.me.fact))}>
+              <button className="btn-ghost" onClick={() => (setEditing(false), setFacts(v.me.facts))}>
                 Cancel
               </button>
             </div>
-            {error && <p className="mt-2 text-sm text-red-300">{error}</p>}
+            {(error ?? factsProblem(facts)) && <p className="mt-2 text-sm text-amber-200">{error ?? factsProblem(facts)}</p>}
           </>
         ) : (
           <>
-            <p className="mt-1 text-lg">“{v.me.fact}”</p>
-            <button className="mt-2 text-sm text-glow underline-offset-4 hover:underline" onClick={() => setEditing(true)}>
-              Edit
+            <ul className="mt-1 flex flex-col gap-1.5">
+              {v.me.facts.map((f) => (
+                <li key={f} className="text-lg">
+                  “{f}”
+                </li>
+              ))}
+            </ul>
+            <button
+              className="mt-2 text-sm text-glow underline-offset-4 hover:underline"
+              onClick={() => (setFacts(v.me.facts), setEditing(true))}
+            >
+              {v.me.facts.length < 3 ? "Edit or add more" : "Edit"}
             </button>
           </>
         )}

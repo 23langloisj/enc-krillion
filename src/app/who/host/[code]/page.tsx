@@ -144,13 +144,17 @@ export default function WhoHostPage() {
 function Controls({ v, offset, act, busy }: { v: WhoHostView; offset: number; act: Act; busy: boolean }) {
   const left = useTimeLeft(v.deadline, null, offset);
   const primary = whoPrimary(v);
-  const usable = v.players.filter((p) => !p.skip).length;
-  const [count, setCount] = useState(10);
+  const usable = v.factCount;
+  // null = one question per usable fact (the default); a number caps it.
+  const [cap, setCap] = useState<number | null>(null);
+  const planned = cap ? Math.min(cap, usable) : usable;
+  // ~25s on top of the timer for the reveal and story time.
+  const minutes = Math.max(1, Math.round((planned * (v.questionSeconds + 25)) / 60));
 
   let status: React.ReactNode;
   switch (v.phase) {
     case "lobby":
-      status = `${v.playerCount} player${v.playerCount === 1 ? "" : "s"} · ${usable} usable fact${usable === 1 ? "" : "s"} · will play ${Math.min(count, usable)} question${Math.min(count, usable) === 1 ? "" : "s"}`;
+      status = `${v.playerCount} player${v.playerCount === 1 ? "" : "s"} · ${usable} usable fact${usable === 1 ? "" : "s"} · ${planned} question${planned === 1 ? "" : "s"}, about ${minutes} min`;
       break;
     case "question":
       status = v.locked ? "Everyone's in (or time's up) — reveal when ready." : `${v.votedCount}/${v.voterCount} guessed`;
@@ -182,14 +186,20 @@ function Controls({ v, offset, act, busy }: { v: WhoHostView; offset: number; ac
         <div className="flex flex-wrap items-center gap-3 text-sm text-mist">
           <label className="flex items-center gap-2">
             Questions
-            <input
-              type="number"
-              min={1}
-              max={50}
-              className="input w-20 px-2 py-1.5"
-              value={count}
-              onChange={(e) => setCount(Math.max(1, Math.min(50, Number(e.target.value) || 1)))}
-            />
+            <select
+              className="input w-auto px-2 py-1.5"
+              value={cap ?? "all"}
+              onChange={(e) => setCap(e.target.value === "all" ? null : Number(e.target.value))}
+            >
+              <option value="all">One per fact ({usable})</option>
+              {[5, 10, 15, 20, 30]
+                .filter((n) => n < usable)
+                .map((n) => (
+                  <option key={n} value={n}>
+                    Cap at {n}
+                  </option>
+                ))}
+            </select>
           </label>
           <label className="flex items-center gap-2">
             Seconds each
@@ -212,7 +222,7 @@ function Controls({ v, offset, act, busy }: { v: WhoHostView; offset: number; ac
         <button
           className="btn-primary w-full py-4 text-xl"
           disabled={busy}
-          onClick={() => act(v.phase === "lobby" ? { type: "start", count } : primary.action)}
+          onClick={() => act(v.phase === "lobby" ? { type: "start", count: cap ?? undefined } : primary.action)}
         >
           {primary.label} →
         </button>
@@ -276,27 +286,42 @@ function Facts({ v, act, busy }: { v: WhoHostView; act: Act; busy: boolean }) {
       <ul className="mt-4 flex flex-col divide-y divide-white/5">
         {v.players.length === 0 && <li className="py-2 text-mist">Nobody yet — they&apos;ll pop up here as they scan in.</li>}
         {v.players.map((p) => (
-          <li key={p.id} className={`flex items-start gap-3 py-2.5 ${p.skip ? "opacity-45" : ""}`}>
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold">
+          <li key={p.id} className="py-3">
+            <div className="flex items-center gap-3">
+              <p className="min-w-0 flex-1 font-semibold">
                 {p.name}
-                {p.used && <span className="ml-2 text-xs font-normal text-glow">asked</span>}
-                {p.skip && <span className="ml-2 text-xs font-normal text-mist">skipped</span>}
+                <span className="ml-2 text-xs font-normal text-mist">
+                  {p.facts.length} fact{p.facts.length === 1 ? "" : "s"}
+                </span>
               </p>
-              <p className="text-sm text-mist">“{p.fact}”</p>
-            </div>
-            {!p.used && (
-              <button className="btn-ghost shrink-0 px-2.5 py-1 text-xs" disabled={busy} onClick={() => act({ type: "skipFact", playerId: p.id, skip: !p.skip })}>
-                {p.skip ? "Use" : "Skip"}
+              <button
+                className="shrink-0 px-1 py-1 text-xs text-mist hover:text-red-300"
+                disabled={busy}
+                onClick={() => confirm(`Remove ${p.name} from the game?`) && act({ type: "kick", playerId: p.id })}
+              >
+                Remove
               </button>
-            )}
-            <button
-              className="shrink-0 px-1 py-1 text-xs text-mist hover:text-red-300"
-              disabled={busy}
-              onClick={() => confirm(`Remove ${p.name} from the game?`) && act({ type: "kick", playerId: p.id })}
-            >
-              Remove
-            </button>
+            </div>
+            <ul className="mt-1.5 flex flex-col gap-1.5">
+              {p.facts.map((f, i) => (
+                <li key={i} className={`flex items-start gap-3 pl-3 ${f.skip ? "opacity-45" : ""}`}>
+                  <p className="min-w-0 flex-1 text-sm text-mist">
+                    “{f.text}”
+                    {f.used && <span className="ml-2 text-xs text-glow">asked</span>}
+                    {f.skip && <span className="ml-2 text-xs">skipped</span>}
+                  </p>
+                  {!f.used && (
+                    <button
+                      className="btn-ghost shrink-0 px-2.5 py-1 text-xs"
+                      disabled={busy}
+                      onClick={() => act({ type: "skipFact", playerId: p.id, factIndex: i, skip: !f.skip })}
+                    >
+                      {f.skip ? "Use" : "Skip"}
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>

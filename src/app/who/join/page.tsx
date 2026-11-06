@@ -3,9 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { ErrorNote } from "@/components/ui";
-import { WhoLogo } from "@/components/who";
+import { FactsEditor, WhoLogo } from "@/components/who";
 import { api, readLocal, writeLocal } from "@/lib/client";
 import { whoKeys } from "@/lib/who-client";
+import { factsProblem } from "@/lib/who-rules";
 
 const FACT_IDEAS = [
   "I once got chased by monkeys on vacation.",
@@ -19,7 +20,7 @@ function JoinForm() {
   const params = useSearchParams();
   const [code, setCode] = useState((params.get("code") ?? "").toUpperCase());
   const [name, setName] = useState("");
-  const [fact, setFact] = useState("");
+  const [facts, setFacts] = useState<string[]>([""]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(params.get("reason"));
   const [idea, setIdea] = useState(FACT_IDEAS[0]);
@@ -32,6 +33,10 @@ function JoinForm() {
     if (c.length === 4 && readLocal(whoKeys.player(c)) && !params.get("reason")) router.replace(`/who/play/${c}`);
   }, [params, router]);
 
+  // Say why the button is off instead of leaving people guessing.
+  const missing =
+    code.length !== 4 ? "Enter the 4-letter room code." : !name.trim() ? "Enter your name." : factsProblem(facts);
+
   async function join(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -39,7 +44,7 @@ function JoinForm() {
     const c = code.trim().toUpperCase();
     try {
       const res = await api<{ code: string; token: string }>(`/api/who/${c}/join`, {
-        json: { name, fact, token: readLocal(whoKeys.player(c)) ?? undefined },
+        json: { name, facts, token: readLocal(whoKeys.player(c)) ?? undefined },
       });
       writeLocal(whoKeys.player(res.code), res.token);
       router.push(`/who/play/${res.code}`);
@@ -68,23 +73,18 @@ function JoinForm() {
         <span className="text-sm font-semibold text-mist">Your name</span>
         <input className="input text-lg" maxLength={24} placeholder="First name (+ last initial)" value={name} onChange={(e) => setName(e.target.value)} required />
       </label>
-      <label className="flex flex-col gap-1.5">
-        <span className="text-sm font-semibold text-mist">One surprising fact about you</span>
-        <textarea
-          className="input min-h-28 resize-none text-base"
-          maxLength={160}
-          placeholder={`e.g. ${idea}`}
-          value={fact}
-          onChange={(e) => setFact(e.target.value)}
-          required
-        />
+      <div className="flex flex-col gap-1.5">
+        <span className="text-sm font-semibold text-mist">Surprising facts about you (1–3)</span>
+        <FactsEditor facts={facts} onChange={setFacts} placeholder={`e.g. ${idea}`} />
         <span className="text-xs text-mist">
-          Write it in first person. Make it something people won&apos;t instantly guess! {fact.length}/160
+          Write them in first person. Pick things people won&apos;t instantly guess! More facts = more chances for your
+          story to come up.
         </span>
-      </label>
-      <button className="btn-primary py-3 text-lg" disabled={busy || code.length !== 4 || !name.trim() || fact.trim().length < 8}>
+      </div>
+      <button className="btn-primary py-3 text-lg" disabled={busy || !!missing}>
         {busy ? "Joining…" : "I'm in"}
       </button>
+      {missing && !error && <p className="-mt-2 text-center text-sm text-mist">{missing}</p>}
       <ErrorNote message={error} />
     </form>
   );

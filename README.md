@@ -12,9 +12,9 @@ page is `/leviathan`; its other pages keep their short URLs.
 - **Teams** join on one phone each: `/join`
 
 Also on the same site: **Who Said That?!** (`/who`), an icebreaker. Everyone scans one QR code
-and enters their name plus a surprising fact. Each question shows one fact and four names
+and enters their name plus 1–3 surprising facts. Each question shows one fact and four names
 (the owner + three random people); everyone except the owner guesses on their phone. One
-point per correct guess (no speed bonus), leaderboard every 3 questions, ~20 seconds of
+point per correct guess (no speed bonus), one question per fact by default (the host can cap it), leaderboard every 3 questions, ~20 seconds of
 story time after each reveal. The host remote (`/who/host/CODE`) lists every fact so you can
 skip any before or during the game. Uses the same `HOST_PASSWORD` and Redis.
 

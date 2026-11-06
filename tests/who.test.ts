@@ -25,7 +25,7 @@ const FACTS: Record<string, string> = {
 async function setup(names = Object.keys(FACTS)) {
   const { code, hostKey } = await engine.createGame();
   const players = [];
-  for (const n of names) players.push(await engine.join(code, n, FACTS[n]));
+  for (const n of names) players.push(await engine.join(code, n, [FACTS[n]]));
   const host = (a: WhoAction) => engine.host(code, hostKey, a);
   return { code, hostKey, players, host };
 }
@@ -38,16 +38,28 @@ async function expectError(p: Promise<unknown>, status: number) {
 describe("joining", () => {
   it("needs a name and a real fact, and rejects duplicate names", async () => {
     const { code } = await engine.createGame();
-    await expectError(engine.join(code, "", "I like long walks."), 400);
-    await expectError(engine.join(code, "Sam", "hi"), 400);
-    await engine.join(code, "Sam", "I like long walks.");
-    await expectError(engine.join(code, "sam", "I also like walks."), 409);
+    await expectError(engine.join(code, "", ["I like long walks."]), 400);
+    await expectError(engine.join(code, "Sam", ["hi"]), 400);
+    await expectError(engine.join(code, "Sam", ["", "  "]), 400);
+    await engine.join(code, "Sam", ["I like long walks."]);
+    await expectError(engine.join(code, "sam", ["I also like walks."]), 409);
   });
 
-  it("lets the same phone fix its fact in the lobby", async () => {
+  it("takes up to three facts, ignoring blanks", async () => {
+    const { code } = await engine.createGame();
+    const facts = ["I own 14 houseplants.", "", "I was born on a boat.", "I can juggle knives.", "I hate cheese."];
+    const p = await engine.join(code, "Sam", facts);
+    expect((await engine.playerView(code, p.token)).me.facts).toEqual(["I own 14 houseplants.", "I was born on a boat.", "I can juggle knives."]);
+    await expectError(engine.join(code, "Kim", ["I was born on a boat.", "short"]), 400);
+  });
+
+  it("lets the same phone change its facts in the lobby", async () => {
     const { code, players } = await setup(["Sarah", "Daniel"]);
-    await engine.join(code, "", "Actually: I own 14 houseplants.", players[0].token);
-    expect((await engine.playerView(code, players[0].token)).me.fact).toBe("Actually: I own 14 houseplants.");
+    await engine.join(code, "", ["Actually: I own 14 houseplants.", "And a cactus named Gerald."], players[0].token);
+    expect((await engine.playerView(code, players[0].token)).me.facts).toEqual([
+      "Actually: I own 14 houseplants.",
+      "And a cactus named Gerald.",
+    ]);
   });
 });
 
@@ -120,14 +132,14 @@ describe("a question", () => {
     await host({ type: "swapQuestion" });
     const after = await engine.hostView(code, hostKey);
     expect(after.subjectId).not.toBe(before);
-    expect(after.players.find((p) => p.id === before)!.skip).toBe(true);
+    expect(after.players.find((p) => p.id === before)!.facts[0].skip).toBe(true);
   });
 });
 
 describe("flow", () => {
   it("uses each fact once, shows the board every 3, and ends after the planned count", async () => {
     const { code, host, hostKey } = await setup();
-    await host({ type: "skipFact", playerId: (await engine.hostView(code, hostKey)).players[4].id, skip: true });
+    await host({ type: "skipFact", playerId: (await engine.hostView(code, hostKey)).players[4].id, factIndex: 0, skip: true });
     await host({ type: "start", count: 10 }); // only 4 usable facts
     const subjects: string[] = [];
     const phases: string[] = [];
@@ -147,6 +159,63 @@ describe("flow", () => {
     expect(new Set(subjects).size).toBe(4);
     expect(phases).toEqual(["board"]);
     expect((await engine.displayView(code)).total).toBe(4);
+  });
+
+  it("spreads questions across people before using anyone's second or third fact", async () => {
+    const { code, hostKey } = await engine.createGame();
+    await engine.join(code, "Ann", ["I was a child actor.", "I've met the Pope.", "I have six toes."]);
+    await engine.join(code, "Bo", ["I can't swim at all."]);
+    await engine.join(code, "Cy", ["I was born in an elevator."]);
+    const host = (a: WhoAction) => engine.host(code, hostKey, a);
+    await host({ type: "start", count: 5 });
+    expect((await engine.displayView(code)).total).toBe(5);
+    const subjects: string[] = [];
+    const facts: string[] = [];
+    for (;;) {
+      const hv = await engine.hostView(code, hostKey);
+      if (hv.phase === "final") break;
+      if (hv.phase === "question") {
+        subjects.push(hv.question!.options.find((o) => o.id === hv.subjectId)!.name);
+        facts.push(hv.question!.fact);
+        await host({ type: "reveal" });
+      }
+      await host({ type: "next" });
+    }
+    expect(new Set(subjects.slice(0, 3))).toEqual(new Set(["Ann", "Bo", "Cy"]));
+    expect(subjects.slice(3)).toEqual(["Ann", "Ann"]);
+    expect(new Set(facts).size).toBe(5);
+    const ann = (await engine.hostView(code, hostKey)).players.find((p) => p.name === "Ann")!;
+    expect(ann.facts.every((f) => f.used)).toBe(true);
+  });
+
+  it("can skip one of someone's facts and keep the others", async () => {
+    const { code, hostKey } = await engine.createGame();
+    const ann = await engine.join(code, "Ann", ["I was a child actor.", "I've met the Pope."]);
+    await engine.join(code, "Bo", ["I can't swim at all."]);
+    await engine.host(code, hostKey, { type: "skipFact", playerId: ann.playerId, factIndex: 1, skip: true });
+    expect((await engine.displayView(code)).factCount).toBe(2);
+    // Editing in the lobby keeps the host's skip on a fact that didn't change.
+    await engine.join(code, "", ["I was a child actor.", "I've met the Pope.", "I hate pickles."], ann.token);
+    const facts = (await engine.hostView(code, hostKey)).players.find((p) => p.name === "Ann")!.facts;
+    expect(facts.map((f) => f.skip)).toEqual([false, true, false]);
+  });
+
+  it("reads players saved with the old single-fact shape", async () => {
+    const store = new MemoryStore();
+    const e = createWhoEngine({ store, now: () => clock });
+    const { code } = await e.createGame();
+    const old = { id: "p1", name: "Old", token: "t1", fact: "I joined before multi-fact.", skip: false, joinedAt: 1 };
+    await store.hset(`w:${code}:players`, "p1", JSON.stringify(old));
+    expect((await e.playerView(code, "t1")).me.facts).toEqual(["I joined before multi-fact."]);
+  });
+
+  it("plays one question per usable fact unless the host caps it", async () => {
+    const { code, host } = await setup(); // 5 players, 1 fact each
+    await host({ type: "start" });
+    expect((await engine.displayView(code)).total).toBe(5);
+    await host({ type: "reset" });
+    await host({ type: "start", count: 3 });
+    expect((await engine.displayView(code)).total).toBe(3);
   });
 
   it("requires two players and a fact to start", async () => {

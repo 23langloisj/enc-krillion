@@ -34,7 +34,7 @@ export default function WhoHome() {
       <header className="text-center">
         <WhoLogo className="text-5xl sm:text-7xl" />
         <p className="mx-auto mt-4 max-w-md text-lg text-mist">
-          Everyone shares one surprising fact. Then the whole room guesses whose it is.
+          Everyone shares a few surprising facts. Then the whole room guesses whose they are.
         </p>
         <div className="mt-5 flex justify-center gap-2" aria-hidden>
           {OPTION_STYLE.map((o) => (
@@ -87,11 +87,11 @@ export default function WhoHome() {
       <section className="card p-6 text-sm text-mist">
         <h2 className="mb-2 font-display text-xl font-bold text-foam">How it works</h2>
         <ol className="list-decimal space-y-1 pl-5">
-          <li>Scan the QR as you arrive: your name plus one surprising fact.</li>
+          <li>Scan the QR as you arrive: your name plus 1–3 surprising facts.</li>
           <li>Each question shows a fact and four people. Guess whose it is (20 seconds).</li>
           <li>If it&apos;s your fact, you sit that one out. Keep a straight face.</li>
           <li>Reveal, then the owner gets ~20 seconds to tell the story.</li>
-          <li>One point per correct guess. Leaderboard every 3 questions.</li>
+          <li>One question per fact, one point per correct guess. Leaderboard every 3 questions.</li>
         </ol>
       </section>
 

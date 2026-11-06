@@ -83,7 +83,7 @@ function Lobby({ v }: { v: DisplayView }) {
             or go to {url.replace(/^https?:\/\//, "").replace(/\?.*/, "")}
           </p>
           <p className="mt-4 text-[min(3.4vh,2.1vw)] font-semibold">
-            Enter your name and one surprising fact about yourself.
+            Enter your name and 1–3 surprising facts about yourself.
           </p>
         </div>
       </div>

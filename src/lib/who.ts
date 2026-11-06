@@ -1,4 +1,4 @@
-// "Who Said That?!" — an icebreaker. Everyone joins with a name and a fun fact;
+// "Who Said That?!" — an icebreaker. Everyone joins with a name and 1–3 fun facts;
 // each question shows one fact and four people, and everyone else guesses
 // whose it is. Same shape as the Krillion engine: server-authoritative,
 // deadline timestamps, one vote per player via HSETNX, results frozen at reveal.
@@ -6,26 +6,34 @@
 import { randomBytes, randomInt } from "node:crypto";
 import { GameError, normalizeCode } from "./engine";
 import type { Store } from "./store";
+import { factsProblem, MAX_FACT, MAX_FACTS } from "./who-rules";
 
 const TTL = 60 * 60 * 24 * 3;
 const GRACE_MS = 1500;
 const MAX_PLAYERS = 80;
-const MAX_FACT = 160;
+
 const OPTIONS = 4;
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 
 export type WhoPhase = "lobby" | "question" | "reveal" | "board" | "final";
 
+export interface WhoFact {
+  text: string;
+  /** Host chose not to use this fact. The player still plays. */
+  skip: boolean;
+}
+
 export interface WhoPlayer {
   id: string;
   name: string;
   token: string;
-  fact: string;
-  /** Host chose not to use this fact. The player still plays. */
-  skip: boolean;
+  facts: WhoFact[];
   bot?: boolean;
   joinedAt: number;
 }
+
+/** Players saved before multi-fact support had a single `fact` + `skip`. */
+type StoredPlayer = WhoPlayer & { fact?: string; skip?: boolean };
 
 export interface WhoOption {
   id: string;
@@ -34,6 +42,8 @@ export interface WhoOption {
 
 interface Question {
   subjectId: string;
+  /** Which of the subject's facts this is (missing on questions saved before multi-fact = 0). */
+  factIndex?: number;
   fact: string;
   options: WhoOption[];
   startedAt: number;
@@ -107,7 +117,7 @@ export interface WhoPlayerView extends WhoPublicView {
   me: {
     id: string;
     name: string;
-    fact: string;
+    facts: string[];
     vote: string | null;
     /** The current question is this player's fact (they sit it out). */
     isSubject: boolean;
@@ -119,20 +129,20 @@ export interface WhoPlayerView extends WhoPublicView {
 
 export interface WhoHostView extends WhoPublicView {
   role: "host";
-  players: { id: string; name: string; fact: string; skip: boolean; bot: boolean; used: boolean }[];
+  players: { id: string; name: string; bot: boolean; facts: { text: string; skip: boolean; used: boolean }[] }[];
   /** Current question's answer, host-only, so they can watch it play out. */
   subjectId: string | null;
   liveCounts: Record<string, number>;
 }
 
 export type WhoAction =
-  | { type: "start"; count?: number }
+  | { type: "start"; /** Optional cap; default is every usable fact. */ count?: number }
   | { type: "reveal" }
   | { type: "next" }
   | { type: "endTimer" }
   | { type: "addTime"; seconds: number }
   | { type: "swapQuestion" }
-  | { type: "skipFact"; playerId: string; skip: boolean }
+  | { type: "skipFact"; playerId: string; factIndex?: number; skip: boolean }
   | { type: "settings"; questionSeconds?: number; count?: number }
   | { type: "kick"; playerId: string }
   | { type: "addBots"; count: number }
@@ -185,7 +195,10 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
   async function loadPlayers(code: string): Promise<WhoPlayer[]> {
     const raw = await store.hgetall(k.players(code));
     return Object.values(raw)
-      .map((v) => JSON.parse(v) as WhoPlayer)
+      .map((v) => {
+        const { fact, skip, ...p } = JSON.parse(v) as StoredPlayer;
+        return { ...p, facts: p.facts ?? (fact ? [{ text: fact, skip: !!skip }] : []) };
+      })
       .sort((a, b) => a.joinedAt - b.joinedAt || a.id.localeCompare(b.id));
   }
   const savePlayer = (code: string, p: WhoPlayer) => store.hset(k.players(code), p.id, JSON.stringify(p), TTL);
@@ -196,7 +209,17 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
     return Object.fromEntries(Object.entries(raw).map(([id, v]) => [id, JSON.parse(v)]));
   }
 
-  const usable = (players: WhoPlayer[]) => players.filter((p) => p.fact && !p.skip);
+  const factKey = (playerId: string, index = 0) => `${playerId}:${index}`;
+  const usable = (players: WhoPlayer[]) =>
+    players.flatMap((p) => p.facts.map((f, index) => ({ player: p, index, text: f.text, skip: f.skip })).filter((f) => !f.skip));
+
+  /** Clean up submitted facts: trimmed, blanks dropped, at most MAX_FACTS. */
+  function cleanFacts(raw: string[]) {
+    const facts = raw.map((f) => clean(String(f ?? ""), MAX_FACT)).filter(Boolean).slice(0, MAX_FACTS);
+    const problem = factsProblem(facts);
+    if (problem) throw new GameError(400, problem);
+    return facts;
+  }
 
   /** Votes that count right now: on time, from a current player who isn't the subject, for a real option. */
   function countedVotes(q: Question, votes: Record<string, Vote>, players: WhoPlayer[]) {
@@ -258,24 +281,27 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
     return { code, hostKey: meta.hostKey };
   }
 
-  async function join(rawCode: string, rawName: string, rawFact: string, existingToken?: string) {
+  async function join(rawCode: string, rawName: string, rawFacts: string[], existingToken?: string) {
     const meta = await loadMeta(rawCode);
     const players = await loadPlayers(meta.code);
-    const fact = clean(rawFact, MAX_FACT);
     const mine = existingToken ? players.find((p) => p.token === existingToken) : undefined;
     if (mine) {
-      // Same phone again: let them fix their fact while we're still in the lobby.
-      if (fact && meta.phase === "lobby" && fact !== mine.fact) await savePlayer(meta.code, { ...mine, fact });
+      // Same phone again: let them change their facts while we're still in the lobby.
+      if (rawFacts.some((f) => String(f ?? "").trim()) && meta.phase === "lobby") {
+        const texts = cleanFacts(rawFacts);
+        const facts = texts.map((text) => ({ text, skip: mine.facts.find((f) => f.text === text)?.skip ?? false }));
+        await savePlayer(meta.code, { ...mine, facts });
+      }
       return { playerId: mine.id, token: mine.token, name: mine.name, code: meta.code };
     }
     const name = clean(rawName, 24);
     if (!name) throw new GameError(400, "Enter your name.");
-    if (fact.length < 8) throw new GameError(400, "Give us a real fun fact — at least a few words.");
+    const facts = cleanFacts(rawFacts).map((text) => ({ text, skip: false }));
     if (players.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
       throw new GameError(409, `Someone already joined as “${name}”. Add your last initial?`);
     }
     if (players.length >= MAX_PLAYERS) throw new GameError(409, "This game is full.");
-    const p: WhoPlayer = { id: token().slice(0, 10), name, token: token(), fact, skip: false, joinedAt: now() };
+    const p: WhoPlayer = { id: token().slice(0, 10), name, token: token(), facts, joinedAt: now() };
     await savePlayer(meta.code, p);
     return { playerId: p.id, token: p.token, name: p.name, code: meta.code };
   }
@@ -295,17 +321,26 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
     return { ok: true, choice };
   }
 
-  /** Put up question `index` with a random fact nobody has seen yet. Returns false if none are left. */
+  /**
+   * Put up question `index` with a random fact nobody has seen yet, preferring
+   * people who haven't been the answer yet so it isn't the same person three
+   * times. Returns false if no facts are left.
+   */
   async function startQuestion(meta: WhoMeta, index: number, players: WhoPlayer[]) {
-    const used = new Set(meta.questions.slice(0, index).map((q) => q.subjectId));
-    const pool = usable(players).filter((p) => !used.has(p.id));
+    const earlier = meta.questions.slice(0, index);
+    const usedFacts = new Set(earlier.map((q) => factKey(q.subjectId, q.factIndex)));
+    const usedPeople = new Set(earlier.map((q) => q.subjectId));
+    const pool = usable(players).filter((f) => !usedFacts.has(factKey(f.player.id, f.index)));
     if (pool.length === 0 || players.length < 2) return false;
-    const subject = pick(pool);
+    const fresh = pool.filter((f) => !usedPeople.has(f.player.id));
+    const chosen = pick(fresh.length ? fresh : pool);
+    const subject = chosen.player;
     const others = shuffle(players.filter((p) => p.id !== subject.id)).slice(0, OPTIONS - 1);
     const t = now();
     meta.questions[index] = {
       subjectId: subject.id,
-      fact: subject.fact,
+      factIndex: chosen.index,
+      fact: chosen.text,
       options: shuffle([subject, ...others]).map((p) => ({ id: p.id, name: p.name })),
       startedAt: t,
     };
@@ -346,7 +381,8 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
         if (players.length < 2) throw new GameError(409, "Need at least 2 players.");
         const facts = usable(players).length;
         if (facts === 0) throw new GameError(409, "No facts to play with yet.");
-        meta.total = Math.min(clampInt(action.count ?? meta.total, 1, 50), facts);
+        // One question per usable fact, unless the host capped it to keep the game short.
+        meta.total = action.count ? Math.min(clampInt(action.count, 1, 100), facts) : facts;
         await startQuestion(meta, 0, players);
         break;
       }
@@ -361,9 +397,11 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
       case "swapQuestion": {
         // A fact slipped through that shouldn't be up there: retire it and draw another.
         if (meta.phase !== "question") throw new GameError(409, "Only while a question is up.");
-        const subject = players.find((p) => p.id === meta.questions[meta.index]?.subjectId);
-        if (subject) await savePlayer(meta.code, { ...subject, skip: true });
-        const fresh = players.map((p) => (p.id === subject?.id ? { ...p, skip: true } : p));
+        const q = meta.questions[meta.index];
+        const subject = players.find((p) => p.id === q?.subjectId);
+        const retire = (p: WhoPlayer) => ({ ...p, facts: p.facts.map((f, i) => (i === (q.factIndex ?? 0) ? { ...f, skip: true } : f)) });
+        if (subject) await savePlayer(meta.code, retire(subject));
+        const fresh = players.map((p) => (p.id === subject?.id ? retire(p) : p));
         if (!(await startQuestion(meta, meta.index, fresh))) throw new GameError(409, "No other facts left to swap in.");
         break;
       }
@@ -391,8 +429,9 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
       }
       case "skipFact": {
         const p = players.find((pl) => pl.id === action.playerId);
-        if (!p) throw new GameError(404, "No such player.");
-        await savePlayer(meta.code, { ...p, skip: !!action.skip });
+        const i = action.factIndex ?? 0;
+        if (!p || !p.facts[i]) throw new GameError(404, "No such fact.");
+        await savePlayer(meta.code, { ...p, facts: p.facts.map((f, j) => (j === i ? { ...f, skip: !!action.skip } : f)) });
         return { ok: true };
       }
       case "settings":
@@ -407,7 +446,9 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
         for (let i = 0; i < n; i++) {
           const id = token().slice(0, 10);
           const name = `🤖 Bot ${players.length + i + 1}`;
-          await savePlayer(meta.code, { id, name, token: token(), fact: BOT_FACTS[(players.length + i) % BOT_FACTS.length], skip: false, bot: true, joinedAt: t + i });
+          const n0 = players.length + i;
+          const facts = [BOT_FACTS[n0 % BOT_FACTS.length], ...(n0 % 2 ? [BOT_FACTS[(n0 + 3) % BOT_FACTS.length]] : [])];
+          await savePlayer(meta.code, { id, name, token: token(), facts: facts.map((text) => ({ text, skip: false })), bot: true, joinedAt: t + i });
         }
         return { ok: true };
       }
@@ -469,7 +510,7 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
       me: {
         id: me.id,
         name: me.name,
-        fact: me.fact,
+        facts: me.facts.map((f) => f.text),
         vote: votes[me.id]?.choice ?? null,
         isSubject,
         correct: view.result && !isSubject ? view.result.right.includes(me.id) : null,
@@ -490,13 +531,18 @@ export function createWhoEngine({ store, now = Date.now, random = Math.random }:
     if (!hostKey || hostKey !== meta.hostKey) throw new GameError(403, "Host key doesn't match.");
     const players = await loadPlayers(meta.code);
     const { view, q, counted } = await publicView(meta, players);
-    const used = new Set(meta.questions.map((qq) => qq.subjectId));
+    const used = new Set(meta.questions.map((qq) => factKey(qq.subjectId, qq.factIndex)));
     const liveCounts: Record<string, number> = Object.fromEntries((q?.options ?? []).map((o) => [o.id, 0]));
     for (const [, v] of counted) liveCounts[v.choice]++;
     return {
       ...view,
       role: "host",
-      players: players.map((p) => ({ id: p.id, name: p.name, fact: p.fact, skip: p.skip, bot: !!p.bot, used: used.has(p.id) })),
+      players: players.map((p) => ({
+        id: p.id,
+        name: p.name,
+        bot: !!p.bot,
+        facts: p.facts.map((f, i) => ({ text: f.text, skip: f.skip, used: used.has(factKey(p.id, i)) })),
+      })),
       subjectId: q?.subjectId ?? null,
       liveCounts,
     };
