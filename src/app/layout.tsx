@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#040b1a", width: "device-width", initialScale: 1 };
 
-// Runs before paint so there's no flash of the normal theme. Halloween turns on
-// automatically Oct 20 – Nov 2; ?theme=halloween|normal|auto overrides it and
-// sticks in this browser.
-const themeScript = `try{var q=new URLSearchParams(location.search).get("theme");if(q)localStorage.setItem("enc-theme",q);var t=localStorage.getItem("enc-theme")||"auto",d=new Date(),m=d.getMonth(),n=d.getDate();if(t==="halloween"||(t==="auto"&&((m===9&&n>=20)||(m===10&&n<=2))))document.documentElement.classList.add("halloween")}catch(e){}`;
+// Runs before paint so there's no flash of the normal theme. Thanksgiving turns
+// on automatically for all of November; ?theme=thanksgiving|normal|auto
+// overrides it and sticks in this browser (anything else counts as auto).
+const themeScript = `try{var q=new URLSearchParams(location.search).get("theme");if(q)localStorage.setItem("enc-theme",q);var t=localStorage.getItem("enc-theme");if(t!=="thanksgiving"&&t!=="normal")t="auto";if(t==="thanksgiving"||(t==="auto"&&new Date().getMonth()===10))document.documentElement.classList.add("thanksgiving")}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

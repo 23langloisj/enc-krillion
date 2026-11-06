@@ -15,17 +15,17 @@ const rand = (i: number) => {
 
 const css = (vars: Record<string, string | number>) => vars as CSSProperties;
 
-/** True when layout.tsx's theme script turned on the Halloween look. Client-only, so false on first render. */
-export function useSpooky() {
-  const [spooky, setSpooky] = useState(false);
-  useEffect(() => setSpooky(document.documentElement.classList.contains("halloween")), []);
-  return spooky;
+/** True when layout.tsx's theme script turned on the Thanksgiving look. Client-only, so false on first render. */
+export function useFestive() {
+  const [festive, setFestive] = useState(false);
+  useEffect(() => setFestive(document.documentElement.classList.contains("thanksgiving")), []);
+  return festive;
 }
 
 export function Ocean({ boat = true }: { boat?: boolean }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const spooky = useSpooky();
+  const festive = useFestive();
   // z-0 (not negative) so body's background can't paint over it; pages put
   // their content at z-10.
   return (
@@ -74,16 +74,16 @@ export function Ocean({ boat = true }: { boat?: boolean }) {
       })}
       {boat && (
         <div className="bob absolute top-0 left-[5%] w-[150px] sm:w-[190px]">
-          {spooky ? <MummyBoat /> : <Boat />}
+          {festive ? <TurkeyBoat /> : <Boat />}
         </div>
       )}
-      {spooky && <Halloween />}
+      {festive && <Thanksgiving />}
     </div>
   );
 }
 
-/** Pumpkins bobbing on the surface, a few sinking jack-o'-lanterns, cobwebs in the top corners. */
-function Halloween() {
+/** Pumpkins bobbing on the surface, maple leaves sinking through the water, an autumn branch in the corner. */
+function Thanksgiving() {
   return (
     <>
       {[
@@ -99,90 +99,130 @@ function Halloween() {
           <Pumpkin size={p.size} />
         </div>
       ))}
-      {Array.from({ length: 4 }, (_, i) => (
+      {Array.from({ length: 7 }, (_, i) => (
         <div
           key={i}
-          className="drift absolute opacity-60"
+          className="leaf-fall absolute opacity-80"
           style={css({
-            left: `${12 + rand(i + 800) * 76}%`,
-            top: `${45 + rand(i + 900) * 50}%`,
-            "--dur": `${18 + rand(i + 1000) * 10}s`,
-            "--delay": `${-rand(i + 1100) * 18}s`,
+            left: `${6 + rand(i + 800) * 86}%`,
+            top: `${5 + rand(i + 900) * 45}%`,
+            "--dur": `${16 + rand(i + 1000) * 12}s`,
+            "--delay": `${-rand(i + 1100) * 24}s`,
           })}
         >
-          <Pumpkin size={14 + rand(i + 1200) * 10} />
+          <Leaf size={12 + rand(i + 1200) * 10} color={LEAF_COLORS[i % LEAF_COLORS.length]} />
         </div>
       ))}
-      <Cobweb className="absolute top-0 right-0 w-[min(26vw,180px)]" />
-      <Cobweb className="absolute top-0 left-0 w-[min(18vw,120px)] -scale-x-100 opacity-70" />
-      {/* a friendly spider letting itself down from the web */}
-      <div className="dangle absolute top-0 right-[min(9vw,62px)] flex flex-col items-center">
-        <div className="h-[min(14vh,110px)] w-px bg-white/40" />
-        <Spider />
-      </div>
+      <Branch className="absolute top-0 right-0 w-[min(30vw,200px)]" />
     </>
   );
 }
 
-const WEB_SPOKES = "M60 0L0 0 M60 0L8 24 M60 0L26 46 M60 0L48 58 M60 0L60 60";
-const WEB_RINGS =
-  "M46.8 0Q49.2 2.3 48.6 5.3Q51.7 6.8 52.5 10.1Q55.5 10.1 57.4 12.8Q58.8 11.4 60 13.2 " +
-  "M33 0Q37.8 4.8 36.6 10.8Q43 13.9 44.7 20.7Q50.9 20.6 54.6 26.1Q57.6 23.4 60 27 " +
-  "M18 0Q25.5 7.4 23.6 16.8Q33.5 21.6 36.2 32.2Q45.8 32 51.6 40.6Q56.3 36.3 60 42 " +
-  "M3 0Q13.2 10 10.6 22.8Q24.1 29.3 27.7 43.7Q40.8 43.5 48.6 55.1Q55 49.3 60 57";
+// Tiny pixel-sprite helper: each string is a row, each character a color key
+// ("." is empty). Rendered as one <path> per color so sprites stay crisp.
+function spritePaths(rows: string[], colors: Record<string, string>) {
+  const d: Record<string, string> = {};
+  rows.forEach((row, y) => {
+    for (let x = 0; x < row.length; ) {
+      const ch = row[x];
+      let n = 1;
+      while (row[x + n] === ch) n++;
+      if (ch !== "." && colors[ch]) d[ch] = (d[ch] ?? "") + `M${x} ${y}h${n}v1h-${n}z`;
+      x += n;
+    }
+  });
+  return Object.entries(d).map(([ch, path]) => <path key={ch} d={path} fill={colors[ch]} />);
+}
 
-export function Cobweb({ className = "" }: { className?: string }) {
+function Sprite({ rows, colors, size }: { rows: string[]; colors: Record<string, string>; size: number }) {
+  const w = rows[0].length;
+  const h = rows.length;
   return (
-    <svg viewBox="0 0 60 60" className={className} fill="none" stroke="#ffffff" strokeOpacity={0.38} strokeWidth={0.6}>
-      <path d={WEB_SPOKES} />
-      <path d={WEB_RINGS} />
+    <svg width={size} height={(size * h) / w} viewBox={`0 0 ${w} ${h}`} shapeRendering="crispEdges">
+      {spritePaths(rows, colors)}
     </svg>
   );
 }
 
-/** Pixel jack-o'-lantern with a friendly face. Original art. */
+const LEAF_COLORS = ["#c2410c", "#e8891c", "#d4a017", "#a8321f"];
+const LEAF = ["....X....", "...XXX...", "X.XXXXX.X", "XXXXXXXXX", ".XXXXXXX.", "XXXXXXXXX", "..XXXXX..", "....s....", "....s...."];
+
+export function Leaf({ size = 16, color = LEAF_COLORS[0] }: { size?: number; color?: string }) {
+  return <Sprite rows={LEAF} colors={{ X: color, s: "#5a3418" }} size={size} />;
+}
+
+/** Pixel harvest pumpkin (no face this time — it's pie season). Original art. */
 export function Pumpkin({ size = 28 }: { size?: number }) {
   return (
     <svg width={size} height={size * (12 / 14)} viewBox="0 0 14 12" shapeRendering="crispEdges">
       <rect x="6" y="0" width="2" height="2" fill="#4d7c2a" />
       <rect x="8" y="1" width="2" height="1" fill="#4d7c2a" />
-      <rect x="2" y="2" width="10" height="1" fill="#f07c1c" />
-      <rect x="1" y="3" width="12" height="7" fill="#f07c1c" />
-      <rect x="2" y="10" width="10" height="1" fill="#f07c1c" />
-      <rect x="4" y="3" width="1" height="7" fill="#d0620f" />
-      <rect x="9" y="3" width="1" height="7" fill="#d0620f" />
-      {/* face */}
-      <rect x="3" y="5" width="2" height="2" fill="#ffd35a" />
-      <rect x="9" y="5" width="2" height="2" fill="#ffd35a" />
-      <rect x="3" y="7" width="1" height="1" fill="#ffd35a" />
-      <rect x="4" y="8" width="6" height="1" fill="#ffd35a" />
-      <rect x="10" y="7" width="1" height="1" fill="#ffd35a" />
-      <rect x="6" y="8" width="1" height="1" fill="#f07c1c" />
+      <rect x="2" y="2" width="10" height="1" fill="#e8891c" />
+      <rect x="1" y="3" width="12" height="7" fill="#e8891c" />
+      <rect x="2" y="10" width="10" height="1" fill="#e8891c" />
+      <rect x="4" y="3" width="1" height="7" fill="#c2620f" />
+      <rect x="9" y="3" width="1" height="7" fill="#c2620f" />
+      <rect x="2" y="4" width="1" height="2" fill="#f6b04a" />
     </svg>
   );
 }
 
-function Spider() {
+const TURKEY = [
+  "...aaaaaaa...",
+  ".aaoooooooaa.",
+  "aooyyyyyyyooa",
+  "aoyydbbbdyyoa",
+  "aoyddkbkddyoa",
+  "aoyddbYbddyoa",
+  "aoydbbRbbdyoa",
+  "aoybbbRbbbyoa",
+  ".oybbbbbbbyo.",
+  "..ybdbbbdby..",
+  "...bbbbbbb...",
+  "....l...l....",
+  "...ll...ll...",
+];
+const TURKEY_COLORS = {
+  a: "#a8321f",
+  o: "#e8891c",
+  y: "#e9c46a",
+  d: "#4a2c17",
+  b: "#8b5a2b",
+  k: "#1a0f08",
+  Y: "#f5b301",
+  R: "#d62828",
+  l: "#f5b301",
+};
+
+/** Front-facing pixel turkey with a full tail fan. Original art. */
+export function Turkey({ size = 28 }: { size?: number }) {
+  return <Sprite rows={TURKEY} colors={TURKEY_COLORS} size={size} />;
+}
+
+/** A bare autumn branch reaching in from the corner, a few leaves still hanging on. */
+function Branch({ className = "" }: { className?: string }) {
+  const leaves = [
+    { x: 46, y: 3, c: 0, r: -20 },
+    { x: 33, y: 8, c: 1, r: 15 },
+    { x: 22, y: 14, c: 2, r: -10 },
+    { x: 12, y: 18, c: 3, r: 25 },
+    { x: 39, y: 11, c: 2, r: 40 },
+  ];
   return (
-    <svg width="18" height="14" viewBox="0 0 9 7" shapeRendering="crispEdges">
-      <rect x="3" y="1" width="3" height="3" fill="#1b1424" />
-      <rect x="3" y="2" width="1" height="1" fill="#ffffff" />
-      <rect x="5" y="2" width="1" height="1" fill="#ffffff" />
-      <rect x="0" y="1" width="3" height="1" fill="#1b1424" />
-      <rect x="6" y="1" width="3" height="1" fill="#1b1424" />
-      <rect x="0" y="3" width="3" height="1" fill="#1b1424" />
-      <rect x="6" y="3" width="3" height="1" fill="#1b1424" />
-      <rect x="1" y="4" width="2" height="1" fill="#1b1424" />
-      <rect x="6" y="4" width="2" height="1" fill="#1b1424" />
-      <rect x="3" y="4" width="3" height="2" fill="#1b1424" />
+    <svg viewBox="0 0 60 30" className={className}>
+      <path d="M62 0Q44 4 28 12Q16 18 4 19" fill="none" stroke="#3b2414" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M34 9Q38 14 40 18" fill="none" stroke="#3b2414" strokeWidth="0.9" strokeLinecap="round" />
+      {leaves.map((l) => (
+        <g key={`${l.x}-${l.y}`} transform={`translate(${l.x} ${l.y}) rotate(${l.r} 4.5 0) scale(0.9)`} shapeRendering="crispEdges">
+          {spritePaths(LEAF, { X: LEAF_COLORS[l.c], s: "#3b2414" })}
+        </g>
+      ))}
     </svg>
   );
 }
 
-/** The boat, crewed by a mummy deckhand who is very into fishing. */
-export function MummyBoat() {
-  const wrap = "#ece4cf";
-  const shade = "#c2b694";
+/** The boat, crewed by a turkey deckhand who has wisely chosen to go fishing this week. */
+export function TurkeyBoat() {
   return (
     <svg viewBox="0 0 48 16" className="w-full" shapeRendering="crispEdges">
       <rect x="20" y="0" width="1" height="7" fill="#0b1424" />
@@ -190,28 +230,25 @@ export function MummyBoat() {
       <rect x="18" y="3" width="10" height="5" fill="#16243c" />
       <rect x="20" y="4" width="2" height="2" fill="#ffd35a" />
       <rect x="24" y="4" width="2" height="2" fill="#ffd35a" />
-      {/* mummy */}
-      <rect x="36" y="0" width="4" height="2" fill={wrap} />
-      <rect x="37" y="1" width="1" height="1" fill="#1b1424" />
-      <rect x="39" y="1" width="1" height="1" fill="#1b1424" />
-      <rect x="36" y="2" width="4" height="6" fill={wrap} />
-      <rect x="36" y="3" width="4" height="1" fill={shade} />
-      <rect x="36" y="5" width="4" height="1" fill={shade} />
-      <rect x="35" y="4" width="1" height="2" fill={wrap} />
-      <rect x="40" y="3" width="2" height="1" fill={wrap} />
+      {/* turkey, side view: tail fan behind, facing the rod */}
+      <g transform="translate(33 0)">
+        {spritePaths(
+          ["aoy......", "aoyy..bb.", "aoyy..bkY", "aoyybbbR.", ".oybbbbb.", "..ybbbbb.", "...bbbb..", "....l.l.."],
+          TURKEY_COLORS,
+        )}
+      </g>
       {/* rod and line */}
-      <path d="M41.5 3.5L47 0.3" stroke="#5a3a1c" strokeWidth="0.7" shapeRendering="auto" />
+      <path d="M40.5 4.5L47 0.3" stroke="#5a3a1c" strokeWidth="0.7" shapeRendering="auto" />
       <path d="M47 0.3L47 16" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="0.25" shapeRendering="auto" />
       {/* hull */}
       <rect x="6" y="8" width="38" height="3" fill="#0b1424" />
       <rect x="8" y="11" width="34" height="2" fill="#0b1424" />
       <rect x="11" y="13" width="28" height="1" fill="#0b1424" />
-      <rect x="9" y="9" width="30" height="1" fill="#ff7518" />
-      {/* a pumpkin riding on the bow */}
-      <rect x="9" y="5" width="4" height="3" fill="#f07c1c" />
-      <rect x="10" y="4" width="1" height="1" fill="#4d7c2a" />
-      <rect x="10" y="6" width="1" height="1" fill="#ffd35a" />
-      <rect x="12" y="6" width="1" height="1" fill="#ffd35a" />
+      <rect x="9" y="9" width="30" height="1" fill="#c2410c" />
+      {/* a pumpkin pie riding on the bow */}
+      <rect x="9" y="6" width="5" height="1" fill="#e8b46a" />
+      <rect x="9" y="7" width="5" height="1" fill="#c96a1b" />
+      <rect x="11" y="5" width="1" height="1" fill="#fff4e0" />
     </svg>
   );
 }
@@ -340,7 +377,7 @@ export function DepthChart({ catches, stepMs = 650, big = false }: { catches: Ca
               <div className="h-3 w-3 bg-lure shadow-[0_0_0_2px_#0a1222]" />
               {/* compact (team over "answer  +pts") so a card fits inside its own depth band */}
               <div
-                className={`panel no-web mt-1.5 max-w-[22vw] text-center ${big ? "min-w-36 px-3 py-1.5" : "min-w-24 px-2 py-1"} ${c.tier === "krillion" ? "krillion-glow" : ""}`}
+                className={`panel no-deco mt-1.5 max-w-[22vw] text-center ${big ? "min-w-36 px-3 py-1.5" : "min-w-24 px-2 py-1"} ${c.tier === "krillion" ? "krillion-glow" : ""}`}
                 style={{ borderColor: `${color}88` }}
                 title={c.note ?? undefined}
               >

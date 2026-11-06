@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSpooky } from "@/components/ocean";
 import { ErrorNote, Logo, TIER_TEXT } from "@/components/ui";
 import { api, keys, writeLocal } from "@/lib/client";
 import { TIERS, TIER_IDS } from "@/lib/tiers";
@@ -14,7 +13,6 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const spooky = useSpooky();
 
   async function host(e: React.FormEvent) {
     e.preventDefault();
@@ -33,10 +31,7 @@ export default function Home() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-10 px-4 py-12">
       <header className="text-center">
-        <p className="mb-2 text-sm font-semibold tracking-[0.3em] text-mist uppercase">
-          {spooky ? "ENC Halloween game night" : "ENC game night"}
-        </p>
-        <Logo className="text-6xl sm:text-7xl" pumpkin={64} />
+        <Logo className="text-6xl sm:text-7xl" accent={64} />
         <p className="mx-auto mt-4 max-w-md text-lg text-mist">
           Name the <em className="text-foam">rarest</em> right answer. The deeper you fish, the more you catch.
         </p>

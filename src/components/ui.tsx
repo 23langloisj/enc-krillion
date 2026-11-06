@@ -1,6 +1,6 @@
 "use client";
 
-import { Pumpkin, useSpooky } from "@/components/ocean";
+import { Turkey, useFestive } from "@/components/ocean";
 import { TIERS, type TierId } from "@/lib/tiers";
 import type { ScoredAnswer, Standing } from "@/lib/types";
 
@@ -31,14 +31,14 @@ export function TierBadge({ tier, size = "sm" }: { tier: TierId | null; size?: "
   );
 }
 
-export function Logo({ className = "", pumpkin = 30 }: { className?: string; pumpkin?: number }) {
-  const spooky = useSpooky();
+export function Logo({ className = "", accent = 30 }: { className?: string; accent?: number }) {
+  const festive = useFestive();
   return (
     <div className={`inline-flex items-center gap-[0.25em] font-display font-extrabold tracking-tight ${className}`}>
       <span>
         <span className="text-glow">Levi</span>athan
       </span>
-      {spooky && <Pumpkin size={pumpkin} />}
+      {festive && <Turkey size={accent} />}
     </div>
   );
 }
