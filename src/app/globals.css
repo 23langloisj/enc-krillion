@@ -247,66 +247,80 @@ body {
   }
 }
 
-/* ---------- Halloween ----------
-   Friendly harvest-night look: pumpkins, a mummy deckhand, cobwebs. Turned on
-   by the script in layout.tsx (automatic around Oct 31, or ?theme=halloween /
-   ?theme=normal / ?theme=auto). Everything below is scoped to html.halloween. */
+/* ---------- Thanksgiving ----------
+   Warm harvest look: a turkey deckhand, pumpkins, falling maple leaves. Turned
+   on by the script in layout.tsx (automatic in November, or ?theme=thanksgiving /
+   ?theme=normal / ?theme=auto). Everything below is scoped to html.thanksgiving. */
 
-html.halloween {
-  --color-abyss: #0b0714;
-  --color-deep: #1a1028;
-  --color-reef: #2a1a3d;
-  --color-mist: #b3a3c8;
-  --color-glow: #ff8a1f;
-  --color-lure: #ff7518;
-  --color-lure-edge: #ffc27a;
-  --color-sonar: #9be15d;
-  --color-well: #1a1124;
-  --color-bar: #0d0815;
-  --color-panel: #1e1428;
+html.thanksgiving {
+  --color-abyss: #120a07;
+  --color-deep: #231510;
+  --color-reef: #3a2318;
+  --color-mist: #d4b896;
+  --color-glow: #f5a524;
+  --color-lure: #d9541a;
+  --color-lure-edge: #ffb37a;
+  --color-sonar: #e9c46a;
+  --color-well: #1f130d;
+  --color-bar: #140b07;
+  --color-panel: #26170f;
 }
-/* harvest-moon sunset over a purple sea */
-html.halloween .ocean-water {
-  background: linear-gradient(180deg, #ffc27a 0%, #f4845f 3.2%, #4a3a6b 3.3%, #3a2d58 14%, #2a2046 32%, #1c1533 55%, #120d24 78%, #08060f 100%);
+/* golden-hour sky over a sunset-lit sea */
+html.thanksgiving .ocean-water {
+  background: linear-gradient(180deg, #ffe0a8 0%, #f6a85e 3.2%, #9a5a36 3.3%, #7a432b 14%, #5c3122 32%, #41231b 55%, #2a1612 78%, #140a08 100%);
 }
-html.halloween .waves {
-  --wave: #f4845f;
+html.thanksgiving .waves {
+  --wave: #f6a85e;
 }
-html.halloween body {
+html.thanksgiving body {
   background:
-    radial-gradient(1200px 600px at 50% -10%, #3a1d4f 0%, transparent 60%),
-    radial-gradient(900px 500px at 100% 110%, #4a2410 0%, transparent 60%),
+    radial-gradient(1200px 600px at 50% -10%, #5a2e14 0%, transparent 60%),
+    radial-gradient(900px 500px at 100% 110%, #4a1f12 0%, transparent 60%),
     var(--color-abyss);
   background-attachment: fixed;
 }
 
-/* a little cobweb tucked into the top-right corner of every card */
-html.halloween .panel,
-html.halloween .card {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60' fill='none' stroke='%23ffffff' stroke-opacity='.3' stroke-width='.7'%3E%3Cpath d='M60 0L0 0 M60 0L8 24 M60 0L26 46 M60 0L48 58 M60 0L60 60'/%3E%3Cpath d='M46.8 0.0Q49.2 2.3 48.6 5.3Q51.7 6.8 52.5 10.1Q55.5 10.1 57.4 12.8Q58.8 11.4 60.0 13.2 M33.0 0.0Q37.8 4.8 36.6 10.8Q43.0 13.9 44.7 20.7Q50.9 20.6 54.6 26.1Q57.6 23.4 60.0 27.0 M18.0 0.0Q25.5 7.4 23.6 16.8Q33.5 21.6 36.2 32.2Q45.8 32.0 51.6 40.6Q56.3 36.3 60.0 42.0 M3.0 0.0Q13.2 10.0 10.6 22.8Q24.1 29.3 27.7 43.7Q40.8 43.5 48.6 55.1Q55.0 49.3 60.0 57.0'/%3E%3C/svg%3E");
+/* a little maple leaf tucked into the top-right corner of every card */
+html.thanksgiving .panel,
+html.thanksgiving .card {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M4 0h1v1h-1zM3 1h3v1h-3zM0 2h1v1h-1zM2 2h5v1h-5zM8 2h1v1h-1zM0 3h9v1h-9zM1 4h7v1h-7zM0 5h9v1h-9zM2 6h5v1h-5zM4 7h1v1h-1zM4 8h1v1h-1z' fill='%23e8891c' fill-opacity='.22'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: top right;
-  background-size: 64px 64px;
+  background-position: top 6px right 6px;
+  background-size: 22px 22px;
 }
-html.halloween .no-web {
+html.thanksgiving .no-deco {
   background-image: none;
 }
 
-@keyframes dangle {
-  0%,
-  100% {
-    transform: translateY(0);
+@keyframes leaf-fall {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
   }
-  50% {
-    transform: translateY(22px);
+  12% {
+    opacity: 0.85;
+  }
+  30% {
+    transform: translate(18px, 12vh) rotate(70deg);
+  }
+  60% {
+    transform: translate(-14px, 26vh) rotate(160deg);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  to {
+    transform: translate(10px, 40vh) rotate(250deg);
+    opacity: 0;
   }
 }
-.dangle {
-  animation: dangle 4.5s ease-in-out infinite;
+.leaf-fall {
+  animation: leaf-fall var(--dur, 20s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dangle {
+  .leaf-fall {
     animation: none;
   }
 }

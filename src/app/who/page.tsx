@@ -32,7 +32,6 @@ export default function WhoHome() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-8 px-4 py-12">
       <header className="text-center">
-        <p className="mb-2 text-sm font-semibold tracking-[0.3em] text-mist uppercase">ENC icebreaker</p>
         <WhoLogo className="text-5xl sm:text-7xl" />
         <p className="mx-auto mt-4 max-w-md text-lg text-mist">
           Everyone shares one surprising fact. Then the whole room guesses whose it is.
