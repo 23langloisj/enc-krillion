@@ -247,6 +247,141 @@ body {
   }
 }
 
+/* ---------- ENC.ICE hub ----------
+   Game cards on the home page. Each preview sits still until the card is
+   hovered or keyboard-focused, then plays its little moment. */
+
+.hub-card {
+  --accent: var(--color-glow);
+  box-shadow: 6px 6px 0 rgb(0 0 0 / 0.35);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.25s;
+}
+.hub-card:is(:hover, :focus-visible) {
+  transform: translate(-5px, -5px);
+  box-shadow: 11px 11px 0 color-mix(in oklab, var(--accent) 70%, transparent);
+  border-color: var(--accent);
+}
+.hub-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+.hub-card:active {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+/* Leviathan: the line drops through every tier to Krillion */
+.hub-water {
+  background: linear-gradient(180deg, #eaf3f8 0%, #eaf3f8 19.8%, #3b6b94 20%, #2b557c 36%, #1f4166 52%, #152f4f 68%, #0c1d35 84%, #060f1f 100%);
+}
+.hub-line {
+  height: 9%;
+  transition: height 1.3s cubic-bezier(0.45, 0, 0.2, 1);
+}
+.hub-card:is(:hover, :focus-visible) .hub-line {
+  height: 69%;
+}
+.hub-points {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-points {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.3s 1.25s,
+    transform 0.4s cubic-bezier(0.2, 1.6, 0.4, 1) 1.25s;
+}
+.hub-krillion {
+  transition: text-shadow 0.2s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-krillion {
+  text-shadow: 0 0 12px var(--color-tier-krillion);
+  transition: text-shadow 0.4s 1.25s;
+}
+.hub-card .waves {
+  animation-play-state: paused;
+}
+.hub-card:is(:hover, :focus-visible) .waves {
+  animation-play-state: running;
+}
+@keyframes hub-swim {
+  from {
+    left: -12%;
+  }
+  to {
+    left: 108%;
+  }
+}
+.hub-fish {
+  left: 20%;
+  animation: hub-swim var(--dur, 8s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  animation-play-state: paused;
+}
+.hub-fish-back {
+  animation-direction: reverse;
+  transform: scaleX(-1);
+}
+.hub-card:is(:hover, :focus-visible) .hub-fish {
+  animation-play-state: running;
+}
+
+/* Who Said That?!: votes fill in, then the real owner pops */
+.hub-bar {
+  width: 0;
+  transition: width 0.3s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-bar {
+  width: var(--w);
+  transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 80ms);
+}
+.hub-pct {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-pct {
+  opacity: 1;
+  transition: opacity 0.3s 0.6s;
+}
+.hub-who-win,
+.hub-who-lose {
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    opacity 0.25s,
+    filter 0.25s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-who-win {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px #fff;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) 1.2s,
+    box-shadow 0.2s 1.2s;
+}
+.hub-card:is(:hover, :focus-visible) .hub-who-lose {
+  opacity: 0.35;
+  filter: saturate(0.4);
+  transition:
+    opacity 0.4s 1.2s,
+    filter 0.4s 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-card,
+  .hub-card *,
+  .hub-card:is(:hover, :focus-visible) * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ---------- Thanksgiving ----------
    Warm harvest look: a turkey deckhand, pumpkins, falling maple leaves. Turned
    on by the script in layout.tsx (automatic in November, or ?theme=thanksgiving /
@@ -268,6 +403,9 @@ html.thanksgiving {
 /* golden-hour sky over a sunset-lit sea */
 html.thanksgiving .ocean-water {
   background: linear-gradient(180deg, #ffe0a8 0%, #f6a85e 3.2%, #9a5a36 3.3%, #7a432b 14%, #5c3122 32%, #41231b 55%, #2a1612 78%, #140a08 100%);
+}
+html.thanksgiving .hub-water {
+  background: linear-gradient(180deg, #ffe0a8 0%, #f6a85e 19.8%, #9a5a36 20%, #7a432b 36%, #5c3122 52%, #41231b 68%, #2a1612 84%, #140a08 100%);
 }
 html.thanksgiving .waves {
   --wave: #f6a85e;

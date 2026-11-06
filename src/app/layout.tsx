@@ -8,8 +8,8 @@ const pixel = Pixelify_Sans({ variable: "--font-pixel", subsets: ["latin"] });
 const mono = IBM_Plex_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["400", "600"] });
 
 export const metadata: Metadata = {
-  title: "Leviathan · ENC",
-  description: "A team trivia game where the rarest correct answer wins.",
+  title: "ENC.ICE",
+  description: "Icebreaker games for ENC game night.",
 };
 
 export const viewport: Viewport = { themeColor: "#040b1a", width: "device-width", initialScale: 1 };
